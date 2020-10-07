@@ -23,6 +23,8 @@ Since users may or may not have the mobile app installed, there are two types of
 
 **AppsFlyer supports both deep linking and deferred deep linking methods using its unique device detecting attribution link - OneLink.**
 
+![Image of deep linking methods](https://support.appsflyer.com/hc/article_attachments/360000255945/direct_and_deferred_deep_linking.png)
+
 ## Deep linking and OneLink
 OneLink operates as a "bridge" between the advertisement and the mobile app. It can launch the app and provide the mobile developer with the data required to personalize the user experience. To do so develop the mobile app with deep linking capabilities and infrastructure.
 
@@ -37,5 +39,3 @@ PRs will be very much appreciated.
 We are also available here: *liaz.kamper@appsflyer.com*
 
 ## If you found this repository useful ❤️ please Star us ⭐️☝🏽 
-
-
