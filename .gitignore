@@ -10,9 +10,6 @@
 # Java class files
 *.class
 
-# AppsFlyer
-AppsFlyerConstants.java
-
 # Generated files
 bin/
 gen/
@@ -90,4 +87,8 @@ lint/tmp/
 
 # Mac specific
 .DS_Store
+
+
+# Prevent commiting sensitive information
+AppsFlyerConstants.java
 
