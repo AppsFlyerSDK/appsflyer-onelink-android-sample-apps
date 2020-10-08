@@ -6,30 +6,44 @@
     android:layout_height="match_parent"
     tools:context=".applesActivity">
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+    <ImageView
+        android:id="@+id/applesImage"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:scaleType="fitXY"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/apples_cover"
+        tools:ignore="ContentDescription" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="24dp"
+        android:layout_gravity="left"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="@+id/applesImage"
+        app:layout_constraintStart_toStartOf="@+id/applesImage">
 
         <TextView
             android:id="@+id/applesTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:fontFamily="sans-serif"
             android:text="@string/apples_str"
-            android:textAlignment="center"
-            android:textSize="50sp" />
+            android:textColor="@android:color/white"
+            android:textSize="40sp" />
 
-        <ImageView
-            android:id="@+id/applesImage"
-            android:layout_width="130dp"
-            android:layout_height="118dp"
-            app:srcCompat="@drawable/apples_cover"
-            tools:ignore="ContentDescription" />
+        <TextView
+            android:id="@+id/applesPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:text="@string/apples_price"
+            android:textColor="@android:color/white"
+            android:textSize="30sp" />
     </LinearLayout>
 
     <TextView
@@ -41,21 +55,18 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/apples_deeplinkparams"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:layout_constraintVertical_bias="0.873" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/apples_deeplinkparams"
-        android:textIsSelectable="true"
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:layout_marginStart="50dp"
         android:layout_marginEnd="50dp"
         android:text=""
+        android:textIsSelectable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
