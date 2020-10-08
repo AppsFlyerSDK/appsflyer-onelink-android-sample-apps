@@ -28,7 +28,7 @@
             android:id="@+id/applesImage"
             android:layout_width="130dp"
             android:layout_height="118dp"
-            app:srcCompat="@drawable/apples"
+            app:srcCompat="@drawable/apples_cover"
             tools:ignore="ContentDescription" />
     </LinearLayout>
 
