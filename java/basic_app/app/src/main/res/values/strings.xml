@@ -1,7 +1,11 @@
 <resources>
     <string name="app_name">AppsflyerOnelinkBasicApp</string>
-    <string name="app_title">Feed.Me</string>
+    <string name="app_title">Feed.\nMe</string>
     <string name="apples_str">Apples</string>
+    <string name="apples_price">$0.18 each 46.0/lb</string>
     <string name="bananas_str">Bananas</string>
+    <string name="bananas_price">$0.18 each 46.0/lb</string>
     <string name="peaches_str">Peaches</string>
+    <string name="peaches_price">$0.18 each 46.0/lb</string>
+    <string name="app_moto">Find the magic of deep link parameters</string>
 </resources>

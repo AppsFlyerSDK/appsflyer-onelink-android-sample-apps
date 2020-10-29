@@ -18,7 +18,7 @@ public class peachesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_peaches);
 
         Intent intent = getIntent();
-        HashMap<String, String> dlAttrMap = (HashMap<String, String>) intent.getSerializableExtra(MainActivity.DL_ATTRS);
+        HashMap<String, String> dlAttrMap = (HashMap<String, String>) intent.getSerializableExtra(AppsflyerBasicApp.DL_ATTRS);
         if (dlAttrMap != null) {
             TextView dlAttrsText = findViewById(R.id.peaches_deeplinkparams);
             String dlAttrStrings = "";

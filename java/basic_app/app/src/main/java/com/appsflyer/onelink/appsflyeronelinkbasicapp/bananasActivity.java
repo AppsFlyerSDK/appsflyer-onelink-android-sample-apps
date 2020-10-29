@@ -18,7 +18,7 @@ public class bananasActivity extends AppCompatActivity {
         setContentView(R.layout.activity_bananas);
 
         Intent intent = getIntent();
-        HashMap<String, String> dlAttrMap = (HashMap<String, String>) intent.getSerializableExtra(MainActivity.DL_ATTRS);
+        HashMap<String, String> dlAttrMap = (HashMap<String, String>) intent.getSerializableExtra(AppsflyerBasicApp.DL_ATTRS);
         if (dlAttrMap != null) {
             TextView dlAttrsText = findViewById(R.id.bananas_deeplinkparams);
             String dlAttrStrings = "";

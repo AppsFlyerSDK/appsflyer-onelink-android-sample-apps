@@ -4,59 +4,75 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".bananasActivity">
+    tools:context=".peachesActivity">
+
+    <ImageView
+        android:id="@+id/peachesImage"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="fitXY"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/peaches_deeplinktitle"
+        app:srcCompat="@drawable/peaches_cover"
+        tools:ignore="ContentDescription" />
 
     <LinearLayout
-        android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="24dp"
+        android:layout_gravity="left"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="@+id/peachesImage"
+        app:layout_constraintStart_toStartOf="@+id/peachesImage">
 
         <TextView
             android:id="@+id/peachesTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:fontFamily="sans-serif"
             android:text="@string/peaches_str"
-            android:textAlignment="center"
-            android:textSize="50sp" />
+            android:textColor="@android:color/white"
+            android:textSize="40sp" />
 
-        <ImageView
-            android:id="@+id/peachesImage"
-            android:layout_width="130dp"
-            android:layout_height="118dp"
-            app:srcCompat="@drawable/peaches"
-            tools:ignore="ContentDescription" />
+        <TextView
+            android:id="@+id/peachesPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:text="@string/peaches_price"
+            android:textColor="@android:color/white"
+            android:textSize="30sp" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/peaches_deeplinktitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:text="Deep Link happened. Parameters:"
         android:textAlignment="center"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/peaches_deeplinkparams"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:layout_constraintVertical_bias="0.873" />
+        app:layout_constraintTop_toBottomOf="@+id/peachesImage" />
 
     <TextView
         android:id="@+id/peaches_deeplinkparams"
-        android:textIsSelectable="true"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="50dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="24dp"
         android:text=""
+        android:textIsSelectable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/peaches_deeplinktitle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

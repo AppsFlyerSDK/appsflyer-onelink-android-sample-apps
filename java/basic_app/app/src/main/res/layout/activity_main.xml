@@ -4,96 +4,148 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="10dp"
     tools:context=".MainActivity">
 
-    <ImageView
-        android:id="@+id/onelinkLogo"
-        android:layout_width="wrap_content"
-        android:layout_height="60dp"
-        android:layout_marginTop="30dp"
-        android:src="@drawable/onelink_logo"
+    <LinearLayout
+        android:id="@+id/LogosLayout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/app_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="ContentDescription" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <ImageView
-        android:id="@+id/feedmeLogo"
-        android:layout_width="wrap_content"
-        android:layout_height="220dp"
-        android:layout_marginTop="32dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/onelinkLogo"
-        app:srcCompat="@drawable/fruit_logo"
-        tools:ignore="ContentDescription" />
+        <ImageView
+            android:id="@+id/appsflyerLogo"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingLeft="20dp"
+            android:paddingRight="10dp"
+            android:scaleType="fitStart"
+            app:srcCompat="@drawable/appsflyerlogo"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/onelinkLogo"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:scaleType="fitStart"
+            android:src="@drawable/onelinklogo"
+            tools:ignore="ContentDescription" />
+
+    </LinearLayout>
 
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
+        android:id="@+id/app_title"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginLeft="24dp"
         android:text="@string/app_title"
-        android:textAlignment="center"
-        android:textSize="35sp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+        android:textAlignment="textStart"
+        android:textColor="@color/appTitle"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/appMoto"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/feedmeLogo" />
+        app:layout_constraintTop_toBottomOf="@+id/LogosLayout" />
+
+    <TextView
+        android:id="@+id/appMoto"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="10dp"
+        android:text="@string/app_moto"
+        android:textColor="@color/appTitle"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/buttonsLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/app_title" />
 
     <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="336dp"
-        android:layout_height="46dp"
+        android:id="@+id/buttonsLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="50dp"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintHorizontal_bias="0.48"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appMoto">
 
         <Button
             android:id="@+id/apples_button"
             style="?android:attr/borderlessButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:background="@android:color/holo_green_light"
+            android:layout_marginBottom="20dp"
+            android:layout_weight="1"
+            android:background="@drawable/apples_hp"
+            android:fontFamily="sans-serif"
+            android:gravity="left|bottom"
             android:onClick="goToApples"
+            android:paddingLeft="15dp"
+            android:paddingBottom="15dp"
             android:text="@string/apples_str"
+            android:textAlignment="gravity"
             android:textColor="@android:color/white"
-            android:textSize="14sp" />
+            android:textSize="22sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/bananas_button"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:background="@color/yellow"
+            android:layout_marginBottom="20dp"
+            android:layout_weight="1"
+            android:background="@drawable/bananas_hp"
+            android:fontFamily="sans-serif"
+            android:gravity="left|bottom"
             android:onClick="goToBananas"
+            android:paddingLeft="15dp"
+            android:paddingBottom="15dp"
             android:text="@string/bananas_str"
-            android:textColor="@android:color/black"
-            android:textSize="14sp" />
+            android:textAlignment="gravity"
+            android:textColor="@android:color/white"
+            android:textSize="22sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/peaches_button"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:background="@android:color/holo_orange_light"
+            android:layout_weight="1"
+            android:background="@drawable/peaches_hp"
+            android:fontFamily="sans-serif"
+            android:gravity="left|bottom"
             android:onClick="goToPeaches"
+            android:paddingLeft="15dp"
+            android:paddingBottom="15dp"
             android:text="@string/peaches_str"
-            android:textColor="@android:color/black"
-            android:textSize="14sp" />
+            android:textAlignment="gravity"
+            android:textColor="@android:color/white"
+            android:textSize="22sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
