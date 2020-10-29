@@ -22,11 +22,9 @@ public class AppsflyerBasicApp extends Application {
         String afDevKey = AppsFlyerConstants.afDevKey;
         AppsFlyerLib appsflyer = AppsFlyerLib.getInstance();
         appsflyer.setMinTimeBetweenSessions(0);
-        appsflyer.init(afDevKey, null, this);
-        appsflyer.startTracking(this, afDevKey);
         appsflyer.setDebugLog(true);
 
-        AppsFlyerLib.getInstance().registerConversionListener(this, new AppsFlyerConversionListener() {
+        AppsFlyerConversionListener conversionListener =  new AppsFlyerConversionListener() {
             @Override
             public void onConversionDataSuccess(Map<String, Object> conversionData) {
                 for (String attrName : conversionData.keySet())
@@ -74,7 +72,10 @@ public class AppsflyerBasicApp extends Application {
             public void onAttributionFailure(String errorMessage) {
                 Log.d(LOG_TAG, "error onAttributionFailure : " + errorMessage);
             }
-        });
+        };
+
+        appsflyer.init(afDevKey, conversionListener, this);
+        appsflyer.startTracking(this, afDevKey);
     }
 
     private void goToFruit(String fruitName, Map<String, String> dlData) {
