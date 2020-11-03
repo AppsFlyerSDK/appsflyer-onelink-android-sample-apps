@@ -34,7 +34,7 @@ public class AppsflyerBasicApp extends Application {
                 if(status.equals("Non-organic")){
                     if( Objects.requireNonNull(conversionData.get("is_first_launch")).toString().equals("true")){
                         Log.d(LOG_TAG,"Conversion: First Launch");
-                        if (conversionData.containsKey("fruit_name")){
+                        if (conversionData.containsKey("deep_link_value")){
                             Log.d(LOG_TAG,"Conversion: This is deferred deep linking.");
                             //  TODO SDK in future versions - match the input types
                             Map<String,String> newMap = new HashMap<>();
@@ -64,8 +64,8 @@ public class AppsflyerBasicApp extends Application {
                     String deepLinkAttrStr = attrName + " = " + attributionData.get(attrName);
                     Log.d(LOG_TAG, "Deeplink attribute: " + deepLinkAttrStr);
                 }
-                Log.d(LOG_TAG, "onAppOpenAttribution: Deep linking into " + attributionData.get("fruit_name"));
-                goToFruit(attributionData.get("fruit_name"), attributionData);
+                Log.d(LOG_TAG, "onAppOpenAttribution: Deep linking into " + attributionData.get("deep_link_value"));
+                goToFruit(attributionData.get("deep_link_value"), attributionData);
             }
 
             @Override
