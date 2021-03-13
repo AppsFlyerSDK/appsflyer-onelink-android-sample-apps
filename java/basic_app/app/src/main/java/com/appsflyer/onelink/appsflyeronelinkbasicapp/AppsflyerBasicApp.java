@@ -53,7 +53,7 @@ public class AppsflyerBasicApp extends Application {
                 // An example for using a generic getter
                 String fruitName = "";
                 try {
-                    fruitName = deepLinkObj.getStringValue("deep_link_value");
+                    fruitName = deepLinkObj.getDeepLinkValue();
                     Log.d(LOG_TAG, "The DeepLink will route to: " + fruitName);
                 } catch (Exception e) {
                     Log.d(LOG_TAG, "Custom param fruit_name was not found in DeepLink data");
