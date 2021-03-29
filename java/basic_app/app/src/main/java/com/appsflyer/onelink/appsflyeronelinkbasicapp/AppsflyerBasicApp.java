@@ -31,10 +31,16 @@ public class AppsflyerBasicApp extends Application {
         appsflyer.subscribeForDeepLink(new DeepLinkListener(){
             @Override
             public void onDeepLinking(@NonNull DeepLinkResult deepLinkResult) {
-                DeepLinkResult.Error dlError = deepLinkResult.getError();
-                if (dlError != null) {
-                    // You can add here error handling code
-                    Log.d(LOG_TAG, "There was an error getting Deep Link data");
+                DeepLinkResult.Status dlStatus = deepLinkResult.getStatus();
+                if (dlStatus == DeepLinkResult.Status.FOUND) {
+                    Log.d(LOG_TAG, "Deep link found");
+                } else if (dlStatus == DeepLinkResult.Status.NOT_FOUND) {
+                    Log.d(LOG_TAG, "Deep link not found");
+                    return;
+                } else {
+                    // dlStatus == DeepLinkResult.Status.ERROR
+                    DeepLinkResult.Error dlError = deepLinkResult.getError();
+                    Log.d(LOG_TAG, "There was an error getting Deep Link data: " + dlError.toString());
                     return;
                 }
                 DeepLink deepLinkObj = deepLinkResult.getDeepLink();
