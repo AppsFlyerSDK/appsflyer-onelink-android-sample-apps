@@ -61,17 +61,30 @@
 
     <TextView
         android:id="@+id/apples_deeplinkparams"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="20dp"
+        android:layout_width="365dp"
+        android:layout_height="235dp"
         android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="12dp"
         android:text=""
         android:textIsSelectable="true"
+        app:layout_constraintBottom_toTopOf="@+id/apples_getconversiondata"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/apples_deeplinktitle" />
+
+    <Button
+        android:id="@+id/apples_getconversiondata"
+        android:layout_width="179dp"
+        android:layout_height="124dp"
+        android:outlineAmbientShadowColor="@color/colorAccent"
+        android:text="Get conversion data"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/apples_deeplinktitle" />
+        app:layout_constraintTop_toBottomOf="@+id/apples_deeplinkparams"
+        android:onClick="goToConversionData"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
