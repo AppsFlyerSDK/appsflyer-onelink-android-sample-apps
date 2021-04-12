@@ -2,6 +2,7 @@ package com.appsflyer.onelink.appsflyeronelinkbasicapp;
 
 import android.app.Application;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.View;
 
@@ -28,6 +29,9 @@ public class AppsflyerBasicApp extends Application {
         AppsFlyerLib appsflyer = AppsFlyerLib.getInstance();
         appsflyer.setMinTimeBetweenSessions(0);
         appsflyer.setDebugLog(true);
+
+        SharedPreferences appSharedPreferences = this.getSharedPreferences("CONVERSIONDATA", getApplicationContext().MODE_PRIVATE);
+        SharedPreferences.Editor editor = appSharedPreferences.edit();
 
         appsflyer.subscribeForDeepLink(new DeepLinkListener(){
             @Override
@@ -84,8 +88,9 @@ public class AppsflyerBasicApp extends Application {
                         Log.d(LOG_TAG,"Conversion: Not First Launch");
                     }
                 } else {
-                    Log.d(LOG_TAG,"Conversion: This is an organic install.");
+                    Log.d(LOG_TAG, "Conversion: This is an organic install.");
                 }
+                editConversionDataInSharedPreference(editor, conversionData);
             }
 
             @Override
@@ -106,6 +111,17 @@ public class AppsflyerBasicApp extends Application {
 
         appsflyer.init(afDevKey, conversionListener, this);
         appsflyer.start(this, afDevKey);
+    }
+
+    private void editConversionDataInSharedPreference(SharedPreferences.Editor editor, Map<String, Object> conversionData){
+        for (Map.Entry<String, Object> pair : conversionData.entrySet()){
+            if (pair.getValue() == null){
+                editor.putString(pair.getKey(), "null");
+            }
+            else
+                editor.putString(pair.getKey(), (String) pair.getValue().toString());
+        }
+        editor.apply(); //TODO - maybe switch to editor.commit and validate return value
     }
 
     private void goToFruit(String fruitName, DeepLink dlData) {
