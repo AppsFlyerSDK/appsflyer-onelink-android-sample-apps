@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.appsflyer.deeplink.DeepLink;
@@ -16,6 +17,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import static com.appsflyer.onelink.appsflyeronelinkbasicapp.AppsflyerBasicApp.LOG_TAG;
 
@@ -28,16 +30,14 @@ public class applesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_apples);
 
         Intent intent = getIntent();
-        DeepLink dlData= new Gson().fromJson(intent.getStringExtra(AppsflyerBasicApp.DL_ATTRS),DeepLink.class);
+        Gson json = new Gson();
+        DeepLink dlDataJ = json.fromJson(intent.getStringExtra(AppsflyerBasicApp.DL_ATTRS), DeepLink.class);
+        Map dlData = json.fromJson(String.valueOf(dlDataJ), Map.class);
+
         if (dlData != null) {
-            TextView dlAttrsText = findViewById(R.id.apples_deeplinkparams);
-            JSONObject jsonObject = null;
-            try {
-                jsonObject = new JSONObject(dlData.toString());
-                dlAttrsText.setText(jsonObject.toString(4).replaceAll("\\\\",""));// 4 is no of spaces for indent
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            MapToListViewAdapter adapter = new MapToListViewAdapter(dlData);
+            ListView dlAttrsList = findViewById(R.id.apples_deeplinkparamslist);
+            dlAttrsList.setAdapter(adapter);
         } else {
             TextView dlTitleText = findViewById(R.id.apples_deeplinktitle);
             dlTitleText.setText("No Deep Linking Happened");
@@ -53,4 +53,6 @@ public class applesActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), conversionDataActivity.class);
         startActivity(intent);
     }
+
+
 }
