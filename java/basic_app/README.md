@@ -5,7 +5,7 @@
 This app demonstrates the basic functionality of AppsFlyer's OneLink deep-linking solution.
 The app will be able to register it in AppsFlyer's dashboard, create real OneLink link and 'test-drive' them.
 
-> You can read more in our Developer Hub for Android [here](https://afonelink.readme.io/docs/android).
+> You can read more in our Developer Hub for Android [here](https://dev.appsflyer.com/hc/docs/android).
 
 ## Compatability
 - **Android version >= 29**
