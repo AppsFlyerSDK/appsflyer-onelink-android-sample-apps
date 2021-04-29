@@ -1,5 +1,5 @@
-# appsflyer-onelink-android-sample-apps
-Android sample apps which demonstrate the usage of Appsflyer Onelink - A unified deep-linking solution.
+# appsflyer-onelink-simulator-android
+Android Simulator which demonstrate the usage of Appsflyer Onelink - A unified deep-linking solution.
 This repository gives you sample apps to get you started easily with OneLink.
 
 ## Table of Contents
