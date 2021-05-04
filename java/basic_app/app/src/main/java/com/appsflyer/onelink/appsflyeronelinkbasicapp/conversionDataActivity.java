@@ -1,48 +1,38 @@
 package com.appsflyer.onelink.appsflyeronelinkbasicapp;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
-import android.preference.PreferenceManager;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
-
-import java.sql.SQLOutput;
 import java.util.Map;
 
 public class conversionDataActivity extends AppCompatActivity {
-    static SharedPreferences appSharedPreferences;
-    private ListView conversionDataListView;
-    MapToListViewAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conversion_data);
         displayConversionData();
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        //TODO - Get the listener to work or get rid of it
-        SharedPreferences.OnSharedPreferenceChangeListener onSharedPreferenceChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
-            @Override
-            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-                System.out.println("OnSharedPreferenceChangeListener worked");
-                Map<String, Object> conversionData = (Map<String, Object>) sharedPreferences.getAll();
-                displayConversionData();
-            }
-        };
-        prefs.registerOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
     }
 
     public void displayConversionData(){
-        appSharedPreferences = this.getSharedPreferences("CONVERSIONDATA", getApplicationContext().MODE_PRIVATE);
+        SharedPreferences appSharedPreferences = this.getSharedPreferences("CONVERSIONDATA", getApplicationContext().MODE_PRIVATE);
         Map<String, Object> conversionData = (Map<String, Object>) appSharedPreferences.getAll();
-        conversionDataListView = findViewById(R.id.conversionDataListView);
-        MapToListViewAdapter adapter = new MapToListViewAdapter(conversionData);
-        conversionDataListView.setAdapter(adapter);
+        String conversionDataString = MapToFormattedString(conversionData);
+        TextView conversionDataTextView = findViewById(R.id.conversionDataTextView);
+        conversionDataTextView.setText(conversionDataString);
+    }
+
+    public String MapToFormattedString(Map<String, Object> map){
+        String result = "";
+        Object value;
+        for (Map.Entry<String, Object> pair: map.entrySet()){
+            value = pair.getValue();
+            if (value == null) {
+                value = "null";
+            }
+            result += String.format("%s : %s\n", pair.getKey(), value);
+        }
+        return result;
     }
 }

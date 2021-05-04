@@ -11,13 +11,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Conversion Data:"
-        app:layout_constraintBottom_toTopOf="@+id/conversionDataListView"
+        android:paddingTop="10dp"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/conversionDataTextView"
         app:layout_constraintLeft_toRightOf="parent"
         app:layout_constraintRight_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ListView
-        android:id="@+id/conversionDataListView"
+    <TextView
+        android:id="@+id/conversionDataTextView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"

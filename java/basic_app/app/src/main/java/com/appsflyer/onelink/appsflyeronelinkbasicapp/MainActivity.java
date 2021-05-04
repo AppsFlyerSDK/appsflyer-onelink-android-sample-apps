@@ -2,19 +2,10 @@ package com.appsflyer.onelink.appsflyeronelinkbasicapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.AndroidException;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.appsflyer.AppsFlyerConversionListener;
-import com.appsflyer.AppsFlyerLib;
-
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 import static com.appsflyer.onelink.appsflyeronelinkbasicapp.AppsflyerBasicApp.LOG_TAG;
 

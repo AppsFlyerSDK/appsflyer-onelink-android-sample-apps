@@ -4,27 +4,22 @@ import android.app.Application;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
-import android.view.View;
-
 import androidx.annotation.NonNull;
-
 import com.appsflyer.AppsFlyerConversionListener;
 import com.appsflyer.AppsFlyerLib;
 import com.appsflyer.deeplink.DeepLink;
 import com.appsflyer.deeplink.DeepLinkListener;
 import com.appsflyer.deeplink.DeepLinkResult;
 import com.google.gson.Gson;
-
 import java.util.Map;
 import java.util.Objects;
 
 public class AppsflyerBasicApp extends Application {
-    public static final String LOG_TAG = "AppsFlyerFeedMeApp";
+    public static final String LOG_TAG = "AppsFlyerOneLinkSimApp";
     public static final String DL_ATTRS = "dl_attrs";
     @Override
     public void onCreate() {
         super.onCreate();
-        //noinspection SpellCheckingInspection
         String afDevKey = AppsFlyerConstants.afDevKey;
         AppsFlyerLib appsflyer = AppsFlyerLib.getInstance();
         appsflyer.setMinTimeBetweenSessions(0);
@@ -79,7 +74,6 @@ public class AppsflyerBasicApp extends Application {
             public void onConversionDataSuccess(Map<String, Object> conversionData) {
                 for (String attrName : conversionData.keySet())
                     Log.d(LOG_TAG, "Conversion attribute: " + attrName + " = " + conversionData.get(attrName));
-                //TODO - remove this
                 String status = Objects.requireNonNull(conversionData.get("af_status")).toString();
                 if(status.equals("Non-organic")){
                     if( Objects.requireNonNull(conversionData.get("is_first_launch")).toString().equals("true")){
@@ -119,9 +113,9 @@ public class AppsflyerBasicApp extends Application {
                 editor.putString(pair.getKey(), "null");
             }
             else
-                editor.putString(pair.getKey(), (String) pair.getValue().toString());
+                editor.putString(pair.getKey(), pair.getValue().toString());
         }
-        editor.apply(); //TODO - maybe switch to editor.commit and validate return value
+        editor.apply();
     }
 
     private void goToFruit(String fruitName, DeepLink dlData) {
