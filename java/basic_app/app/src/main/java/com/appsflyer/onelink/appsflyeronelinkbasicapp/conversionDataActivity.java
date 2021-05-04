@@ -3,6 +3,7 @@ package com.appsflyer.onelink.appsflyeronelinkbasicapp;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.widget.TextView;
 import java.util.Map;
 
@@ -20,7 +21,9 @@ public class conversionDataActivity extends AppCompatActivity {
         Map<String, Object> conversionData = (Map<String, Object>) appSharedPreferences.getAll();
         String conversionDataString = MapToFormattedString(conversionData);
         TextView conversionDataTextView = findViewById(R.id.conversionDataTextView);
+        conversionDataTextView.setMovementMethod(new ScrollingMovementMethod());
         conversionDataTextView.setText(conversionDataString);
+
     }
 
     public String MapToFormattedString(Map<String, Object> map){
@@ -35,4 +38,5 @@ public class conversionDataActivity extends AppCompatActivity {
         }
         return result;
     }
+
 }

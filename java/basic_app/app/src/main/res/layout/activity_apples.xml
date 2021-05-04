@@ -68,6 +68,7 @@
         android:layout_marginTop="24dp"
         android:layout_marginRight="24dp"
         android:layout_marginBottom="24dp"
+        android:scrollbars="vertical"
         app:layout_constraintBottom_toTopOf="@+id/apples_getconversiondata"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"

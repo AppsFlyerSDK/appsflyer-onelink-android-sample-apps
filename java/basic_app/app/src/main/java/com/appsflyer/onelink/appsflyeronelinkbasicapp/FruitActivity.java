@@ -2,6 +2,7 @@ package com.appsflyer.onelink.appsflyeronelinkbasicapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -47,9 +48,10 @@ public abstract class FruitActivity extends AppCompatActivity {
         DeepLink dlData = json.fromJson(intent.getStringExtra(AppsflyerBasicApp.DL_ATTRS), DeepLink.class);
 
         if (dlData != null) {
-            JSONObject jsonObject = null;
+            JSONObject jsonObject;
             try {
                 jsonObject = new JSONObject(dlData.toString());
+                dlAttrs.setMovementMethod(new ScrollingMovementMethod());
                 dlAttrs.setText(jsonObject.toString(4).replaceAll("\\\\", ""));// 4 is no of spaces for indent
             } catch (JSONException e) {
                 e.printStackTrace();
