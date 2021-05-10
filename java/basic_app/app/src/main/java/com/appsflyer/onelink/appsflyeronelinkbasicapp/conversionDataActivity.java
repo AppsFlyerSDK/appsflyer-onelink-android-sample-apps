@@ -5,7 +5,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 public class conversionDataActivity extends AppCompatActivity {
 
@@ -19,24 +24,23 @@ public class conversionDataActivity extends AppCompatActivity {
     public void displayConversionData(){
         SharedPreferences appSharedPreferences = this.getSharedPreferences("CONVERSIONDATA", getApplicationContext().MODE_PRIVATE);
         Map<String, Object> conversionData = (Map<String, Object>) appSharedPreferences.getAll();
-        String conversionDataString = MapToFormattedString(conversionData);
+        String conversionDataString = MapToSortedString(conversionData);
         TextView conversionDataTextView = findViewById(R.id.conversionDataTextView);
         conversionDataTextView.setMovementMethod(new ScrollingMovementMethod());
         conversionDataTextView.setText(conversionDataString);
-
     }
 
-    public String MapToFormattedString(Map<String, Object> map){
+    public String MapToSortedString(Map<String, Object> map){
         String result = "";
+        SortedSet<String> keys = new TreeSet<>(map.keySet());
         Object value;
-        for (Map.Entry<String, Object> pair: map.entrySet()){
-            value = pair.getValue();
+        for (String key: keys){
+            value = map.get(key);
             if (value == null) {
                 value = "null";
             }
-            result += String.format("%s : %s\n", pair.getKey(), value);
+            result += String.format("%s : %s\n", key, value);
         }
         return result;
     }
-
 }

@@ -10,7 +10,6 @@ public class bananasActivity extends FruitActivity {
         super.onCreate(savedInstanceState);
         setViewVariables("bananas");
         showDlData();
-
     }
     @Override
     protected int getLayoutResourceId() {

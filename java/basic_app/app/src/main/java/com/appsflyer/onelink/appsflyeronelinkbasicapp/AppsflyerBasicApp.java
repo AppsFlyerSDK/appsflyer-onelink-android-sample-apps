@@ -1,18 +1,19 @@
 package com.appsflyer.onelink.appsflyeronelinkbasicapp;
 
-import android.app.Application;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.util.Log;
-import androidx.annotation.NonNull;
-import com.appsflyer.AppsFlyerConversionListener;
 import com.appsflyer.AppsFlyerLib;
 import com.appsflyer.deeplink.DeepLink;
 import com.appsflyer.deeplink.DeepLinkListener;
 import com.appsflyer.deeplink.DeepLinkResult;
+import com.appsflyer.AppsFlyerConversionListener;
+
+import android.app.Application;
+import android.content.Intent;
+import android.util.Log;
 import com.google.gson.Gson;
+import androidx.annotation.NonNull;
 import java.util.Map;
 import java.util.Objects;
+import android.content.SharedPreferences;
 
 public class AppsflyerBasicApp extends Application {
     public static final String LOG_TAG = "AppsFlyerOneLinkSimApp";
@@ -24,7 +25,6 @@ public class AppsflyerBasicApp extends Application {
         AppsFlyerLib appsflyer = AppsFlyerLib.getInstance();
         appsflyer.setMinTimeBetweenSessions(0);
         appsflyer.setDebugLog(true);
-
         SharedPreferences appSharedPreferences = this.getSharedPreferences("CONVERSIONDATA", getApplicationContext().MODE_PRIVATE);
         SharedPreferences.Editor editor = appSharedPreferences.edit();
 
@@ -102,18 +102,18 @@ public class AppsflyerBasicApp extends Application {
                 Log.d(LOG_TAG, "error onAttributionFailure : " + errorMessage);
             }
         };
-
         appsflyer.init(afDevKey, conversionListener, this);
         appsflyer.start(this, afDevKey);
     }
 
     private void editConversionDataInSharedPreference(SharedPreferences.Editor editor, Map<String, Object> conversionData){
+        Object value;
         for (Map.Entry<String, Object> pair : conversionData.entrySet()){
-            if (pair.getValue() == null){
-                editor.putString(pair.getKey(), "null");
+            value = pair.getValue();
+            if (value == null){
+                value = "null";
             }
-            else
-                editor.putString(pair.getKey(), pair.getValue().toString());
+            editor.putString(pair.getKey(), value.toString());
         }
         editor.apply();
     }
@@ -136,5 +136,4 @@ public class AppsflyerBasicApp extends Application {
             e.printStackTrace();
         }
     }
-
 }

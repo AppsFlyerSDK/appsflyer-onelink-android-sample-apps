@@ -10,8 +10,8 @@ public class peachesActivity extends FruitActivity {
         super.onCreate(savedInstanceState);
         setViewVariables("peaches");
         showDlData();
-
     }
+
     @Override
     protected int getLayoutResourceId() {
         return R.layout.activity_peaches;
