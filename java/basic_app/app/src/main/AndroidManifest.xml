@@ -15,10 +15,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".conversionDataActivity"></activity>
-        <activity android:name=".peachesActivity" />
-        <activity android:name=".bananasActivity" />
-        <activity android:name=".applesActivity" />
+        <activity android:name=".ConversionDataActivity"></activity>
+        <activity android:name=".PeachesActivity" />
+        <activity android:name=".BananasActivity" />
+        <activity android:name=".ApplesActivity" />
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTask">

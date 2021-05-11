@@ -58,7 +58,7 @@ public abstract class FruitActivity extends AppCompatActivity {
     }
 
         public void goToConversionData(View view){
-            Intent intent = new Intent(getApplicationContext(), conversionDataActivity.class);
+            Intent intent = new Intent(getApplicationContext(), ConversionDataActivity.class);
             startActivity(intent);
         }
     }

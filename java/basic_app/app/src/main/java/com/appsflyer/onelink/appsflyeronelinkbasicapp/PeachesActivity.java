@@ -3,17 +3,18 @@ package com.appsflyer.onelink.appsflyeronelinkbasicapp;
 import android.os.Bundle;
 import android.view.View;
 
-public class applesActivity extends FruitActivity {
+public class PeachesActivity extends FruitActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setViewVariables("apples");
+        setViewVariables("peaches");
         showDlData();
     }
+
     @Override
     protected int getLayoutResourceId() {
-        return R.layout.activity_apples;
+        return R.layout.activity_peaches;
     }
 
     @Override

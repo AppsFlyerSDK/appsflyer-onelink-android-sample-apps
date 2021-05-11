@@ -23,15 +23,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goToApples(View view) {
-        goToFruit("apples");
+        goToFruit("Apples");
     }
 
     public void goToBananas(View view) {
-        goToFruit("bananas");
+        goToFruit("Bananas");
     }
 
     public void goToPeaches(View view) {
-        goToFruit("peaches");
+        goToFruit("Peaches");
     }
 
     private void goToFruit(String fruitName) {

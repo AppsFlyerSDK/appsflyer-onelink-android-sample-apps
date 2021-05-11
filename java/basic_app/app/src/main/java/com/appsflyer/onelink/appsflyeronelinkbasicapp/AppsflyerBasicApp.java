@@ -18,6 +18,7 @@ import android.content.SharedPreferences;
 public class AppsflyerBasicApp extends Application {
     public static final String LOG_TAG = "AppsFlyerOneLinkSimApp";
     public static final String DL_ATTRS = "dl_attrs";
+    Map<String, Object> conversionData;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -25,8 +26,6 @@ public class AppsflyerBasicApp extends Application {
         AppsFlyerLib appsflyer = AppsFlyerLib.getInstance();
         appsflyer.setMinTimeBetweenSessions(0);
         appsflyer.setDebugLog(true);
-        SharedPreferences appSharedPreferences = this.getSharedPreferences("CONVERSIONDATA", getApplicationContext().MODE_PRIVATE);
-        SharedPreferences.Editor editor = appSharedPreferences.edit();
 
         appsflyer.subscribeForDeepLink(new DeepLinkListener(){
             @Override
@@ -71,12 +70,12 @@ public class AppsflyerBasicApp extends Application {
 
         AppsFlyerConversionListener conversionListener =  new AppsFlyerConversionListener() {
             @Override
-            public void onConversionDataSuccess(Map<String, Object> conversionData) {
-                for (String attrName : conversionData.keySet())
-                    Log.d(LOG_TAG, "Conversion attribute: " + attrName + " = " + conversionData.get(attrName));
-                String status = Objects.requireNonNull(conversionData.get("af_status")).toString();
+            public void onConversionDataSuccess(Map<String, Object> conversionDataMap) {
+                for (String attrName : conversionDataMap.keySet())
+                    Log.d(LOG_TAG, "Conversion attribute: " + attrName + " = " + conversionDataMap.get(attrName));
+                String status = Objects.requireNonNull(conversionDataMap.get("af_status")).toString();
                 if(status.equals("Non-organic")){
-                    if( Objects.requireNonNull(conversionData.get("is_first_launch")).toString().equals("true")){
+                    if( Objects.requireNonNull(conversionDataMap.get("is_first_launch")).toString().equals("true")){
                         Log.d(LOG_TAG,"Conversion: First Launch");
                     } else {
                         Log.d(LOG_TAG,"Conversion: Not First Launch");
@@ -84,7 +83,7 @@ public class AppsflyerBasicApp extends Application {
                 } else {
                     Log.d(LOG_TAG, "Conversion: This is an organic install.");
                 }
-                editConversionDataInSharedPreference(editor, conversionData);
+                conversionData = conversionDataMap;
             }
 
             @Override
@@ -104,18 +103,6 @@ public class AppsflyerBasicApp extends Application {
         };
         appsflyer.init(afDevKey, conversionListener, this);
         appsflyer.start(this, afDevKey);
-    }
-
-    private void editConversionDataInSharedPreference(SharedPreferences.Editor editor, Map<String, Object> conversionData){
-        Object value;
-        for (Map.Entry<String, Object> pair : conversionData.entrySet()){
-            value = pair.getValue();
-            if (value == null){
-                value = "null";
-            }
-            editor.putString(pair.getKey(), value.toString());
-        }
-        editor.apply();
     }
 
     private void goToFruit(String fruitName, DeepLink dlData) {
