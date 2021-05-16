@@ -4,15 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.appsflyer.AppsFlyerConversionListener;
-import com.appsflyer.AppsFlyerLib;
-
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 import static com.appsflyer.onelink.appsflyeronelinkbasicapp.AppsflyerBasicApp.LOG_TAG;
 
@@ -30,15 +23,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goToApples(View view) {
-        goToFruit("apples");
+        goToFruit("Apples");
     }
 
     public void goToBananas(View view) {
-        goToFruit("bananas");
+        goToFruit("Bananas");
     }
 
     public void goToPeaches(View view) {
-        goToFruit("peaches");
+        goToFruit("Peaches");
     }
 
     private void goToFruit(String fruitName) {

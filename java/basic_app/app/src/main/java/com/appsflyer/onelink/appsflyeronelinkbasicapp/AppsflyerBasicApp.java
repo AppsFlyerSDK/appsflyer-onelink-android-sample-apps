@@ -1,28 +1,27 @@
 package com.appsflyer.onelink.appsflyeronelinkbasicapp;
 
-import android.app.Application;
-import android.content.Intent;
-import android.util.Log;
-
-import androidx.annotation.NonNull;
-
-import com.appsflyer.AppsFlyerConversionListener;
 import com.appsflyer.AppsFlyerLib;
 import com.appsflyer.deeplink.DeepLink;
 import com.appsflyer.deeplink.DeepLinkListener;
 import com.appsflyer.deeplink.DeepLinkResult;
-import com.google.gson.Gson;
+import com.appsflyer.AppsFlyerConversionListener;
 
+import android.app.Application;
+import android.content.Intent;
+import android.util.Log;
+import com.google.gson.Gson;
+import androidx.annotation.NonNull;
 import java.util.Map;
 import java.util.Objects;
+import android.content.SharedPreferences;
 
 public class AppsflyerBasicApp extends Application {
-    public static final String LOG_TAG = "AppsFlyerFeedMeApp";
+    public static final String LOG_TAG = "AppsFlyerOneLinkSimApp";
     public static final String DL_ATTRS = "dl_attrs";
+    Map<String, Object> conversionData;
     @Override
     public void onCreate() {
         super.onCreate();
-        //noinspection SpellCheckingInspection
         String afDevKey = AppsFlyerConstants.afDevKey;
         AppsFlyerLib appsflyer = AppsFlyerLib.getInstance();
         appsflyer.setMinTimeBetweenSessions(0);
@@ -71,20 +70,20 @@ public class AppsflyerBasicApp extends Application {
 
         AppsFlyerConversionListener conversionListener =  new AppsFlyerConversionListener() {
             @Override
-            public void onConversionDataSuccess(Map<String, Object> conversionData) {
-                for (String attrName : conversionData.keySet())
-                    Log.d(LOG_TAG, "Conversion attribute: " + attrName + " = " + conversionData.get(attrName));
-                //TODO - remove this
-                String status = Objects.requireNonNull(conversionData.get("af_status")).toString();
+            public void onConversionDataSuccess(Map<String, Object> conversionDataMap) {
+                for (String attrName : conversionDataMap.keySet())
+                    Log.d(LOG_TAG, "Conversion attribute: " + attrName + " = " + conversionDataMap.get(attrName));
+                String status = Objects.requireNonNull(conversionDataMap.get("af_status")).toString();
                 if(status.equals("Non-organic")){
-                    if( Objects.requireNonNull(conversionData.get("is_first_launch")).toString().equals("true")){
+                    if( Objects.requireNonNull(conversionDataMap.get("is_first_launch")).toString().equals("true")){
                         Log.d(LOG_TAG,"Conversion: First Launch");
                     } else {
                         Log.d(LOG_TAG,"Conversion: Not First Launch");
                     }
                 } else {
-                    Log.d(LOG_TAG,"Conversion: This is an organic install.");
+                    Log.d(LOG_TAG, "Conversion: This is an organic install.");
                 }
+                conversionData = conversionDataMap;
             }
 
             @Override
@@ -102,7 +101,6 @@ public class AppsflyerBasicApp extends Application {
                 Log.d(LOG_TAG, "error onAttributionFailure : " + errorMessage);
             }
         };
-
         appsflyer.init(afDevKey, conversionListener, this);
         appsflyer.start(this, afDevKey);
     }
@@ -125,5 +123,4 @@ public class AppsflyerBasicApp extends Application {
             e.printStackTrace();
         }
     }
-
 }
