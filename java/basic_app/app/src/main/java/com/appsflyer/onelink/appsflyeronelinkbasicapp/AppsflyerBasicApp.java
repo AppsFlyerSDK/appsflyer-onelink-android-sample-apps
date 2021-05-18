@@ -13,12 +13,12 @@ import com.google.gson.Gson;
 import androidx.annotation.NonNull;
 import java.util.Map;
 import java.util.Objects;
-import android.content.SharedPreferences;
 
 public class AppsflyerBasicApp extends Application {
     public static final String LOG_TAG = "AppsFlyerOneLinkSimApp";
     public static final String DL_ATTRS = "dl_attrs";
-    Map<String, Object> conversionData;
+    Map<String, Object> conversionData = null;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -59,6 +59,10 @@ public class AppsflyerBasicApp extends Application {
                 String fruitName = "";
                 try {
                     fruitName = deepLinkObj.getDeepLinkValue();
+                    if (fruitName == null){
+                        Log.d(LOG_TAG, "Deeplink value returned null");
+                        return;
+                    }
                     Log.d(LOG_TAG, "The DeepLink will route to: " + fruitName);
                 } catch (Exception e) {
                     Log.d(LOG_TAG, "Custom param fruit_name was not found in DeepLink data");
@@ -102,11 +106,11 @@ public class AppsflyerBasicApp extends Application {
             }
         };
         appsflyer.init(afDevKey, conversionListener, this);
-        appsflyer.start(this, afDevKey);
+        appsflyer.start(this);
     }
 
     private void goToFruit(String fruitName, DeepLink dlData) {
-        String fruitClassName = fruitName.concat("Activity");
+        String fruitClassName = (fruitName.substring(0, 1).toUpperCase() + fruitName.substring(1)).concat("Activity");
         try {
             Class fruitClass = Class.forName(this.getPackageName().concat(".").concat(fruitClassName));
             Log.d(LOG_TAG, "Looking for class " + fruitClass);

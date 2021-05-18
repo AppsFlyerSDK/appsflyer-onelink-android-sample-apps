@@ -1,15 +1,11 @@
 package com.appsflyer.onelink.appsflyeronelinkbasicapp;
 
 import androidx.appcompat.app.AppCompatActivity;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.Map;
-import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -31,6 +27,9 @@ public class ConversionDataActivity extends AppCompatActivity {
     }
 
     public String mapToSortedString(Map<String, Object> map){
+        if (map == null){
+            return "Conversion data not available at the moment";
+        }
         String result = "";
         SortedSet<String> keys = new TreeSet<>(map.keySet());
         Object value;

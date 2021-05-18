@@ -34,7 +34,7 @@ public abstract class FruitActivity extends AppCompatActivity {
                 dlTitleText = (TextView)findViewById(getResources().getIdentifier(dlTitleId, "id", getPackageName()));
             }
             catch (Exception e){
-                Log.d(LOG_TAG, "******\nError creating the field\n *****");
+                Log.d(LOG_TAG, "Error getting TextViews for " + fruitName + " Activity");
             }
     }
 
