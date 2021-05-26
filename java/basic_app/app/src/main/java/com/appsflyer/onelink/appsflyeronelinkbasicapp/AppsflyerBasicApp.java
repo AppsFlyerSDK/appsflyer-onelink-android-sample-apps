@@ -55,7 +55,7 @@ public class AppsflyerBasicApp extends Application {
                 } else {
                     Log.d(LOG_TAG, "This is a direct deep link");
                 }
-                // An example for using a generic getter
+                // An example for getting deep_link_value
                 String fruitName = "";
                 try {
                     fruitName = deepLinkObj.getDeepLinkValue();
