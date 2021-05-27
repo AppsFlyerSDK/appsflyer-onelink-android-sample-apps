@@ -55,7 +55,7 @@ public class AppsflyerBasicApp extends Application {
                 } else {
                     Log.d(LOG_TAG, "This is a direct deep link");
                 }
-                // An example for using a generic getter
+                // An example for getting deep_link_value
                 String fruitName = "";
                 try {
                     fruitName = deepLinkObj.getDeepLinkValue();
@@ -102,7 +102,7 @@ public class AppsflyerBasicApp extends Application {
             }
         };
         appsflyer.init(afDevKey, conversionListener, this);
-        appsflyer.start(this, afDevKey);
+        appsflyer.start(this);
     }
 
     private void goToFruit(String fruitName, DeepLink dlData) {
