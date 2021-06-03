@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import com.appsflyer.deeplink.DeepLink;
@@ -17,6 +16,7 @@ import static com.appsflyer.onelink.appsflyeronelinkbasicapp.AppsflyerBasicApp.L
 public abstract class FruitActivity extends AppCompatActivity {
     TextView dlAttrs;
     TextView dlTitleText;
+    TextView goToConversionDataText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,15 +27,21 @@ public abstract class FruitActivity extends AppCompatActivity {
     protected abstract int getLayoutResourceId();
 
     protected void setViewVariables(String fruitName) {
-            try {
-                String dlParamsId = fruitName.concat("_deeplinkparams");
-                String dlTitleId = fruitName.concat("_deeplinktitle");
-                dlAttrs = (TextView)findViewById(getResources().getIdentifier(dlParamsId, "id", getPackageName()));
-                dlTitleText = (TextView)findViewById(getResources().getIdentifier(dlTitleId, "id", getPackageName()));
-            }
-            catch (Exception e){
-                Log.d(LOG_TAG, "Error getting TextViews for " + fruitName + " Activity");
-            }
+        try {
+            String dlParamsId = fruitName.concat("_deeplinkparams");
+            String dlTitleId = fruitName.concat("_deeplinktitle");
+            String conversionDataBtnId = fruitName.concat("_getconversiondata");
+            this.dlAttrs = (TextView)findViewById(getResources().getIdentifier(dlParamsId, "id", getPackageName()));
+            this.dlTitleText = (TextView)findViewById(getResources().getIdentifier(dlTitleId, "id", getPackageName()));
+            this.goToConversionDataText = (TextView)findViewById(getResources().getIdentifier(conversionDataBtnId, "id", getPackageName()));
+        }
+        catch (Exception e){
+            Log.d(LOG_TAG, "Error getting TextViews for " + fruitName + " Activity");
+        }
+        goToConversionDataText.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), ConversionDataActivity.class);
+            startActivity(intent);
+        });
     }
 
     protected void showDlData() {
@@ -56,9 +62,4 @@ public abstract class FruitActivity extends AppCompatActivity {
             dlTitleText.setText("No Deep Linking Happened");
         }
     }
-
-        public void goToConversionData(View view){
-            Intent intent = new Intent(getApplicationContext(), ConversionDataActivity.class);
-            startActivity(intent);
-        }
-    }
+}
