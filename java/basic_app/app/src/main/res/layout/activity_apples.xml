@@ -59,7 +59,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/applesImage" />
 
-
     <TextView
         android:id="@+id/apples_deeplinkparams"
         android:layout_width="0dp"
@@ -82,7 +81,6 @@
         android:clickable="true"
         android:paddingBottom="20dp"
         android:textSize="25dp"
-        android:onClick="goToConversionData"
         android:textColor="@color/ic_launcher_background"
         android:text="Show conversion data"
         android:outlineSpotShadowColor="@color/colorPrimaryDark"

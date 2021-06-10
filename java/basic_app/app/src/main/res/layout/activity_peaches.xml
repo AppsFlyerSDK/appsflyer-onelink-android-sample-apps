@@ -79,7 +79,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
-        android:onClick="goToConversionData"
         android:outlineSpotShadowColor="@color/colorPrimaryDark"
         android:paddingBottom="20dp"
         android:text="Show conversion data"
