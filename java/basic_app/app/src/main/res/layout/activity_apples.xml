@@ -20,9 +20,9 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="left"
         android:layout_marginStart="24dp"
         android:layout_marginBottom="24dp"
-        android:layout_gravity="left"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="@+id/applesImage"
         app:layout_constraintStart_toStartOf="@+id/applesImage">
@@ -50,11 +50,10 @@
         android:id="@+id/apples_deeplinktitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:text="Deep Link happened. Parameters:"
         android:textAlignment="center"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/apples_deeplinkparams"
+        android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/applesImage" />
@@ -68,25 +67,38 @@
         android:layout_marginRight="24dp"
         android:layout_marginBottom="24dp"
         android:scrollbars="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/apples_getconversiondata"
+        app:layout_constraintBottom_toTopOf="@id/shareinvitesbtn"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/apples_deeplinktitle" />
 
+    <Button
+        android:id="@+id/shareinvitesbtn"
+        android:layout_width="139dp"
+        android:layout_height="45dp"
+        android:visibility="visible"
+        android:background="@drawable/copy_link_button"
+        app:layout_constraintBottom_toTopOf="@+id/apples_getconversiondata"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/apples_deeplinkparams"
+        android:layout_marginBottom="10dp"
+        ></Button>
+
     <TextView
         android:id="@+id/apples_getconversiondata"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="396dp"
+        android:layout_height="61dp"
         android:clickable="true"
-        android:paddingBottom="20dp"
-        android:textSize="25dp"
-        android:textColor="@color/ic_launcher_background"
-        android:text="Show conversion data"
         android:outlineSpotShadowColor="@color/colorPrimaryDark"
+        android:paddingBottom="20dp"
+        android:background="@drawable/conversion_data_button"
+        android:textColor="@color/ic_launcher_background"
+        android:textSize="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/apples_deeplinkparams" />
+        app:layout_constraintTop_toBottomOf="@+id/shareinvitesbtn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
