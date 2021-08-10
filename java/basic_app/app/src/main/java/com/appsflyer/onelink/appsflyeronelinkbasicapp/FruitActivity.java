@@ -85,7 +85,7 @@ public abstract class FruitActivity extends AppCompatActivity {
     protected void copyShareInviteLink(){
         String value;
         String encodedValue;
-        AppsFlyerLib.getInstance().setAppInviteOneLink("coiD");
+        AppsFlyerLib.getInstance().setAppInviteOneLink("H5hv");
         LinkGenerator linkGenerator = ShareInviteHelper.generateInviteUrl(getApplicationContext());
         try {
             for (Map.Entry<String, String> pair : this.shareInviteLinkParams.entrySet()) {
