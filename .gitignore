@@ -88,6 +88,6 @@ lint/tmp/
 # Mac specific
 .DS_Store
 
-# Prevent commiting sensitive information
-AppsFlyerConstants.java
+# Prevent committing sensitive information
+# AppsFlyerConstants.java
 
