@@ -22,8 +22,8 @@ The app will be able to register it in AppsFlyer's dashboard, create real OneLin
 > This app runs by default with a devkey of a demo account.
 > If you would like to see the app's data in the AppsFlyer dashboard, you need to create a demo app in your AppsFlyer account and follow the instructions below.
 
-1. Get your AppsFlyer Dev Key using [these instructions][get_af_devkey].
-2. Create the file `java/simple_deep_link_pass_data/app/src/main/java/com/appsflyer/onelink/appsflyeronelinkbasicapp/AppsFlyerConstants.java` with the following content:
+1. Get your AppsFlyer Dev Key using [these instructions](https://support.appsflyer.com/hc/en-us/articles/207032066-iOS-SDK-integration-for-developers#integration-31-retrieving-your-dev-key)
+2. Change the constant `afDevKey`  and the package name in the file `java/simple_deep_link_pass_data/app/src/main/java/com/appsflyer/onelink/appsflyeronelinkbasicapp/AppsFlyerConstants.java` :
 ```java
 package YOUR_PACKAGE_NAME;
 
@@ -31,8 +31,5 @@ public class AppsFlyerConstants {
     static final String afDevKey = "XXXXXXXXXXXXX";
 }
 ```
-3. **Do not push them to above file to a public repo!**
+3. **Do not push this change above to a public repo!**
 4. Ask your marketer to create some OneLink links and start running fruit campaigns 🍎
-
-
-[get_af_devkey]: https://support.appsflyer.com/hc/en-us/articles/207032066-iOS-SDK-integration-for-developers#integration-31-retrieving-your-dev-key
