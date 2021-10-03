@@ -24,8 +24,9 @@ public class AppsflyerBasicApp extends Application {
         super.onCreate();
         String afDevKey = AppsFlyerConstants.afDevKey;
         AppsFlyerLib appsflyer = AppsFlyerLib.getInstance();
-        appsflyer.setMinTimeBetweenSessions(0);
+        // Make sure you remove the following line when building to production
         appsflyer.setDebugLog(true);
+        appsflyer.setMinTimeBetweenSessions(0);
 
         appsflyer.subscribeForDeepLink(new DeepLinkListener(){
             @Override
