@@ -12,9 +12,9 @@ public class PeachesActivity extends FruitActivity {
         setViewVariables("peaches");
         this.shareInviteLinkParams = new HashMap(){{
             put("deep_link_value", "peaches");
-            put("deep_link_sub1", "This is a shared link from 'Peaches' activity");
+            put("deep_link_sub2", "This is a shared link from 'Peaches' activity");
             put("af_campaign", "shared link");
-            put("fruit_amount", "20");
+            put("deep_link_sub1", "20");
         }};
         showDlData();
     }
