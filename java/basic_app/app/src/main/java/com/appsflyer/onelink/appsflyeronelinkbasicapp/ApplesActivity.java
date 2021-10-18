@@ -2,12 +2,20 @@ package com.appsflyer.onelink.appsflyeronelinkbasicapp;
 
 import android.os.Bundle;
 
+import java.util.HashMap;
+
 public class ApplesActivity extends FruitActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setViewVariables("apples");
+        this.shareInviteLinkParams = new HashMap(){{
+            put("deep_link_value", "apples");
+            put("deep_link_sub2", "This is a shared link from 'Apples' activity");
+            put("af_campaign", "shared link");
+            put("deep_link_sub1", "20");
+        }};
         showDlData();
     }
 

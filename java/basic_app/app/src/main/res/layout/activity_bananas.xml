@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".BananasActivity">
 
+
     <ImageView
         android:id="@+id/bananasImage"
         android:layout_width="match_parent"
@@ -69,22 +70,35 @@
         android:layout_marginRight="24dp"
         android:layout_marginBottom="24dp"
         android:scrollbars="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/bananas_getconversiondata"
+        app:layout_constraintBottom_toTopOf="@+id/shareinvitesbtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bananas_deeplinktitle" />
 
+    <Button
+        android:id="@+id/shareinvitesbtn"
+        android:layout_width="139dp"
+        android:layout_height="45dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/copy_link_button"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/bananas_getconversiondata"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bananas_deeplinkparams"></Button>
+
     <TextView
         android:id="@+id/bananas_getconversiondata"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="396dp"
+        android:layout_height="61dp"
+        android:background="@drawable/conversion_data_button"
         android:clickable="true"
         android:outlineSpotShadowColor="@color/colorPrimaryDark"
         android:paddingBottom="20dp"
-        android:text="Show conversion data"
         android:textColor="@color/ic_launcher_background"
         android:textSize="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/shareinvitesbtn" />
 </androidx.constraintlayout.widget.ConstraintLayout>
