@@ -22,8 +22,6 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 import static com.appsflyer.onelink.appsflyeronelinkbasicapp.AppsflyerBasicApp.LOG_TAG;
@@ -84,24 +82,16 @@ public abstract class FruitActivity extends AppCompatActivity {
     }
     protected void copyShareInviteLink(){
         String value;
-        String encodedValue;
         AppsFlyerLib.getInstance().setAppInviteOneLink("H5hv");
         LinkGenerator linkGenerator = ShareInviteHelper.generateInviteUrl(getApplicationContext());
-        try {
             for (Map.Entry<String, String> pair : this.shareInviteLinkParams.entrySet()) {
                 value = pair.getValue();
                 if (value == null) {
                     value = "null";
                 }
-                //Encode the values before adding them as parameters
-                encodedValue = URLEncoder.encode(value, StandardCharsets.UTF_8.toString());
-                linkGenerator.addParameter(pair.getKey(), encodedValue);
+                linkGenerator.addParameter(pair.getKey(), value);
             }
-        }
-        catch (java.io.UnsupportedEncodingException  e){
-            Log.d(LOG_TAG, "The named encoding is not supported");
-        }
-        Log.d(LOG_TAG, "Link params:" + linkGenerator.getParameters().toString());
+        Log.d(LOG_TAG, "Link params:" + linkGenerator.getUserParams().toString());
         CreateOneLinkHttpTask.ResponseListener listener = new CreateOneLinkHttpTask.ResponseListener() {
             @Override
             public void onResponse(String s) {
