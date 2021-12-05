@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.appsflyer.AppsFlyerLib;
 import com.appsflyer.CreateOneLinkHttpTask;
 import com.appsflyer.deeplink.DeepLink;
 import com.appsflyer.share.LinkGenerator;
@@ -22,17 +21,13 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.util.Map;
-
 import static com.appsflyer.onelink.appsflyeronelinkbasicapp.AppsflyerBasicApp.LOG_TAG;
 
 public abstract class FruitActivity extends AppCompatActivity {
     TextView dlAttrs;
     TextView dlTitleText;
     TextView goToConversionDataText;
-    Map<String, String> shareInviteLinkParams;
+    String fruitName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +41,7 @@ public abstract class FruitActivity extends AppCompatActivity {
 
     protected abstract int getLayoutResourceId();
 
-    protected void setViewVariables(String fruitName) {
+    protected void setStaticAttributes(String fruitName) {
         try {
             String dlParamsId = fruitName.concat("_deeplinkparams");
             String dlTitleId = fruitName.concat("_deeplinktitle");
@@ -54,6 +49,7 @@ public abstract class FruitActivity extends AppCompatActivity {
             this.dlAttrs = (TextView)findViewById(getResources().getIdentifier(dlParamsId, "id", getPackageName()));
             this.dlTitleText = (TextView)findViewById(getResources().getIdentifier(dlTitleId, "id", getPackageName()));
             this.goToConversionDataText = (TextView)findViewById(getResources().getIdentifier(conversionDataBtnId, "id", getPackageName()));
+            this.fruitName = fruitName;
         }
         catch (Exception e){
             Log.d(LOG_TAG, "Error getting TextViews for " + fruitName + " Activity");
@@ -84,24 +80,12 @@ public abstract class FruitActivity extends AppCompatActivity {
     }
     protected void copyShareInviteLink(){
         String value;
-        String encodedValue;
-        AppsFlyerLib.getInstance().setAppInviteOneLink("H5hv");
         LinkGenerator linkGenerator = ShareInviteHelper.generateInviteUrl(getApplicationContext());
-        try {
-            for (Map.Entry<String, String> pair : this.shareInviteLinkParams.entrySet()) {
-                value = pair.getValue();
-                if (value == null) {
-                    value = "null";
-                }
-                //Encode the values before adding them as parameters
-                encodedValue = URLEncoder.encode(value, StandardCharsets.UTF_8.toString());
-                linkGenerator.addParameter(pair.getKey(), encodedValue);
-            }
-        }
-        catch (java.io.UnsupportedEncodingException  e){
-            Log.d(LOG_TAG, "The named encoding is not supported");
-        }
-        Log.d(LOG_TAG, "Link params:" + linkGenerator.getParameters().toString());
+        linkGenerator.addParameter("deep_link_value", this.fruitName);
+        linkGenerator.addParameter("deep_link_sub1", "user_referrer");
+        linkGenerator.addParameter("af_campaign", "share_invite");
+
+        Log.d(LOG_TAG, "Link params:" + linkGenerator.getUserParams().toString());
         CreateOneLinkHttpTask.ResponseListener listener = new CreateOneLinkHttpTask.ResponseListener() {
             @Override
             public void onResponse(String s) {

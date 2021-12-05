@@ -27,6 +27,8 @@ public class AppsflyerBasicApp extends Application {
         // Make sure you remove the following line when building to production
         appsflyer.setDebugLog(true);
         appsflyer.setMinTimeBetweenSessions(0);
+        //set the OneLink template id for share invite links
+        AppsFlyerLib.getInstance().setAppInviteOneLink("H5hv");
 
         appsflyer.subscribeForDeepLink(new DeepLinkListener(){
             @Override
