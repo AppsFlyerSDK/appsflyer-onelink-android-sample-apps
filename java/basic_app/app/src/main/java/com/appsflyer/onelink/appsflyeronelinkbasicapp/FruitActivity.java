@@ -79,7 +79,6 @@ public abstract class FruitActivity extends AppCompatActivity {
         }
     }
     protected void copyShareInviteLink(){
-        String value;
         LinkGenerator linkGenerator = ShareInviteHelper.generateInviteUrl(getApplicationContext());
         linkGenerator.addParameter("deep_link_value", this.fruitName);
         linkGenerator.addParameter("deep_link_sub1", "user_referrer");
