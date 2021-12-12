@@ -35,10 +35,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void goToFruit(String fruitName) {
-        goToFruit(fruitName, null);
-    }
-
-    private void goToFruit(String fruitName, Map<String, String> dlData) {
         String fruitClassName = fruitName.concat("Activity");
         try {
             Class fruitClass = Class.forName(this.getPackageName().concat(".").concat(fruitClassName));

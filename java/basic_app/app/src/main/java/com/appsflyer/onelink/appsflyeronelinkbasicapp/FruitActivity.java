@@ -4,6 +4,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Gravity;
@@ -28,6 +29,7 @@ public abstract class FruitActivity extends AppCompatActivity {
     TextView dlTitleText;
     TextView goToConversionDataText;
     String fruitName;
+    TextView fruitAmount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,10 +48,12 @@ public abstract class FruitActivity extends AppCompatActivity {
             String dlParamsId = fruitName.concat("_deeplinkparams");
             String dlTitleId = fruitName.concat("_deeplinktitle");
             String conversionDataBtnId = fruitName.concat("_getconversiondata");
+            String fruitAmount = fruitName.concat("_fruitAmount");
             this.dlAttrs = (TextView)findViewById(getResources().getIdentifier(dlParamsId, "id", getPackageName()));
             this.dlTitleText = (TextView)findViewById(getResources().getIdentifier(dlTitleId, "id", getPackageName()));
             this.goToConversionDataText = (TextView)findViewById(getResources().getIdentifier(conversionDataBtnId, "id", getPackageName()));
             this.fruitName = fruitName;
+            this.fruitAmount = (TextView)findViewById(getResources().getIdentifier(fruitAmount, "id", getPackageName()));
         }
         catch (Exception e){
             Log.d(LOG_TAG, "Error getting TextViews for " + fruitName + " Activity");
@@ -59,7 +63,30 @@ public abstract class FruitActivity extends AppCompatActivity {
             startActivity(intent);
         });
     }
-
+    protected void displayFruitAmount(){
+        Gson json = new Gson();
+        DeepLink dlObject = json.fromJson(getIntent().getStringExtra(AppsflyerBasicApp.DL_ATTRS), DeepLink.class);
+        String fruitAmount;
+        if (dlObject != null){
+            JSONObject dlData = dlObject.getClickEvent();
+            if (dlData.has("deep_link_value") && dlData.has("deep_link_sub1")){
+                fruitAmount = dlObject.getStringValue("deep_link_sub1");
+            }
+            else if (dlData.has("fruit_name") && dlData.has("fruit_amount")){
+                fruitAmount = dlObject.getStringValue("fruit_amount");
+            }
+            else {
+                Log.d(LOG_TAG, "deep_link_sub1/fruit amount not found");
+                return;
+            }
+            if (TextUtils.isDigitsOnly(fruitAmount)){
+                this.fruitAmount.setText(fruitAmount);
+            }
+            else {
+                Log.d(LOG_TAG, "Fruit amount is not a valid number");
+            }
+        }
+    }
     protected void showDlData() {
         Intent intent = getIntent();
         Gson json = new Gson();
