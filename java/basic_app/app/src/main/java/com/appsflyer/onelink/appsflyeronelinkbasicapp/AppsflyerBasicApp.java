@@ -62,13 +62,18 @@ public class AppsflyerBasicApp extends Application {
                 String fruitName = "";
                 try {
                     fruitName = deepLinkObj.getDeepLinkValue();
-                    if (fruitName == null){
-                        Log.d(LOG_TAG, "Deeplink value returned null");
-                        return;
+                    if (fruitName == null || fruitName.equals("")){
+                        Log.d(LOG_TAG, "deep_link_value returned null");
+                        fruitName = deepLinkObj.getStringValue("fruit_name");
+                        if (fruitName == null || fruitName.equals("")) {
+                            Log.d(LOG_TAG, "could not find fruit name");
+                            return;
+                        }
+                        Log.d(LOG_TAG, "fruit_name is " + fruitName + ". This is an old link");
                     }
                     Log.d(LOG_TAG, "The DeepLink will route to: " + fruitName);
                 } catch (Exception e) {
-                    Log.d(LOG_TAG, "Custom param fruit_name was not found in DeepLink data");
+                    Log.d(LOG_TAG, "There's been an error: " + e.toString());
                     return;
                 }
                 goToFruit(fruitName, deepLinkObj);
