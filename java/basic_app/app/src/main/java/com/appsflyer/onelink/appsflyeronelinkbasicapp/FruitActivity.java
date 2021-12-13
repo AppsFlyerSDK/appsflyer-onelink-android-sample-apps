@@ -15,21 +15,23 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.appsflyer.CreateOneLinkHttpTask;
-import com.appsflyer.deeplink.DeepLink;
 import com.appsflyer.share.LinkGenerator;
 import com.appsflyer.share.ShareInviteHelper;
 import com.google.gson.Gson;
-import org.json.JSONException;
-import org.json.JSONObject;
+
+import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import static com.appsflyer.onelink.appsflyeronelinkbasicapp.AppsflyerBasicApp.LOG_TAG;
 
 public abstract class FruitActivity extends AppCompatActivity {
-    TextView dlAttrs;
+    TextView dlParametersText;
     TextView dlTitleText;
     TextView goToConversionDataText;
     String fruitName;
     TextView fruitAmount;
+    Map<String,Object> deepLinkParameters;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,7 @@ public abstract class FruitActivity extends AppCompatActivity {
         sharedInvitesBtn.setOnClickListener(v -> {
             copyShareInviteLink();
         });
+        deepLinkParameters = (Map<String, Object>) getIntent().getSerializableExtra(AppsflyerBasicApp.DL_ATTRS);
     }
 
     protected abstract int getLayoutResourceId();
@@ -49,11 +52,11 @@ public abstract class FruitActivity extends AppCompatActivity {
             String dlTitleId = fruitName.concat("_deeplinktitle");
             String conversionDataBtnId = fruitName.concat("_getconversiondata");
             String fruitAmount = fruitName.concat("_fruitAmount");
-            this.dlAttrs = (TextView)findViewById(getResources().getIdentifier(dlParamsId, "id", getPackageName()));
-            this.dlTitleText = (TextView)findViewById(getResources().getIdentifier(dlTitleId, "id", getPackageName()));
-            this.goToConversionDataText = (TextView)findViewById(getResources().getIdentifier(conversionDataBtnId, "id", getPackageName()));
+            this.dlParametersText = findViewById(getResources().getIdentifier(dlParamsId, "id", getPackageName()));
+            this.dlTitleText = findViewById(getResources().getIdentifier(dlTitleId, "id", getPackageName()));
+            this.goToConversionDataText = findViewById(getResources().getIdentifier(conversionDataBtnId, "id", getPackageName()));
             this.fruitName = fruitName;
-            this.fruitAmount = (TextView)findViewById(getResources().getIdentifier(fruitAmount, "id", getPackageName()));
+            this.fruitAmount = findViewById(getResources().getIdentifier(fruitAmount, "id", getPackageName()));
         }
         catch (Exception e){
             Log.d(LOG_TAG, "Error getting TextViews for " + fruitName + " Activity");
@@ -63,45 +66,32 @@ public abstract class FruitActivity extends AppCompatActivity {
             startActivity(intent);
         });
     }
-    protected void displayFruitAmount(){
-        Gson json = new Gson();
-        DeepLink dlObject = json.fromJson(getIntent().getStringExtra(AppsflyerBasicApp.DL_ATTRS), DeepLink.class);
+    protected void showFruitAmount() {
         String fruitAmount;
-        if (dlObject != null){
-            JSONObject dlData = dlObject.getClickEvent();
-            if (dlData.has("deep_link_value") && dlData.has("deep_link_sub1")){
-                fruitAmount = dlObject.getStringValue("deep_link_sub1");
-            }
-            else if (dlData.has("fruit_name") && dlData.has("fruit_amount")){
-                fruitAmount = dlObject.getStringValue("fruit_amount");
-            }
-            else {
+        if (deepLinkParameters != null) {
+            if (deepLinkParameters.containsKey("deep_link_value") && deepLinkParameters.containsKey("deep_link_sub1")) {
+                fruitAmount = deepLinkParameters.get("deep_link_sub1").toString();
+            } else if (deepLinkParameters.containsKey("fruit_name") && deepLinkParameters.containsKey("fruit_amount")) {
+                fruitAmount = deepLinkParameters.get("fruit_amount").toString();
+            } else {
                 Log.d(LOG_TAG, "deep_link_sub1/fruit amount not found");
                 return;
             }
-            if (TextUtils.isDigitsOnly(fruitAmount)){
+            Log.d(LOG_TAG, "deep_link_sub1/fruit amount found and is " + fruitAmount);
+            if (TextUtils.isDigitsOnly(fruitAmount)) {
                 this.fruitAmount.setText(fruitAmount);
-            }
-            else {
+            } else {
                 Log.d(LOG_TAG, "Fruit amount is not a valid number");
             }
         }
     }
-    protected void showDlData() {
-        Intent intent = getIntent();
-        Gson json = new Gson();
-        DeepLink dlData = json.fromJson(intent.getStringExtra(AppsflyerBasicApp.DL_ATTRS), DeepLink.class);
-        if (dlData != null) {
-            JSONObject jsonObject;
-            try {
-                jsonObject = new JSONObject(dlData.toString());
-                dlAttrs.setMovementMethod(new ScrollingMovementMethod());
-                dlAttrs.setText(jsonObject.toString(4).replaceAll("\\\\", ""));// 4 is num of spaces for indent
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+    protected void showDeepLinkData() {
+
+        if (deepLinkParameters != null) {
+            dlParametersText.setMovementMethod(new ScrollingMovementMethod());
+            dlParametersText.setText(mapToSortedString(deepLinkParameters));
         }
-        else{
+        else {
             dlTitleText.setText("No Deep Linking Happened");
         }
     }
@@ -133,5 +123,22 @@ public abstract class FruitActivity extends AppCompatActivity {
             }
         };
         linkGenerator.generateLink(getApplicationContext(), listener);
+    }
+
+    public String mapToSortedString(Map<String, Object> map){
+        if (map == null){
+            return "Data not available at the moment";
+        }
+        String result = "";
+        SortedSet<String> keys = new TreeSet<>(map.keySet());
+        Object value;
+        for (String key: keys){
+            value = map.get(key);
+            if (value == null) {
+                value = "null";
+            }
+            result += String.format("%s : %s\n", key, value);
+        }
+        return result;
     }
 }

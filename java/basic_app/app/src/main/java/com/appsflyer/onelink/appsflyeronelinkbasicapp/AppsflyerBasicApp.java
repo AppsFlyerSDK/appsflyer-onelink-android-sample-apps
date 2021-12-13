@@ -9,8 +9,16 @@ import com.appsflyer.AppsFlyerConversionListener;
 import android.app.Application;
 import android.content.Intent;
 import android.util.Log;
-import com.google.gson.Gson;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.JSONObject;
+
+
 import androidx.annotation.NonNull;
+
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -58,25 +66,36 @@ public class AppsflyerBasicApp extends Application {
                 } else {
                     Log.d(LOG_TAG, "This is a direct deep link");
                 }
-                // An example for getting deep_link_value
+                // Get 'deep_link_value'
+                // If there isn't deep_link_value, check if this is an old link with 'fruit_name'
                 String fruitName = "";
                 try {
                     fruitName = deepLinkObj.getDeepLinkValue();
                     if (fruitName == null || fruitName.equals("")){
-                        Log.d(LOG_TAG, "deep_link_value returned null");
+                        Log.d(LOG_TAG, "deep_link_value not found");
                         fruitName = deepLinkObj.getStringValue("fruit_name");
                         if (fruitName == null || fruitName.equals("")) {
-                            Log.d(LOG_TAG, "could not find fruit name");
+                            Log.d(LOG_TAG, "fruit_name not found");
                             return;
                         }
-                        Log.d(LOG_TAG, "fruit_name is " + fruitName + ". This is an old link");
+                        Log.d(LOG_TAG, "fruit_name found: " + fruitName + ". This is an old link");
                     }
                     Log.d(LOG_TAG, "The DeepLink will route to: " + fruitName);
                 } catch (Exception e) {
                     Log.d(LOG_TAG, "There's been an error: " + e.toString());
                     return;
                 }
-                goToFruit(fruitName, deepLinkObj);
+                ObjectMapper mapper = new ObjectMapper();
+                try {
+                    JSONObject dlData = deepLinkObj.getClickEvent();
+                    TypeReference<Map<String, Object>> typeRef = new TypeReference<Map<String, Object>>() {};
+                    Map<String,Object> dlDataMap = mapper.readValue(String.valueOf(dlData), typeRef);
+                    goToFruit(fruitName, dlDataMap);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Log.d(LOG_TAG, "Error: Cannot convert deep link object to HashMap");
+                }
+
             }
         });
 
@@ -89,6 +108,16 @@ public class AppsflyerBasicApp extends Application {
                 if(status.equals("Non-organic")){
                     if( Objects.requireNonNull(conversionDataMap.get("is_first_launch")).toString().equals("true")){
                         Log.d(LOG_TAG,"Conversion: First Launch");
+                        if (!conversionDataMap.containsKey("deep_link_value") && conversionDataMap.containsKey("fruit_name")){
+                            Object fruitName = conversionDataMap.get("fruit_name");
+                            if (fruitName instanceof java.lang.String){
+                                Log.d(LOG_TAG,"This is deferred deep linking using an old link");
+                                goToFruit((String) fruitName, conversionDataMap);
+                            }
+                            else {
+                                Log.d(LOG_TAG,"fruit_name custom parameter found in conversion data, but its value is invalid");
+                            }
+                        }
                     } else {
                         Log.d(LOG_TAG,"Conversion: Not First Launch");
                     }
@@ -117,7 +146,7 @@ public class AppsflyerBasicApp extends Application {
         appsflyer.start(this);
     }
 
-    private void goToFruit(String fruitName, DeepLink dlData) {
+    private void goToFruit(String fruitName, Map<String,Object> dlData) {
         String fruitClassName = (fruitName.substring(0, 1).toUpperCase() + fruitName.substring(1)).concat("Activity");
         try {
             Class fruitClass = Class.forName(this.getPackageName().concat(".").concat(fruitClassName));
@@ -125,8 +154,7 @@ public class AppsflyerBasicApp extends Application {
             Intent intent = new Intent(getApplicationContext(), fruitClass);
             if (dlData != null) {
                 // TODO - make DeepLink Parcelable
-                String objToStr = new Gson().toJson(dlData);
-                intent.putExtra(DL_ATTRS, objToStr);
+                intent.putExtra(DL_ATTRS, (HashMap) dlData);
             }
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);

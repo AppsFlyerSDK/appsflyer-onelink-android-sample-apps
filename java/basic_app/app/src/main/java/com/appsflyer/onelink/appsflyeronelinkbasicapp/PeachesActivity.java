@@ -8,8 +8,8 @@ public class PeachesActivity extends FruitActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStaticAttributes("peaches");
-        displayFruitAmount();
-        showDlData();
+        showFruitAmount();
+        showDeepLinkData();
     }
 
     @Override
