@@ -11,6 +11,9 @@ import android.content.Intent;
 import android.util.Log;
 import com.google.gson.Gson;
 import androidx.annotation.NonNull;
+
+import org.json.JSONObject;
+
 import java.util.Map;
 import java.util.Objects;
 
@@ -62,13 +65,18 @@ public class AppsflyerBasicApp extends Application {
                 String fruitName = "";
                 try {
                     fruitName = deepLinkObj.getDeepLinkValue();
-                    if (fruitName == null){
-                        Log.d(LOG_TAG, "Deeplink value returned null");
-                        return;
+                    if (fruitName == null || fruitName.equals("")){
+                        Log.d(LOG_TAG, "deep_link_value returned null");
+                        fruitName = deepLinkObj.getStringValue("fruit_name");
+                        if (fruitName == null || fruitName.equals("")) {
+                            Log.d(LOG_TAG, "could not find fruit name");
+                            return;
+                        }
+                        Log.d(LOG_TAG, "fruit_name is " + fruitName + ". This is an old link");
                     }
                     Log.d(LOG_TAG, "The DeepLink will route to: " + fruitName);
                 } catch (Exception e) {
-                    Log.d(LOG_TAG, "Custom param fruit_name was not found in DeepLink data");
+                    Log.d(LOG_TAG, "There's been an error: " + e.toString());
                     return;
                 }
                 goToFruit(fruitName, deepLinkObj);
@@ -84,6 +92,18 @@ public class AppsflyerBasicApp extends Application {
                 if(status.equals("Non-organic")){
                     if( Objects.requireNonNull(conversionDataMap.get("is_first_launch")).toString().equals("true")){
                         Log.d(LOG_TAG,"Conversion: First Launch");
+                        //Deferred deep link in case of a legacy link
+                        if(conversionDataMap.containsKey("fruit_name")){
+                            if (conversionDataMap.containsKey("deep_link_value")) { //Not legacy link
+                                Log.d(LOG_TAG,"onConversionDataSuccess: Link contains deep_link_value, deep linking with UDL");
+                            }
+                            else{ //Legacy link
+                                conversionDataMap.put("deep_link_value", conversionDataMap.get("fruit_name"));
+                                String fruitNameStr = (String) conversionDataMap.get("fruit_name");
+                                DeepLink deepLinkData = mapToDeepLinkObject(conversionDataMap);
+                                goToFruit(fruitNameStr, deepLinkData);
+                            }
+                        }
                     } else {
                         Log.d(LOG_TAG,"Conversion: Not First Launch");
                     }
@@ -91,6 +111,7 @@ public class AppsflyerBasicApp extends Application {
                     Log.d(LOG_TAG, "Conversion: This is an organic install.");
                 }
                 conversionData = conversionDataMap;
+
             }
 
             @Override
@@ -129,5 +150,17 @@ public class AppsflyerBasicApp extends Application {
             Log.d(LOG_TAG, "Deep linking failed looking for " + fruitName);
             e.printStackTrace();
         }
+    }
+
+    public DeepLink mapToDeepLinkObject(Map <String, Object> conversionDataMap){
+        try {
+            String objToStr = new Gson().toJson(conversionDataMap);
+            DeepLink deepLink = DeepLink.AFKeystoreWrapper(new JSONObject(objToStr));
+            return deepLink;
+        }
+        catch (org.json.JSONException e ){
+            Log.d(LOG_TAG, "Error when converting map to DeepLink object: " + e.toString());
+        }
+        return null;
     }
 }
