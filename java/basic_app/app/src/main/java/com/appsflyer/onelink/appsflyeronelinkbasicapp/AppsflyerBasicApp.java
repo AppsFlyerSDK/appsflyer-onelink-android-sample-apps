@@ -10,9 +10,8 @@ import android.app.Application;
 import android.content.Intent;
 import android.util.Log;
 import com.google.gson.Gson;
-import androidx.annotation.NonNull;
-
 import org.json.JSONObject;
+import androidx.annotation.NonNull;
 
 import java.util.Map;
 import java.util.Objects;
@@ -111,7 +110,6 @@ public class AppsflyerBasicApp extends Application {
                     Log.d(LOG_TAG, "Conversion: This is an organic install.");
                 }
                 conversionData = conversionDataMap;
-
             }
 
             @Override

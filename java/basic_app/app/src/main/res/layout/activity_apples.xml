@@ -17,34 +17,18 @@
         app:srcCompat="@drawable/apples_cover"
         tools:ignore="ContentDescription" />
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/apples_fruitAmount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="left"
-        android:layout_marginStart="24dp"
-        android:layout_marginBottom="24dp"
-        android:orientation="vertical"
+        android:fontFamily="sans-serif"
+        android:textColor="@android:color/white"
+        android:textSize="55sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/applesImage"
-        app:layout_constraintStart_toStartOf="@+id/applesImage">
-
-        <TextView
-            android:id="@+id/applesTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif"
-            android:text="@string/apples_str"
-            android:textColor="@android:color/white"
-            android:textSize="40sp" />
-
-        <TextView
-            android:id="@+id/applesPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif"
-            android:text="@string/apples_price"
-            android:textColor="@android:color/white"
-            android:textSize="30sp" />
-    </LinearLayout>
+        app:layout_constraintEnd_toEndOf="@+id/applesImage"
+        app:layout_constraintStart_toStartOf="@+id/applesImage"
+        app:layout_constraintTop_toTopOf="@+id/applesImage" />
 
     <TextView
         android:id="@+id/apples_deeplinktitle"
