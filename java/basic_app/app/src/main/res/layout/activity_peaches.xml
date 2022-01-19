@@ -18,34 +18,19 @@
         app:srcCompat="@drawable/peaches_cover"
         tools:ignore="ContentDescription" />
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/peaches_fruitAmount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginBottom="24dp"
-        android:layout_gravity="left"
-        android:orientation="vertical"
+        android:fontFamily="sans-serif"
+        android:textColor="@android:color/white"
+        android:textSize="55sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/peachesImage"
-        app:layout_constraintStart_toStartOf="@+id/peachesImage">
+        app:layout_constraintEnd_toEndOf="@+id/peachesImage"
+        app:layout_constraintStart_toStartOf="@+id/peachesImage"
+        app:layout_constraintTop_toTopOf="@+id/peachesImage" />
 
-        <TextView
-            android:id="@+id/peachesTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif"
-            android:text="@string/peaches_str"
-            android:textColor="@android:color/white"
-            android:textSize="40sp" />
-
-        <TextView
-            android:id="@+id/peachesPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif"
-            android:text="@string/peaches_price"
-            android:textColor="@android:color/white"
-            android:textSize="30sp" />
-    </LinearLayout>
 
     <TextView
         android:id="@+id/peaches_deeplinktitle"

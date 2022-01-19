@@ -8,6 +8,7 @@ public class BananasActivity extends FruitActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStaticAttributes("bananas");
+        showFruitAmount();
         showDlData();
     }
 

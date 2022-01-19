@@ -39,7 +39,6 @@
             android:scaleType="fitStart"
             android:src="@drawable/onelinklogo"
             tools:ignore="ContentDescription" />
-
     </LinearLayout>
 
     <TextView
