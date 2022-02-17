@@ -29,6 +29,7 @@ public abstract class FruitActivity extends AppCompatActivity {
     TextView dlTitleText;
     TextView goToConversionDataText;
     String fruitName;
+    String fruitAmountStr;
     TextView fruitAmount;
 
     @Override
@@ -53,6 +54,7 @@ public abstract class FruitActivity extends AppCompatActivity {
             this.dlTitleText = (TextView)findViewById(getResources().getIdentifier(dlTitleId, "id", getPackageName()));
             this.goToConversionDataText = (TextView)findViewById(getResources().getIdentifier(conversionDataBtnId, "id", getPackageName()));
             this.fruitName = fruitName;
+            this.fruitAmountStr = "000";
             this.fruitAmount = (TextView)findViewById(getResources().getIdentifier(fruitAmount, "id", getPackageName()));
         }
         catch (Exception e){
@@ -81,6 +83,7 @@ public abstract class FruitActivity extends AppCompatActivity {
                 return;
             }
             if (TextUtils.isDigitsOnly(fruitAmount)){
+                this.fruitAmountStr = fruitAmount;
                 this.fruitAmount.setText(fruitAmount);
             }
             else {
@@ -111,8 +114,10 @@ public abstract class FruitActivity extends AppCompatActivity {
     protected void copyShareInviteLink(){
         LinkGenerator linkGenerator = ShareInviteHelper.generateInviteUrl(getApplicationContext());
         linkGenerator.addParameter("deep_link_value", this.fruitName);
-        linkGenerator.addParameter("deep_link_sub1", "user_referrer");
-        linkGenerator.setCampaign("share_invite");
+        linkGenerator.addParameter("deep_link_sub1", this.fruitAmountStr);
+        linkGenerator.addParameter("deep_link_sub2", "THIS_USER_ID");
+        linkGenerator.setCampaign("summer_fruits");
+        linkGenerator.setChannel("mobile_share");
 
         Log.d(LOG_TAG, "Link params:" + linkGenerator.getUserParams().toString());
         CreateOneLinkHttpTask.ResponseListener listener = new CreateOneLinkHttpTask.ResponseListener() {
