@@ -64,6 +64,20 @@ public class AppsflyerBasicApp extends Application {
                 String fruitName = "";
                 try {
                     fruitName = deepLinkObj.getDeepLinkValue();
+
+                    String referrerId = "";
+                    JSONObject dlData = deepLinkObj.getClickEvent();
+
+                    // ** Next if statement is optional **
+                    // Our sample app's user-invite carries the referrerID in deep_link_sub2
+                    // See the user-invite section in FruitActivity.java
+                    if (dlData.has("deep_link_sub2")){
+                        referrerId = deepLinkObj.getStringValue("deep_link_sub2");
+                        Log.d(LOG_TAG, "The referrerID is: " + referrerId);
+                    }  else {
+                        Log.d(LOG_TAG, "deep_link_sub2/Referrer ID not found");
+                    }
+
                     if (fruitName == null || fruitName.equals("")){
                         Log.d(LOG_TAG, "deep_link_value returned null");
                         fruitName = deepLinkObj.getStringValue("fruit_name");
