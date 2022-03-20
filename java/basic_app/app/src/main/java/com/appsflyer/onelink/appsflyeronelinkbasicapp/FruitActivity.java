@@ -24,6 +24,9 @@ import org.json.JSONObject;
 
 import static com.appsflyer.onelink.appsflyeronelinkbasicapp.AppsflyerBasicApp.LOG_TAG;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public abstract class FruitActivity extends AppCompatActivity {
     TextView dlAttrs;
     TextView dlTitleText;
@@ -112,12 +115,16 @@ public abstract class FruitActivity extends AppCompatActivity {
     }
 
     protected void copyShareInviteLink(){
+        String currentCampaign = "user_invite";
+        String currentChannel = "mobile_share";
+        String currentReferrerId = "THIS_USER_ID";
+
         LinkGenerator linkGenerator = ShareInviteHelper.generateInviteUrl(getApplicationContext());
         linkGenerator.addParameter("deep_link_value", this.fruitName);
         linkGenerator.addParameter("deep_link_sub1", this.fruitAmountStr);
-        linkGenerator.addParameter("deep_link_sub2", "THIS_USER_ID");
-        linkGenerator.setCampaign("summer_fruits");
-        linkGenerator.setChannel("mobile_share");
+        linkGenerator.addParameter("deep_link_sub2", currentReferrerId);
+        linkGenerator.setCampaign(currentCampaign);
+        linkGenerator.setChannel(currentChannel);
 
         Log.d(LOG_TAG, "Link params:" + linkGenerator.getUserParams().toString());
         CreateOneLinkHttpTask.ResponseListener listener = new CreateOneLinkHttpTask.ResponseListener() {
@@ -133,6 +140,11 @@ public abstract class FruitActivity extends AppCompatActivity {
                     toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 20);
                     toast.show();
                 });
+
+                HashMap<String,String> logInviteMap = new HashMap<String,String>();
+                logInviteMap.put("referrerId", currentReferrerId);
+                logInviteMap.put("campaign", currentCampaign);
+                ShareInviteHelper.logInvite(getApplicationContext(), currentChannel, logInviteMap);
             }
 
             @Override
