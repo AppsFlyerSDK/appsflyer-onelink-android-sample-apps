@@ -49,26 +49,11 @@
         android:layout_marginLeft="24dp"
         android:layout_marginTop="24dp"
         android:layout_marginRight="24dp"
-        android:layout_marginBottom="24dp"
         android:scrollbars="vertical"
-        app:layout_constraintBottom_toTopOf="@id/shareinvitesbtn"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/apples_deeplinktitle" />
-
-    <Button
-        android:id="@+id/shareinvitesbtn"
-        android:layout_width="139dp"
-        android:layout_height="45dp"
-        android:visibility="visible"
-        android:background="@drawable/copy_link_button"
-        app:layout_constraintBottom_toTopOf="@+id/apples_getconversiondata"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/apples_deeplinkparams"
-        android:layout_marginBottom="10dp"
-        ></Button>
 
     <TextView
         android:id="@+id/apples_getconversiondata"
@@ -83,7 +68,6 @@
         android:textSize="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/shareinvitesbtn" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

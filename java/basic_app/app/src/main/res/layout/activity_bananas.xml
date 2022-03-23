@@ -50,38 +50,23 @@
         android:layout_marginLeft="24dp"
         android:layout_marginTop="24dp"
         android:layout_marginRight="24dp"
-        android:layout_marginBottom="24dp"
         android:scrollbars="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/shareinvitesbtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bananas_deeplinktitle" />
-
-    <Button
-        android:id="@+id/shareinvitesbtn"
-        android:layout_width="139dp"
-        android:layout_height="45dp"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/copy_link_button"
-        android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/bananas_getconversiondata"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bananas_deeplinkparams"></Button>
 
     <TextView
         android:id="@+id/bananas_getconversiondata"
         android:layout_width="396dp"
         android:layout_height="61dp"
-        android:text="Show conversion data"
         android:clickable="true"
         android:outlineSpotShadowColor="@color/colorPrimaryDark"
         android:paddingBottom="20dp"
-        android:textColor="@color/ic_launcher_background"
+        android:text="Show conversion data"
         android:textAlignment="center"
+        android:textColor="@color/ic_launcher_background"
         android:textSize="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/shareinvitesbtn" />
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
