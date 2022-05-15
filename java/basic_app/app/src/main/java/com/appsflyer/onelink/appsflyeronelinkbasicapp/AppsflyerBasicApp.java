@@ -31,6 +31,71 @@ public class AppsflyerBasicApp extends Application {
         appsflyer.setDebugLog(true);
         appsflyer.setMinTimeBetweenSessions(0);
 
+        appsflyer.subscribeForDeepLink(new DeepLinkListener(){
+            @Override
+            public void onDeepLinking(@NonNull DeepLinkResult deepLinkResult) {
+                DeepLinkResult.Status dlStatus = deepLinkResult.getStatus();
+                if (dlStatus == DeepLinkResult.Status.FOUND) {
+                    Log.d(LOG_TAG, "Deep link found");
+                } else if (dlStatus == DeepLinkResult.Status.NOT_FOUND) {
+                    Log.d(LOG_TAG, "Deep link not found");
+                    return;
+                } else {
+                    // dlStatus == DeepLinkResult.Status.ERROR
+                    DeepLinkResult.Error dlError = deepLinkResult.getError();
+                    Log.d(LOG_TAG, "There was an error getting Deep Link data: " + dlError.toString());
+                    return;
+                }
+                DeepLink deepLinkObj = deepLinkResult.getDeepLink();
+                try {
+                    Log.d(LOG_TAG, "The DeepLink data is: " + deepLinkObj.toString());
+                } catch (Exception e) {
+                    Log.d(LOG_TAG, "DeepLink data came back null");
+                    return;
+                }
+                // An example for using is_deferred
+                if (deepLinkObj.isDeferred()) {
+                    Log.d(LOG_TAG, "This is a deferred deep link");
+                } else {
+                    Log.d(LOG_TAG, "This is a direct deep link");
+                }
+                // An example for getting deep_link_value
+                String fruitName = "";
+                try {
+                    fruitName = deepLinkObj.getDeepLinkValue();
+
+                    String referrerId = "";
+                    JSONObject dlData = deepLinkObj.getClickEvent();
+
+                    // ** Next if statement is optional **
+                    // Our sample app's user-invite carries the referrerID in deep_link_sub2
+                    // See the user-invite section in FruitActivity.java
+                    if (dlData.has("deep_link_sub2")){
+                        referrerId = deepLinkObj.getStringValue("deep_link_sub2");
+                        Log.d(LOG_TAG, "The referrerID is: " + referrerId);
+                    }  else {
+                        Log.d(LOG_TAG, "deep_link_sub2/Referrer ID not found");
+                    }
+
+                    if (fruitName == null || fruitName.equals("")){
+                        Log.d(LOG_TAG, "deep_link_value returned null");
+                        fruitName = deepLinkObj.getStringValue("fruit_name");
+                        if (fruitName == null || fruitName.equals("")) {
+                            Log.d(LOG_TAG, "could not find fruit name");
+                            return;
+                        }
+                        Log.d(LOG_TAG, "fruit_name is " + fruitName + ". This is an old link");
+                    }
+                    Log.d(LOG_TAG, "The DeepLink will route to: " + fruitName);
+                } catch (Exception e) {
+                    Log.d(LOG_TAG, "There's been an error: " + e.toString());
+                    return;
+                }
+                goToFruit(fruitName, deepLinkObj);
+            }
+        });
+
+
         AppsFlyerConversionListener conversionListener =  new AppsFlyerConversionListener() {
             @Override
             public void onConversionDataSuccess(Map<String, Object> conversionDataMap) {
