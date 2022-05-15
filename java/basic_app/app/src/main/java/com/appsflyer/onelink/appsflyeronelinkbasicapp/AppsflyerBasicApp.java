@@ -1,5 +1,10 @@
 package com.appsflyer.onelink.appsflyeronelinkbasicapp;
 
+import com.appsflyer.AppsFlyerLib;
+import com.appsflyer.deeplink.DeepLink;
+import com.appsflyer.deeplink.DeepLinkListener;
+import com.appsflyer.deeplink.DeepLinkResult;
+import com.appsflyer.AppsFlyerConversionListener;
 
 import android.app.Application;
 import android.content.Intent;
@@ -19,6 +24,15 @@ public class AppsflyerBasicApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        String afDevKey = AppsFlyerConstants.afDevKey;
+        AppsFlyerLib appsflyer = AppsFlyerLib.getInstance();
+        // Make sure you remove the following line when building to production
+        appsflyer.setDebugLog(true);
+        appsflyer.setMinTimeBetweenSessions(0);
+
+        appsflyer.init(afDevKey, null, this);
+        appsflyer.start(this);
     }
 
 //    private void goToFruit(String fruitName, DeepLink dlData) {
