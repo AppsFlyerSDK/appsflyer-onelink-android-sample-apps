@@ -45,7 +45,6 @@
 
                 <data
                     android:host="onelink-basic-app.onelink.me"
-                    android:pathPrefix="/H5hv"
                     android:scheme="https" />
             </intent-filter>
         </activity>
