@@ -15,7 +15,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ConversionDataActivity"></activity>
+        <activity android:name=".ConversionDataActivity" />
         <activity android:name=".PeachesActivity" />
         <activity android:name=".BananasActivity" />
         <activity android:name=".ApplesActivity" />
