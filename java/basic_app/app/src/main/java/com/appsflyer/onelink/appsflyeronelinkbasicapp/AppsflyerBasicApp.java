@@ -21,6 +21,11 @@ public class AppsflyerBasicApp extends Application {
     public static final String DL_ATTRS = "dl_attrs";
     Map<String, Object> conversionData = null;
 
+    // This boolean flag signals between the UDL and GCD callbacks that this deep_link was
+    // already processed, and the callback functionality for deep linking can be skipped.
+    // When GCD or UDL finds this flag true it MUST set it to false before skipping.
+    boolean deferred_deep_link_processed_flag = false;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -57,6 +62,11 @@ public class AppsflyerBasicApp extends Application {
                 // An example for using is_deferred
                 if (deepLinkObj.isDeferred()) {
                     Log.d(LOG_TAG, "This is a deferred deep link");
+                    if (deferred_deep_link_processed_flag == true) {
+                        Log.d(LOG_TAG, "Deferred deep link was already processed by GCD. This iteration can be skipped.");
+                        deferred_deep_link_processed_flag = false;
+                        return;
+                    }
                 } else {
                     Log.d(LOG_TAG, "This is a direct deep link");
                 }
@@ -88,6 +98,9 @@ public class AppsflyerBasicApp extends Application {
                         Log.d(LOG_TAG, "fruit_name is " + fruitName + ". This is an old link");
                     }
                     Log.d(LOG_TAG, "The DeepLink will route to: " + fruitName);
+                    // This marks to GCD that UDL already processed this deep link.
+                    // It is marked to both DL and DDL, but GCD is relevant only for DDL
+                    deferred_deep_link_processed_flag = true;
                 } catch (Exception e) {
                     Log.d(LOG_TAG, "There's been an error: " + e.toString());
                     return;
@@ -106,16 +119,17 @@ public class AppsflyerBasicApp extends Application {
                     if( Objects.requireNonNull(conversionDataMap.get("is_first_launch")).toString().equals("true")){
                         Log.d(LOG_TAG,"Conversion: First Launch");
                         //Deferred deep link in case of a legacy link
-                        if(conversionDataMap.containsKey("fruit_name")){
-                            if (conversionDataMap.containsKey("deep_link_value")) { //Not legacy link
-                                Log.d(LOG_TAG,"onConversionDataSuccess: Link contains deep_link_value, deep linking with UDL");
-                            }
-                            else{ //Legacy link
+                        if (deferred_deep_link_processed_flag == true) {
+                            Log.d(LOG_TAG, "Deferred deep link was already processed by UDL. The DDL processing in GCD can be skipped.");
+                            deferred_deep_link_processed_flag = false;
+                        } else {
+                            deferred_deep_link_processed_flag = true;
+                            if(conversionDataMap.containsKey("fruit_name")) {
                                 conversionDataMap.put("deep_link_value", conversionDataMap.get("fruit_name"));
-                                String fruitNameStr = (String) conversionDataMap.get("fruit_name");
-                                DeepLink deepLinkData = mapToDeepLinkObject(conversionDataMap);
-                                goToFruit(fruitNameStr, deepLinkData);
                             }
+                            String fruitNameStr = (String) conversionDataMap.get("deep_link_value");
+                            DeepLink deepLinkData = mapToDeepLinkObject(conversionDataMap);
+                            goToFruit(fruitNameStr, deepLinkData);
                         }
                     } else {
                         Log.d(LOG_TAG,"Conversion: Not First Launch");
