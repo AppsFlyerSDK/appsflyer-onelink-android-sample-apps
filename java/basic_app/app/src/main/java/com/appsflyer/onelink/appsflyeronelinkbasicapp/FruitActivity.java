@@ -25,7 +25,6 @@ import org.json.JSONObject;
 import static com.appsflyer.onelink.appsflyeronelinkbasicapp.AppsflyerBasicApp.LOG_TAG;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public abstract class FruitActivity extends AppCompatActivity {
     TextView dlAttrs;

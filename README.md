@@ -1,3 +1,6 @@
+> ❗️ This branch demonstrates a flow of a deferred deep linking which happens after a user triggers some kind of event.
+> In this case it is a login procedures, but it can be an acknowledgement form of viewing a splash screen in the app first open. 
+
 # appsflyer-onelink-android-sample-apps
 Android sample app which demonstrate the usage of Appsflyer Onelink - A unified deep-linking solution.
 This repository gives you sample apps to get you started easily with OneLink.

@@ -1,3 +1,6 @@
+> ❗️ This branch demonstrates a flow of a deferred deep linking which happens after a user triggers some kind of event.
+> In this case it is a login procedures, but it can be an acknowledgement form of viewing a splash screen in the app first open. 
+
 # FEED.ME fruit store sample app
 <img src="https://user-images.githubusercontent.com/61788924/97542099-d906f000-19ce-11eb-8fe3-911d616ea953.jpg" height="400">
 
