@@ -32,6 +32,26 @@ public class BananasActivity extends FruitActivity {
     }
 
     protected void sendEventAsync() {
-       //TODO - Add Async Event
+        Map<String, Object> eventValues = new HashMap<String, Object>();
+        eventValues.put(AFInAppEventParameterName.PRICE, 1234.56);
+        eventValues.put(AFInAppEventParameterName.CURRENCY, "USD");
+        eventValues.put(AFInAppEventParameterName.CONTENT_ID, this.fruitName);
+        eventValues.put(AFInAppEventParameterName.CONTENT_TYPE, "fruits");
+
+        AppsFlyerLib.getInstance().logEvent(getApplicationContext(),
+                AFInAppEventType.CONTENT_VIEW,
+                eventValues,
+                new AppsFlyerRequestListener() {
+                    @Override
+                    public void onSuccess() {
+                        Log.d(LOG_TAG, "Event sent successfully");
+                    }
+                    @Override
+                    public void onError(int i, @NonNull String s) {
+                        Log.d(LOG_TAG, "Event failed to be sent:\n" +
+                                "Error code: " + i + "\n"
+                                + "Error description: " + s);
+                    }
+                });
     }
 }

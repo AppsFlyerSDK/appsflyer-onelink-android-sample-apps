@@ -26,7 +26,13 @@ public class PeachesActivity extends FruitActivity {
     }
 
     protected void sendEvent() {
-       //TODO - Add event
+        Map<String, Object> eventValues = new HashMap<String, Object>();
+        eventValues.put(AFInAppEventParameterName.PRICE, 1234.56);
+        eventValues.put(AFInAppEventParameterName.CURRENCY, "USD");
+        eventValues.put(AFInAppEventParameterName.CONTENT_ID, this.fruitName);
+
+        AppsFlyerLib.getInstance().logEvent(getApplicationContext(),
+                AFInAppEventType.ADD_TO_WISH_LIST , eventValues);
     }
 
 }
