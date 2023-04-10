@@ -1,10 +1,10 @@
 package com.appsflyer.onelink.appsflyeronelinkbasicapp;
 
 import com.appsflyer.AppsFlyerLib;
-import com.appsflyer.AppsFlyerConversionListener;
 import com.appsflyer.deeplink.DeepLink;
 import com.appsflyer.deeplink.DeepLinkListener;
 import com.appsflyer.deeplink.DeepLinkResult;
+import com.appsflyer.AppsFlyerConversionListener;
 
 import android.app.Application;
 import android.content.Intent;
@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 import org.json.JSONObject;
 import androidx.annotation.NonNull;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -29,10 +30,13 @@ public class AppsflyerBasicApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        String afDevKey = AppsFlyerConstants.afDevKey;
         AppsFlyerLib appsflyer = AppsFlyerLib.getInstance();
-        // For debug - remove in production
+        // Make sure you remove the following line when building to production
         appsflyer.setDebugLog(true);
+        appsflyer.setMinTimeBetweenSessions(0);
+        //set the OneLink template id for share invite links
+        AppsFlyerLib.getInstance().setAppInviteOneLink("H5hv");
 
         appsflyer.subscribeForDeepLink(new DeepLinkListener(){
             @Override
@@ -59,35 +63,52 @@ public class AppsflyerBasicApp extends Application {
                 // An example for using is_deferred
                 if (deepLinkObj.isDeferred()) {
                     Log.d(LOG_TAG, "This is a deferred deep link");
+                    if (deferred_deep_link_processed_flag == true) {
+                        Log.d(LOG_TAG, "Deferred deep link was already processed by GCD. This iteration can be skipped.");
+                        deferred_deep_link_processed_flag = false;
+                        return;
+                    }
                 } else {
                     Log.d(LOG_TAG, "This is a direct deep link");
                 }
-                // An example for using a generic getter
+                // An example for getting deep_link_value
                 String fruitName = "";
                 try {
                     fruitName = deepLinkObj.getDeepLinkValue();
 
-                    JSONObject dlData = deepLinkObj.getClickEvent();
-                    Log.d(LOG_TAG, "The DeepLink will route to: " + fruitName);
-                } catch (Exception e) {
-                    Log.d(LOG_TAG, "Custom param fruit_name was not found in DeepLink data");
-                    return;
-                }
-                JSONObject dlData = deepLinkObj.getClickEvent();
-                // ** Next if statement is optional **
-                // Our sample app's user-invite carries the referrerID in deep_link_sub2
-                // See the user-invite section in FruitActivity.java
-                if (dlData.has("deep_link_sub2")){
                     String referrerId = "";
-                    referrerId = deepLinkObj.getStringValue("deep_link_sub2");
-                    Log.d(LOG_TAG, "The referrerID is: " + referrerId);
-                } else {
-                    Log.d(LOG_TAG, "deep_link_sub2/Referrer ID not found");
+                    JSONObject dlData = deepLinkObj.getClickEvent();
+
+                    // ** Next if statement is optional **
+                    // Our sample app's user-invite carries the referrerID in deep_link_sub2
+                    // See the user-invite section in FruitActivity.java
+                    if (dlData.has("deep_link_sub2")){
+                        referrerId = deepLinkObj.getStringValue("deep_link_sub2");
+                        Log.d(LOG_TAG, "The referrerID is: " + referrerId);
+                    }  else {
+                        Log.d(LOG_TAG, "deep_link_sub2/Referrer ID not found");
+                    }
+
+                    if (fruitName == null || fruitName.equals("")){
+                        Log.d(LOG_TAG, "deep_link_value returned null");
+                        fruitName = deepLinkObj.getStringValue("fruit_name");
+                        if (fruitName == null || fruitName.equals("")) {
+                            Log.d(LOG_TAG, "could not find fruit name");
+                            return;
+                        }
+                        Log.d(LOG_TAG, "fruit_name is " + fruitName + ". This is an old link");
+                    }
+                    Log.d(LOG_TAG, "The DeepLink will route to: " + fruitName);
+                    // This marks to GCD that UDL already processed this deep link.
+                    // It is marked to both DL and DDL, but GCD is relevant only for DDL
+                    deferred_deep_link_processed_flag = true;
+                } catch (Exception e) {
+                    Log.d(LOG_TAG, "There's been an error: " + e.toString());
+                    return;
                 }
                 goToFruit(fruitName, deepLinkObj);
             }
         });
-
 
         AppsFlyerConversionListener conversionListener =  new AppsFlyerConversionListener() {
             @Override
@@ -98,6 +119,19 @@ public class AppsflyerBasicApp extends Application {
                 if(status.equals("Non-organic")){
                     if( Objects.requireNonNull(conversionDataMap.get("is_first_launch")).toString().equals("true")){
                         Log.d(LOG_TAG,"Conversion: First Launch");
+                        //Deferred deep link in case of a legacy link
+                        if (deferred_deep_link_processed_flag == true) {
+                            Log.d(LOG_TAG, "Deferred deep link was already processed by UDL. The DDL processing in GCD can be skipped.");
+                            deferred_deep_link_processed_flag = false;
+                        } else {
+                            deferred_deep_link_processed_flag = true;
+                            if(conversionDataMap.containsKey("fruit_name")) {
+                                conversionDataMap.put("deep_link_value", conversionDataMap.get("fruit_name"));
+                            }
+                            String fruitNameStr = (String) conversionDataMap.get("deep_link_value");
+                            DeepLink deepLinkData = mapToDeepLinkObject(conversionDataMap);
+                            goToFruit(fruitNameStr, deepLinkData);
+                        }
                     } else {
                         Log.d(LOG_TAG,"Conversion: Not First Launch");
                     }
@@ -122,8 +156,7 @@ public class AppsflyerBasicApp extends Application {
                 Log.d(LOG_TAG, "error onAttributionFailure : " + errorMessage);
             }
         };
-
-        appsflyer.init("sQ84wpdxRTR4RMCaE9YqS4", conversionListener, this);
+        appsflyer.init(afDevKey, conversionListener, this);
         appsflyer.start(this);
     }
 
@@ -144,6 +177,21 @@ public class AppsflyerBasicApp extends Application {
             Log.d(LOG_TAG, "Deep linking failed looking for " + fruitName);
             e.printStackTrace();
         }
+    }
+
+    public DeepLink mapToDeepLinkObject(Map <String, Object> conversionDataMap){
+        try {
+            Map<String, String> stringMap = new HashMap<>();
+            for (Map.Entry<String, Object> entry : conversionDataMap.entrySet()) {
+                stringMap.put(entry.getKey(), String.valueOf(entry.getValue()));
+            }
+            DeepLink deepLink = DeepLink.values(stringMap);
+            return deepLink;
+        }
+        catch (org.json.JSONException e ){
+            Log.d(LOG_TAG, "Error when converting map to DeepLink object: " + e.toString());
+        }
+        return null;
     }
 
 }
