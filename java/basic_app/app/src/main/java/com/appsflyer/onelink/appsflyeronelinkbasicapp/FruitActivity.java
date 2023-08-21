@@ -127,7 +127,7 @@ public abstract class FruitActivity extends AppCompatActivity {
         linkGenerator.setChannel(currentChannel);
 
         Log.d(LOG_TAG, "Link params:" + linkGenerator.getUserParams().toString());
-        CreateOneLinkHttpTask.ResponseListener listener = new CreateOneLinkHttpTask.ResponseListener() {
+        LinkGenerator.ResponseListener listener = new LinkGenerator.ResponseListener() {
             @Override
             public void onResponse(String s) {
                 Log.d(LOG_TAG, "Share invite link: " + s);
