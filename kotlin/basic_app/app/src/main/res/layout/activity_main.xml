@@ -26,7 +26,7 @@
             android:paddingLeft="20dp"
             android:paddingRight="10dp"
             android:scaleType="fitStart"
-            app:srcCompat="@drawable/appsflyerlogo"
+            android:src="@drawable/appsflyerlogo"
             tools:ignore="ContentDescription" />
 
         <ImageView
