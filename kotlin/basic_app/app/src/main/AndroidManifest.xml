@@ -17,6 +17,9 @@
             android:exported="false"
             />
         <activity
+            android:name=".ApplesActivity"
+            android:exported="false" />
+        <activity
             android:name=".PeachesActivity"
             android:exported="false" />
         <activity
