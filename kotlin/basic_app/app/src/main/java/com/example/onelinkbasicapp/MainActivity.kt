@@ -41,8 +41,7 @@ class MainActivity : ComponentActivity() {
     public fun goToApple() {
 
         try {
-            Toast.makeText(applicationContext,"Entered Apples",Toast.LENGTH_SHORT).show()
-            val intent =Intent(this, Apples_Activity::class.java);
+            val intent =Intent(this, ApplesActivity::class.java);
             startActivity(intent);
         }
         catch (e:Exception){
@@ -53,8 +52,7 @@ class MainActivity : ComponentActivity() {
     public fun goToBananas() {
 
         try {
-            Toast.makeText(applicationContext,"Entered Bananas",Toast.LENGTH_SHORT).show()
-            val intent =Intent(this, Bananas_Activity::class.java);
+            val intent =Intent(this, BananasActivity::class.java);
             startActivity(intent);
         }
         catch (e:Exception){
@@ -65,8 +63,7 @@ class MainActivity : ComponentActivity() {
     public fun goToPeaches() {
 
         try {
-            Toast.makeText(applicationContext,"Entered Peaches",Toast.LENGTH_SHORT).show()
-            val intent =Intent(this, Peaches_Activity::class.java);
+            val intent =Intent(this, PeachesActivity::class.java);
             startActivity(intent);
         }
         catch (e:Exception){
