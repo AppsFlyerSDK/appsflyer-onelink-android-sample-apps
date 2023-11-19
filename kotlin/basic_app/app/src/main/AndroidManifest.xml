@@ -12,10 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:targetApi="31">
+
         <activity
             android:name=".BananasActivity"
             android:exported="false"
+
             />
+
         <activity
             android:name=".ApplesActivity"
             android:exported="false" />
@@ -31,7 +34,15 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="https" />
+                <data android:host="github.com" />
             </intent-filter>
+
         </activity>
     </application>
 

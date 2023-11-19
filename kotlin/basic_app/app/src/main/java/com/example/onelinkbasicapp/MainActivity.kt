@@ -16,11 +16,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.onelinkbasicapp.ui.theme.OnelinkBasicAppTheme
 import kotlin.math.log
+import android.net.Uri
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-       setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_main)
         var peachesButton: Button;
         var applesButton: Button;
         var bananasButton: Button;
@@ -28,7 +29,7 @@ class MainActivity : ComponentActivity() {
         applesButton=findViewById(R.id.apples_button);
         bananasButton=findViewById(R.id.bananas_button);
         peachesButton.setOnClickListener {
-        goToPeaches()
+            goToPeaches()
         }
         applesButton.setOnClickListener {
             goToApple()
@@ -37,6 +38,12 @@ class MainActivity : ComponentActivity() {
             goToBananas()
 
         }
+        // ATTENTION: This was auto-generated to handle app links.
+        val appLinkIntent: Intent = intent
+        val appLinkAction: String? = appLinkIntent.action
+        val appLinkData: Uri? = appLinkIntent.data
+        Toast.makeText(applicationContext,"Data:"+appLinkIntent,Toast.LENGTH_SHORT).show()
+
     }
     public fun goToApple() {
 
