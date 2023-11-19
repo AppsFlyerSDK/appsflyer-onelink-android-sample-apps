@@ -3,6 +3,7 @@ package com.example.onelinkbasicapp
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -21,24 +22,9 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
        setContentView(R.layout.activity_main)
-        var peachesButton: Button;
-        var applesButton: Button;
-        var bananasButton: Button;
-        peachesButton = findViewById(R.id.peaches_button);
-        applesButton=findViewById(R.id.apples_button);
-        bananasButton=findViewById(R.id.bananas_button);
-        peachesButton.setOnClickListener {
-        goToPeaches()
-        }
-        applesButton.setOnClickListener {
-            goToApple()
-        }
-        bananasButton.setOnClickListener {
-            goToBananas()
 
-        }
     }
-    public fun goToApple() {
+    public fun goToApples(view: View?) {
 
         try {
             val intent =Intent(this, ApplesActivity::class.java);
@@ -49,7 +35,7 @@ class MainActivity : ComponentActivity() {
         }
 
     }
-    public fun goToBananas() {
+    public fun goToBananas(view: View?) {
 
         try {
             val intent =Intent(this, BananasActivity::class.java);
@@ -60,7 +46,7 @@ class MainActivity : ComponentActivity() {
         }
 
     }
-    public fun goToPeaches() {
+    public fun goToPeaches(view: View?) {
 
         try {
             val intent =Intent(this, PeachesActivity::class.java);
