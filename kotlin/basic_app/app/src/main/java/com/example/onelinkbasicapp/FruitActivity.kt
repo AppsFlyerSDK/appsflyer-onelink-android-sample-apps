@@ -11,4 +11,5 @@ abstract class FruitActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(getLayoutResourceId());
     }
+
 }
