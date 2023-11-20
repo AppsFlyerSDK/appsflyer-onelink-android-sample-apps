@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 
 abstract class FruitActivity: AppCompatActivity() {
 
-    //האידי שנשלח מהמחלקות האחרות מתקבל לכאן ובשורה 13 הוא מתחבר אל התצוגה של אותו הקלאס
+    //All the id's are recieved to this line and use it in line 13
     protected abstract fun getLayoutResourceId(): Int
 
     override fun onCreate(savedInstanceState: Bundle?) {
