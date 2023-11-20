@@ -6,7 +6,6 @@ import android.os.Bundle
 class PeachesActivity : FruitActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_peaches)
     }
     override fun getLayoutResourceId(): Int {
         return R.layout.activity_peaches
