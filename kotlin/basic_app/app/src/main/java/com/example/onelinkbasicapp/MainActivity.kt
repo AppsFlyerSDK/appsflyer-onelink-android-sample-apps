@@ -17,12 +17,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.onelinkbasicapp.ui.theme.OnelinkBasicAppTheme
 import kotlin.math.log
+import com.example.onelinkbasicapp.AppsFlyerConstants
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
        setContentView(R.layout.activity_main)
-
+//        val afDevKey = AppsFlyerConstants.afDevKey;
+//                Log.d("Test",afDevKey)
     }
     public fun goToApples(view: View?) {
 
