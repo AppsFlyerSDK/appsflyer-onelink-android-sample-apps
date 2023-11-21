@@ -1,4 +1,4 @@
-package com.example.onelinkbasicapp
+package com.appsflyer.onelink.appsflyeronelinkbasicapp
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

@@ -1,7 +1,7 @@
-package com.example.onelinkbasicapp
+package com.appsflyer.onelink.appsflyeronelinkbasicapp
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.appsflyer.onelink.appsflyeronelinkbasicapp.FruitActivity
 
 class PeachesActivity : FruitActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -1,4 +1,4 @@
-package com.example.onelinkbasicapp
+package com.appsflyer.onelink.appsflyeronelinkbasicapp
 
  object AppsFlyerConstants {
     //This is the dev key of AppsFlyer's demo account and MUST be changed to your app's dev key

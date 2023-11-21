@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.onelinkbasicapp"
+    namespace = "com.appsflyer.onelink.appsflyeronelinkbasicapp"
     compileSdk = 34
     defaultConfig {
         applicationId = "com.appsflyer.onelink.appsflyeronelinkbasicapp"
