@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.onelinkbasicapp">
+    >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
-        android:name=".AppsflyerBasicApp"
+        android:name="com.appsflyer.onelink.appsflyeronelinkbasicapp.AppsflyerBasicApp"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -18,16 +18,16 @@
         tools:targetApi="31">
 
         <activity
-            android:name=".BananasActivity"
+            android:name="com.appsflyer.onelink.appsflyeronelinkbasicapp.BananasActivity"
             android:exported="false" />
         <activity
-            android:name=".ApplesActivity"
+            android:name="com.appsflyer.onelink.appsflyeronelinkbasicapp.ApplesActivity"
             android:exported="false" />
         <activity
-            android:name=".PeachesActivity"
+            android:name="com.appsflyer.onelink.appsflyeronelinkbasicapp.PeachesActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.appsflyer.onelink.appsflyeronelinkbasicapp.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.OnelinkBasicApp">
