@@ -9,7 +9,11 @@ import com.appsflyer.deeplink.DeepLinkListener
 import com.appsflyer.deeplink.DeepLinkResult
 
 class AppsflyerBasicApp: Application() {
-    val LOG_TAG:String= "Team3 Log Tag"
+
+    //A global log tag value
+    companion object {
+        const val LOG_TAG: String = "Team3 Log Tag"
+    }
 
     override fun onCreate(){
         super.onCreate();
