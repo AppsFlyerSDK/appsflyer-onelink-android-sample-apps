@@ -13,7 +13,7 @@ import com.google.gson.Gson
 
 class AppsflyerBasicApp: Application() {
 
-    //A global log tag value
+    //Global Values
     companion object {
         const val LOG_TAG: String = "Team3 Log Tag"
         const val DL_ATTRS: String = "dl_attrs"
