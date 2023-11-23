@@ -47,6 +47,11 @@ abstract class FruitActivity: AppCompatActivity() {
         }catch (e : Exception){
             Log.d("LOG_TAG","Error getting TextViews for " + fruitName + " Activity")
         }
+        /* goToConversionDataText.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), ConversionDataActivity.class);
+            startActivity(intent);
+        });*/
+
     }
     protected open fun showFruitAmount() {
         val json = Gson()
@@ -74,4 +79,67 @@ abstract class FruitActivity: AppCompatActivity() {
             }
         }
     }
+    fun showDlData() {
+            val intent = intent
+            val json = Gson()
+            val dlData = json.fromJson<DeepLink>(
+                intent.getStringExtra("dl_attrs"),
+                DeepLink::class.java
+            )
+            if (dlData != null) {
+                val jsonObject: JSONObject
+                try {
+                    jsonObject = JSONObject(dlData.toString())
+                    dlAttrs!!.movementMethod = ScrollingMovementMethod()
+                    dlAttrs!!.text = jsonObject.toString(4)
+                        .replace("\\\\".toRegex(), "") // 4 is num of spaces for indent
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            } else {
+                dlTitleText!!.text = "No Deep Linking Happened"
+            }
+        }
+    protected open fun copyShareInviteLink() {
+        val currentCampaign = "user_invite"
+        val currentChannel = "mobile_share"
+        val currentReferrerId = "THIS_USER_ID"
+        val linkGenerator = ShareInviteHelper.generateInviteUrl(applicationContext)
+        linkGenerator.addParameter("deep_link_value", fruitName)
+        linkGenerator.addParameter("deep_link_sub1", fruitAmountStr)
+        linkGenerator.addParameter("deep_link_sub2", currentReferrerId)
+        linkGenerator.campaign = currentCampaign
+        linkGenerator.channel = currentChannel
+        Log.d(AppsflyerBasicApp.LOG_TAG, "Link params:" + linkGenerator.userParams.toString())
+        val listener: LinkGenerator.ResponseListener = object : LinkGenerator.ResponseListener {
+            override fun onResponse(s: String) {
+                Log.d(AppsflyerBasicApp.LOG_TAG, "Share invite link: $s")
+                //Copy the share invite link to clipboard and indicate it with a toast
+                runOnUiThread {
+                    val clipboard =
+                        getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+                    val clip = ClipData.newPlainText("Share invite link", s)
+                    clipboard.setPrimaryClip(clip)
+                    val toast = Toast.makeText(
+                        applicationContext,
+                        "Link copied to clipboard",
+                        Toast.LENGTH_SHORT
+                    )
+                    toast.setGravity(Gravity.TOP or Gravity.CENTER_HORIZONTAL, 0, 20)
+                    toast.show()
+                }
+                val logInviteMap = HashMap<String, String>()
+                logInviteMap["referrerId"] = currentReferrerId
+                logInviteMap["campaign"] = currentCampaign
+                ShareInviteHelper.logInvite(applicationContext, currentChannel, logInviteMap)
+            }
+
+            override fun onResponseError(s: String) {
+                Log.d(AppsflyerBasicApp.LOG_TAG, "onResponseError called")
+            }
+        }
+        linkGenerator.generateLink(applicationContext, listener)
+    }
+
+
 }
