@@ -51,11 +51,13 @@ abstract class FruitActivity: AppCompatActivity() {
             Intent intent = new Intent(getApplicationContext(), ConversionDataActivity.class);
             startActivity(intent);
         });*/
+
     }
     protected open fun showFruitAmount() {
         val json = Gson()
         val dlObject = json.fromJson<DeepLink>(
             intent.getStringExtra("dl_attrs"),
+            // "dl_attrs" supposed to be AppsflyerBasicApp.DL_ATTRS need change after adding the method
             DeepLink::class.java
         )
         var fruitAmount: String
@@ -77,7 +79,7 @@ abstract class FruitActivity: AppCompatActivity() {
             }
         }
     }
-        fun showDlData() {
+    fun showDlData() {
             val intent = intent
             val json = Gson()
             val dlData = json.fromJson<DeepLink>(
@@ -138,5 +140,6 @@ abstract class FruitActivity: AppCompatActivity() {
         }
         linkGenerator.generateLink(applicationContext, listener)
     }
+
 
 }
