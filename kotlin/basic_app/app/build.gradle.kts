@@ -50,7 +50,7 @@ android {
 
 dependencies {
 
-    implementation ("com.google.code.gson:gson:2.8.5")
+    implementation ("com.google.code.gson:gson:2.10.1")
     implementation ("com.android.installreferrer:installreferrer:2.2")
     implementation ("com.appsflyer:af-android-sdk:6.12.4")
     implementation("androidx.core:core-ktx:1.9.0")
