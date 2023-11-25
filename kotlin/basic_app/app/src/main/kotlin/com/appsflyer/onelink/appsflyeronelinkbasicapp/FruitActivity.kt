@@ -43,7 +43,6 @@ abstract class FruitActivity: AppCompatActivity() {
             this.fruitAmountStr = "000"
             this.fruitAmount = findViewById<TextView>(resources.getIdentifier("fruitAmount", "id", packageName))
 
-
         }catch (e : Exception){
             Log.d("LOG_TAG","Error getting TextViews for " + fruitName + " Activity")
         }
