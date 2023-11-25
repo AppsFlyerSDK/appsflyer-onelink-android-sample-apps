@@ -37,11 +37,11 @@ abstract class FruitActivity: AppCompatActivity() {
             val dlTitleId: String = fruitName + "_deeplinktitle"
             val conversionDataBtnId: String = fruitName + "_getconversiondata"
             val fruitAmount: String = fruitName + "_fruitAmount"
-            this.dlAttrs = findViewById(resources.getIdentifier(dlParamsId, "id", packageName)) as TextView
-            this.dlTitleText = findViewById(resources.getIdentifier(dlTitleId, "id", packageName)) as TextView
+            this.dlAttrs = findViewById<TextView>(resources.getIdentifier(dlParamsId,"id",packageName))
+            this.dlTitleText = findViewById<TextView>(resources.getIdentifier(dlTitleId, "id", packageName))
             this.fruitName = fruitName
             this.fruitAmountStr = "000"
-            this.fruitAmount = findViewById(resources.getIdentifier("fruitAmount", "id", packageName)) as TextView
+            this.fruitAmount = findViewById<TextView>(resources.getIdentifier("fruitAmount", "id", packageName))
 
 
         }catch (e : Exception){
@@ -49,6 +49,7 @@ abstract class FruitActivity: AppCompatActivity() {
         }
     }
     protected open fun showFruitAmount() {
+      //  Log.d("good","good")
         val json = Gson()
         val dlObject = json.fromJson<DeepLink>(
             intent.getStringExtra("dl_attrs"),
@@ -69,6 +70,7 @@ abstract class FruitActivity: AppCompatActivity() {
             if (TextUtils.isDigitsOnly(fruitAmount)) {
                 fruitAmountStr = fruitAmount
                 this.fruitAmount!!.text = fruitAmount
+                Log.d("good","it's work")
             } else {
                 Log.d(AppsflyerBasicApp.LOG_TAG, "Fruit amount is not a valid number")
             }
