@@ -34,15 +34,15 @@ abstract class FruitActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(getLayoutResourceId())
         val copyShareLinkBtn: Button = findViewById(R.id.shareinvitesbtn) as Button
-        copyShareLinkBtn.setOnClickListener({
+        copyShareLinkBtn.setOnClickListener {
             copyShareInviteLink()
-        })
+        }
 
         setStaticAttributes()
         showFruitAmount()
         showDlData()
     }
-    protected open fun setStaticAttributes(fruitName: String?){
+    protected open fun setStaticAttributes(){
         try {
             val dlParamsId: String = fruitName + "_deeplinkparams"
             val dlTitleId: String = fruitName + "_deeplinktitle"
