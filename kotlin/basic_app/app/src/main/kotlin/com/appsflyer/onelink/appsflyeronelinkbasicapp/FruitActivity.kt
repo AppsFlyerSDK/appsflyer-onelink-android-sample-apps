@@ -34,10 +34,10 @@ abstract class FruitActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(getLayoutResourceId())
-        val copyShareLinkBtn: Button = findViewById<Button>(R.id.shareinvitesbtn)
-        copyShareLinkBtn.setOnClickListener({
+        val copyShareLinkBtn: Button = findViewById(R.id.shareinvitesbtn) as Button
+        copyShareLinkBtn.setOnClickListener {
             copyShareInviteLink()
-        })
+        }
 
         setStaticAttributes()
         showFruitAmount()
@@ -52,7 +52,7 @@ abstract class FruitActivity: AppCompatActivity() {
             this.dlAttrs = findViewById(resources.getIdentifier(dlParamsId,"id",packageName))
             this.dlTitleText = findViewById(resources.getIdentifier(dlTitleId, "id", packageName))
             this.fruitAmountStr = "000"
-            this.fruitAmount = findViewById(resources.getIdentifier("fruitAmount", "id", packageName))
+            this.fruitAmount = findViewById(resources.getIdentifier(fruitAmount, "id", packageName))
 
         }catch (e : Exception){
             Log.d(LOG_TAG,"Error getting TextViews for " + fruitName + " Activity")
@@ -66,7 +66,7 @@ abstract class FruitActivity: AppCompatActivity() {
     }
     protected open fun showFruitAmount() {
         val json = Gson()
-        val dlObject = json.fromJson<DeepLink>(
+        val dlObject = json.fromJson(
             intent.getStringExtra(DL_ATTRS),
             DeepLink::class.java
         )
