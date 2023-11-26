@@ -84,7 +84,7 @@ abstract class FruitActivity: AppCompatActivity() {
             }
             if (TextUtils.isDigitsOnly(fruitAmount)) {
                 fruitAmountStr = fruitAmount
-                this.fruitAmount!!.text = fruitAmount
+                this.fruitAmount?.text = fruitAmount
             } else {
                 Log.d(AppsflyerBasicApp.LOG_TAG, "Fruit amount is not a valid number")
             }
