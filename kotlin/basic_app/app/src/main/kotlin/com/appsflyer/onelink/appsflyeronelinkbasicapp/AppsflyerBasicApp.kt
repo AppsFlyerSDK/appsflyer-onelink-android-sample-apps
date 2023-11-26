@@ -27,7 +27,44 @@ class AppsflyerBasicApp: Application() {
         val appsFlyer: AppsFlyerLib = AppsFlyerLib.getInstance()
 
         //Initializing AppsFlyer SDK
-        appsFlyer.init(AppsFlyerConstants.afDevKey,null,this)
+        val conversionListener:AppsFlyerConversionListener=object : AppsFlyerConversionListener{
+            override fun onConversionDataSuccess(data: MutableMap<String, Any>?) {
+                if (data != null) {
+
+                    val status: Any? =data.get("af_status")
+                    Log.d(LOG_TAG,"::"+status);
+                    if(status.toString().equals("Non-organic")){
+                        if(data.get("is_first_launch")==true){
+                            Log.d(LOG_TAG,"First time launching")
+                        }
+
+                    }
+                }
+                else{
+                    Log.d(LOG_TAG, "Conversion Failed: " );
+
+                }
+            }
+
+            override fun onConversionDataFail(errorMessage: String?) {
+                // Your implementation for onConversionDataFail
+                if (errorMessage != null) {
+                    Log.d(LOG_TAG,errorMessage)
+                };
+
+            }
+
+            override fun onAppOpenAttribution(p0: MutableMap<String, String>?) {
+                Log.d(LOG_TAG, "onAppOpenAttribution: This is fake call.");
+            }
+
+            override fun onAttributionFailure(errorMessage: String?) {
+                Log.d(LOG_TAG, "error onAttributionFailure : " + errorMessage);
+            }
+
+        }
+        appsFlyer.init(AppsFlyerConstants.afDevKey,conversionListener,this)
+
 
         //Starts the SDK and logs a message if the SDK started or not
         appsFlyer.start(this, AppsFlyerConstants.afDevKey, object :
@@ -98,33 +135,6 @@ class AppsflyerBasicApp: Application() {
                 }
             }
         })
-        val conversionListener:AppsFlyerConversionListener= object :AppsFlyerConversionListener{
-            override fun onConversionDataSuccess(data: MutableMap<String, Any>?) {
-                if (data != null) {
-                    for(attrName:String in data.keys){
-                        Log.d(LOG_TAG, "Conversion attribute: " + attrName + " = " + data.get(attrName));
-                    }
-                }
-            }
-
-            override fun onConversionDataFail(errorMessage: String?) {
-                // Your implementation for onConversionDataFail
-                if (errorMessage != null) {
-                    Log.d(LOG_TAG,errorMessage)
-                };
-
-            }
-
-            override fun onAppOpenAttribution(p0: MutableMap<String, String>?) {
-                TODO("Not yet implemented")
-            }
-
-            override fun onAttributionFailure(errorMessage: String?) {
-                TODO("Not yet implemented")
-                Log.d(LOG_TAG, "error onAttributionFailure : " + errorMessage);
-            }
-
-        }
 
 
 

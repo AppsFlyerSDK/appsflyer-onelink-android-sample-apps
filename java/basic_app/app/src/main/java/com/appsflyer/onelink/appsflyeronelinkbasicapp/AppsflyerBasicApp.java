@@ -112,6 +112,7 @@ public class AppsflyerBasicApp extends Application {
         AppsFlyerConversionListener conversionListener =  new AppsFlyerConversionListener() {
             @Override
             public void onConversionDataSuccess(Map<String, Object> conversionDataMap) {
+                Log.d(LOG_TAG,"ConversioN IS SHIT");
                 for (String attrName : conversionDataMap.keySet())
                     Log.d(LOG_TAG, "Conversion attribute: " + attrName + " = " + conversionDataMap.get(attrName));
                 String status = Objects.requireNonNull(conversionDataMap.get("af_status")).toString();
