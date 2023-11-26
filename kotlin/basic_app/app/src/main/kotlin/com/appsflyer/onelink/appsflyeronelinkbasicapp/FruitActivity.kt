@@ -32,7 +32,15 @@ abstract class FruitActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(getLayoutResourceId());
+        setContentView(getLayoutResourceId())
+        val copyShareLinkBtn: Button = findViewById(R.id.shareinvitesbtn) as Button
+        copyShareLinkBtn.setOnClickListener({
+            copyShareInviteLink()
+        })
+
+        setStaticAttributes()
+        showFruitAmount()
+        showDlData()
     }
     protected open fun setStaticAttributes(fruitName: String?){
         try {
