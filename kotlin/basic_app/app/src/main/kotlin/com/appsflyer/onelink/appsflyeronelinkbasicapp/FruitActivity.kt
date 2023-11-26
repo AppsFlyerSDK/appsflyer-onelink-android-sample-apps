@@ -117,7 +117,7 @@ abstract class FruitActivity: AppCompatActivity() {
     protected open fun copyShareInviteLink() {
         val currentCampaign = "user_invite"
         val currentChannel = "mobile_share"
-        val currentReferrerId = "THIS_USER_ID"
+        val currentReferrerId = "This+is+a+shares+link+from+%27"+this.fruitName+"%27+activity"
         val linkGenerator = ShareInviteHelper.generateInviteUrl(applicationContext)
         linkGenerator.addParameter("deep_link_value", fruitName)
         linkGenerator.addParameter("deep_link_sub1", fruitAmountStr)

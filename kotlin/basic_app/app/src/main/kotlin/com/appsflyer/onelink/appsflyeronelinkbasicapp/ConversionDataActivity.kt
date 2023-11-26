@@ -5,9 +5,10 @@ import android.text.method.ScrollingMovementMethod
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
-class ConversionDataActivity : AppCompatActivity(R.layout.activity_conversion_data) {
+class ConversionDataActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_conversion_data)
         val conversionData = (application as AppsflyerBasicApp).conversionData
         displayConversionData(conversionData)
     }
