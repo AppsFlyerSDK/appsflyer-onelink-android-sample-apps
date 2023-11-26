@@ -2,6 +2,7 @@ package com.appsflyer.onelink.appsflyeronelinkbasicapp
 
 import android.content.ClipData
 import android.content.ClipboardManager
+import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.text.method.ScrollingMovementMethod
@@ -33,7 +34,7 @@ abstract class FruitActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(getLayoutResourceId())
-        val copyShareLinkBtn: Button = findViewById(R.id.shareinvitesbtn) as Button
+        val copyShareLinkBtn: Button = findViewById<Button>(R.id.shareinvitesbtn)
         copyShareLinkBtn.setOnClickListener({
             copyShareInviteLink()
         })
@@ -57,10 +58,10 @@ abstract class FruitActivity: AppCompatActivity() {
             Log.d(LOG_TAG,"Error getting TextViews for " + fruitName + " Activity")
         }
 //        //Go To Conversion Data button on click listener
-//        /* goToConversionDataText.setOnClickListener(v -> {
-//            Intent intent = new Intent(getApplicationContext(), ConversionDataActivity.class);
-//            startActivity(intent);
-//        });*/
+        goToConversionDataText?.setOnClickListener {
+            val intent =  Intent(applicationContext, ConversionDataActivity::class.java)
+            startActivity(intent)
+        }
 
     }
     protected open fun showFruitAmount() {
