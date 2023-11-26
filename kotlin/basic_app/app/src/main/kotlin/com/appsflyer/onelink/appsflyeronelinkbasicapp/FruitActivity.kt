@@ -51,7 +51,7 @@ abstract class FruitActivity: AppCompatActivity() {
             this.dlAttrs = findViewById(resources.getIdentifier(dlParamsId,"id",packageName))
             this.dlTitleText = findViewById(resources.getIdentifier(dlTitleId, "id", packageName))
             this.fruitAmountStr = "000"
-            this.fruitAmount = findViewById(resources.getIdentifier("fruitAmount", "id", packageName))
+            this.fruitAmount = findViewById(resources.getIdentifier(fruitAmount, "id", packageName))
 
         }catch (e : Exception){
             Log.d(LOG_TAG,"Error getting TextViews for " + fruitName + " Activity")
@@ -65,7 +65,7 @@ abstract class FruitActivity: AppCompatActivity() {
     }
     protected open fun showFruitAmount() {
         val json = Gson()
-        val dlObject = json.fromJson<DeepLink>(
+        val dlObject = json.fromJson(
             intent.getStringExtra(DL_ATTRS),
             DeepLink::class.java
         )
