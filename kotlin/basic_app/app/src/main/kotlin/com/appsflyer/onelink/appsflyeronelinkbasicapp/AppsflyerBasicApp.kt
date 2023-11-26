@@ -3,7 +3,6 @@ package com.appsflyer.onelink.appsflyeronelinkbasicapp
 import android.app.Application
 import android.content.Intent
 import android.util.Log
-import androidx.compose.ui.text.toUpperCase
 import com.appsflyer.AppsFlyerLib
 import com.appsflyer.attribution.AppsFlyerRequestListener
 import com.appsflyer.deeplink.DeepLink
@@ -21,12 +20,12 @@ class AppsflyerBasicApp: Application() {
     }
 
     override fun onCreate(){
-        super.onCreate();
-        //Getting the SDK instance, through which you can access the methods in the af library.
-        val appsFlyer: AppsFlyerLib = AppsFlyerLib.getInstance();
+        super.onCreate()
+        //Getting the SDK instance, which helps you access the methods in the af library.
+        val appsFlyer: AppsFlyerLib = AppsFlyerLib.getInstance()
 
         //Initializing AppsFlyer SDK
-        appsFlyer.init(AppsFlyerConstants.afDevKey,null,this);
+        appsFlyer.init(AppsFlyerConstants.afDevKey,null,this)
 
         //Starts the SDK and logs a message if the SDK started or not
         appsFlyer.start(this, AppsFlyerConstants.afDevKey, object :
@@ -45,7 +44,7 @@ class AppsflyerBasicApp: Application() {
             }
         })
 
-        AppsFlyerLib.getInstance().subscribeForDeepLink(object : DeepLinkListener {
+        appsFlyer.subscribeForDeepLink(object : DeepLinkListener {
             override fun onDeepLinking(deepLinkResult: DeepLinkResult) {
                 when (deepLinkResult.status) {
                     DeepLinkResult.Status.FOUND -> {
@@ -68,7 +67,7 @@ class AppsflyerBasicApp: Application() {
                         return
                     }
                 }
-                var deepLinkObj: DeepLink = deepLinkResult.deepLink
+                val deepLinkObj: DeepLink = deepLinkResult.deepLink
                 try {
                     Log.d(
                         LOG_TAG,"The DeepLink data is: $deepLinkObj"
@@ -82,9 +81,9 @@ class AppsflyerBasicApp: Application() {
 
                 // An example for using is_deferred
                 if (deepLinkObj.isDeferred == true) {
-                    Log.d(LOG_TAG, "This is a deferred deep link");
+                    Log.d(LOG_TAG, "This is a deferred deep link")
                 } else {
-                    Log.d(LOG_TAG, "This is a direct deep link");
+                    Log.d(LOG_TAG, "This is a direct deep link")
                 }
 
                 try {
@@ -92,15 +91,11 @@ class AppsflyerBasicApp: Application() {
                     Log.d(LOG_TAG, "The DeepLink will route to: $fruitName")
                     goToFruit(fruitName, deepLinkObj)
                 } catch (e:Exception) {
-                    Log.d(LOG_TAG, "There's been an error: $e");
-                    return;
+                    Log.d(LOG_TAG, "There's been an error: $e")
+                    return
                 }
             }
         })
-
-
-
-
 
     }
 
@@ -108,32 +103,32 @@ class AppsflyerBasicApp: Application() {
     private fun goToFruit(fruitName: String?, dlData: DeepLink?){
         //Checking if the fruit name is not null
         if(fruitName == null){
-            Log.d(AppsflyerBasicApp.LOG_TAG,"Fruit name is null!");
-            return;
+            Log.d(LOG_TAG,"Fruit name is null!")
+            return
         }
 
         //Creating a string that represents the desired activity class name
-        val fruitClassName = fruitName.substring(0,1).toUpperCase().plus(fruitName.substring(1)).plus("Activity");
+        val fruitClassName = fruitName.substring(0,1).uppercase().plus(fruitName.substring(1)).plus("Activity")
 
         try {
             //Creating an object that represents the class we want to switch to
-            val fruitClass:Class<*> = Class.forName(packageName.plus(".").plus(fruitClassName));
+            val fruitClass:Class<*> = Class.forName(packageName.plus(".").plus(fruitClassName))
 
             //Creating an intent from the current activity to the desired one
-            val intent: Intent = Intent(applicationContext, fruitClass);
+            val intent = Intent(applicationContext, fruitClass)
 
             if(dlData != null){
                 //Converting the deep link data from object to string using json
-                val objToStr: String = Gson().toJson(dlData);
+                val objToStr: String = Gson().toJson(dlData)
                 //Putting the json string inside the intent in order to pass it
-                intent.putExtra(DL_ATTRS, objToStr);
+                intent.putExtra(DL_ATTRS, objToStr)
             }
             //Adding a flag that allows us to open an activity from a class that is not an activity
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
             startActivity(intent)
         }catch (e: Exception){
-            Log.d(AppsflyerBasicApp.LOG_TAG, "There's been an error: $e");
+            Log.d(LOG_TAG, "There's been an error: $e")
 
         }
 
