@@ -19,6 +19,8 @@ class AppsflyerBasicApp: Application() {
 
     }
 
+    var conversionData: Map<String, Any>? = null
+
     override fun onCreate(){
         super.onCreate()
         //Getting the SDK instance, which helps you access the methods in the af library.
