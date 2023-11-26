@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Intent
 import android.util.Log
 import androidx.compose.ui.text.toUpperCase
+import com.appsflyer.AppsFlyerConversionListener
 import com.appsflyer.AppsFlyerLib
 import com.appsflyer.attribution.AppsFlyerRequestListener
 import com.appsflyer.deeplink.DeepLink
@@ -13,7 +14,10 @@ import com.google.gson.Gson
 
 class AppsflyerBasicApp: Application() {
 
+
+
     //Global Values
+    val conversionData: Map<String, Any>? = null
     companion object {
         const val LOG_TAG: String = "Team3 Log Tag"
         const val DL_ATTRS: String = "dl_attrs"
@@ -97,6 +101,33 @@ class AppsflyerBasicApp: Application() {
                 }
             }
         })
+        val conversionListener:AppsFlyerConversionListener= object :AppsFlyerConversionListener{
+            override fun onConversionDataSuccess(data: MutableMap<String, Any>?) {
+                if (data != null) {
+                    for(attrName:String in data.keys){
+                        Log.d(LOG_TAG, "Conversion attribute: " + attrName + " = " + data.get(attrName));
+                    }
+                }
+            }
+
+            override fun onConversionDataFail(errorMessage: String?) {
+                // Your implementation for onConversionDataFail
+                if (errorMessage != null) {
+                    Log.d(LOG_TAG,errorMessage)
+                };
+
+            }
+
+            override fun onAppOpenAttribution(p0: MutableMap<String, String>?) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onAttributionFailure(errorMessage: String?) {
+                TODO("Not yet implemented")
+                Log.d(LOG_TAG, "error onAttributionFailure : " + errorMessage);
+            }
+
+        }
 
 
 
