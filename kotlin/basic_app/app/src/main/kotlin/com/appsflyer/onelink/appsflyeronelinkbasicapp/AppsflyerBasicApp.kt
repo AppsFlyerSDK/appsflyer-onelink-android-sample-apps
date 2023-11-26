@@ -10,6 +10,7 @@ import com.appsflyer.deeplink.DeepLink
 import com.appsflyer.deeplink.DeepLinkListener
 import com.appsflyer.deeplink.DeepLinkResult
 import com.google.gson.Gson
+import org.json.JSONObject
 
 class AppsflyerBasicApp: Application() {
 
@@ -138,4 +139,24 @@ class AppsflyerBasicApp: Application() {
         }
 
     }
+
+    fun mapToDeepLinkObject(conversionDataMap: Map<String, Any>?): DeepLink? {
+        try {
+            // Convert the map to a JSON string using Gson library
+            val objToStr = Gson().toJson(conversionDataMap)
+
+            // Create a DeepLink object by wrapping the JSON string in an AFKeystoreWrapper
+            val deepLink = DeepLink.AFKeystoreWrapper(JSONObject(objToStr))
+
+            // Return the created DeepLink object
+            return deepLink
+        } catch (e: org.json.JSONException) {
+            // Handle JSONException if it occurs, and log an error message
+            Log.d(LOG_TAG, "Error when converting map to DeepLink object: ${e.toString()}")
+        }
+
+        // Return null if there was an error or if the conversionDataMap is null
+        return null
+    }
+
 }
