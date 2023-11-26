@@ -37,11 +37,11 @@ abstract class FruitActivity: AppCompatActivity() {
             val dlTitleId: String = fruitName + "_deeplinktitle"
             val conversionDataBtnId: String = fruitName + "_getconversiondata"
             val fruitAmount: String = fruitName + "_fruitAmount"
-            this.dlAttrs = findViewById<TextView>(resources.getIdentifier(dlParamsId,"id",packageName))
-            this.dlTitleText = findViewById<TextView>(resources.getIdentifier(dlTitleId, "id", packageName))
+            this.dlAttrs = findViewById(resources.getIdentifier(dlParamsId,"id",packageName))
+            this.dlTitleText = findViewById(resources.getIdentifier(dlTitleId, "id", packageName))
             this.fruitName = fruitName
             this.fruitAmountStr = "000"
-            this.fruitAmount = findViewById<TextView>(resources.getIdentifier("fruitAmount", "id", packageName))
+            this.fruitAmount = findViewById(resources.getIdentifier("fruitAmount", "id", packageName))
 
         }catch (e : Exception){
             Log.d("LOG_TAG","Error getting TextViews for " + fruitName + " Activity")
@@ -56,25 +56,26 @@ abstract class FruitActivity: AppCompatActivity() {
       //  Log.d("good","good")
         val json = Gson()
         val dlObject = json.fromJson<DeepLink>(
-            intent.getStringExtra("dl_attrs"),
+            intent.getStringExtra(AppsflyerBasicApp.DL_ATTRS),
             // "dl_attrs" supposed to be AppsflyerBasicApp.DL_ATTRS need change after adding the method
             DeepLink::class.java
         )
         var fruitAmount: String
         if (dlObject != null) {
             val dlData = dlObject.clickEvent
-            fruitAmount = if (dlData.has("deep_link_value") && dlData.has("deep_link_sub1")) {
-                dlObject.getStringValue("deep_link_sub1")!!
-            } else if (dlData.has("fruit_name") && dlData.has("fruit_amount")) {
-                dlObject.getStringValue("fruit_amount")!!
-            } else {
-                Log.d(AppsflyerBasicApp.LOG_TAG, "deep_link_sub1/fruit amount not found")
-                return
+            fruitAmount = when {
+                dlData.has("deep_link_value") && dlData.has("deep_link_sub1") ->
+                    dlObject.getStringValue("deep_link_sub1")?:""
+                dlData.has("fruit_name") && dlData.has("fruit_amount") ->
+                    dlObject.getStringValue("fruit_amount")?:""
+                else -> {
+                    Log.d(AppsflyerBasicApp.LOG_TAG, "deep_link_sub1/fruit amount not found")
+                    return
+                }
             }
             if (TextUtils.isDigitsOnly(fruitAmount)) {
                 fruitAmountStr = fruitAmount
                 this.fruitAmount!!.text = fruitAmount
-                Log.d("good","it's work")
             } else {
                 Log.d(AppsflyerBasicApp.LOG_TAG, "Fruit amount is not a valid number")
             }
@@ -83,22 +84,22 @@ abstract class FruitActivity: AppCompatActivity() {
     fun showDlData() {
             val intent = intent
             val json = Gson()
-            val dlData = json.fromJson<DeepLink>(
-                intent.getStringExtra("dl_attrs"),
+            val dlData = json.fromJson(
+                intent.getStringExtra(AppsflyerBasicApp.DL_ATTRS),
                 DeepLink::class.java
             )
             if (dlData != null) {
                 val jsonObject: JSONObject
                 try {
                     jsonObject = JSONObject(dlData.toString())
-                    dlAttrs!!.movementMethod = ScrollingMovementMethod()
-                    dlAttrs!!.text = jsonObject.toString(4)
+                    dlAttrs?.movementMethod = ScrollingMovementMethod()
+                    dlAttrs?.text = jsonObject.toString(4)
                         .replace("\\\\".toRegex(), "") // 4 is num of spaces for indent
                 } catch (e: JSONException) {
                     e.printStackTrace()
                 }
             } else {
-                dlTitleText!!.text = "No Deep Linking Happened"
+                dlTitleText?.text = "No Deep Linking Happened"
             }
         }
     protected open fun copyShareInviteLink() {
