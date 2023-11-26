@@ -7,10 +7,13 @@ import android.text.TextUtils
 import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import android.view.Gravity
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.appsflyer.deeplink.DeepLink
+import com.appsflyer.onelink.appsflyeronelinkbasicapp.AppsflyerBasicApp.Companion.DL_ATTRS
+import com.appsflyer.onelink.appsflyeronelinkbasicapp.AppsflyerBasicApp.Companion.LOG_TAG
 import com.appsflyer.share.LinkGenerator
 import com.appsflyer.share.ShareInviteHelper
 import com.google.gson.Gson
@@ -22,14 +25,21 @@ abstract class FruitActivity: AppCompatActivity() {
     var dlAttrs: TextView? = null
     var dlTitleText: TextView? = null
     var goToConversionDataText: TextView? = null
-    var fruitName: String? = null
     var fruitAmountStr: String? = null
     var fruitAmount: TextView? = null
     protected abstract fun getLayoutResourceId(): Int
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(getLayoutResourceId());
+        setContentView(getLayoutResourceId())
+        val copyShareLinkBtn: Button = findViewById(R.id.shareinvitesbtn) as Button
+        copyShareLinkBtn.setOnClickListener({
+            copyShareInviteLink()
+        })
+
+        setStaticAttributes()
+        showFruitAmount()
+        showDlData()
     }
     protected open fun setStaticAttributes(fruitName: String?){
         try {
@@ -37,52 +47,56 @@ abstract class FruitActivity: AppCompatActivity() {
             val dlTitleId: String = fruitName + "_deeplinktitle"
             val conversionDataBtnId: String = fruitName + "_getconversiondata"
             val fruitAmount: String = fruitName + "_fruitAmount"
-            this.dlAttrs = findViewById(resources.getIdentifier(dlParamsId, "id", packageName)) as TextView
-            this.dlTitleText = findViewById(resources.getIdentifier(dlTitleId, "id", packageName)) as TextView
-            this.fruitName = fruitName
+            this.dlAttrs = findViewById(resources.getIdentifier(dlParamsId, "id", packageName))
+            this.dlTitleText = findViewById(resources.getIdentifier(dlTitleId, "id", packageName))
             this.fruitAmountStr = "000"
-            this.fruitAmount = findViewById(resources.getIdentifier("fruitAmount", "id", packageName)) as TextView
+            this.fruitAmount = findViewById(resources.getIdentifier(fruitAmount, "id", packageName))
 
 
         }catch (e : Exception){
-            Log.d("LOG_TAG","Error getting TextViews for " + fruitName + " Activity")
+            Log.d(LOG_TAG,"Error getting TextViews for " + fruitName + " Activity")
         }
-        /* goToConversionDataText.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), ConversionDataActivity.class);
-            startActivity(intent);
-        });*/
+//        //Go To Conversion Data button on click listener
+//        /* goToConversionDataText.setOnClickListener(v -> {
+//            Intent intent = new Intent(getApplicationContext(), ConversionDataActivity.class);
+//            startActivity(intent);
+//        });*/
 
     }
     protected open fun showFruitAmount() {
-        val json = Gson()
-        val dlObject = json.fromJson<DeepLink>(
-            intent.getStringExtra("dl_attrs"),
-            // "dl_attrs" supposed to be AppsflyerBasicApp.DL_ATTRS need change after adding the method
-            DeepLink::class.java
-        )
-        var fruitAmount: String
-        if (dlObject != null) {
-            val dlData = dlObject.clickEvent
-            fruitAmount = if (dlData.has("deep_link_value") && dlData.has("deep_link_sub1")) {
-                dlObject.getStringValue("deep_link_sub1")!!
-            } else if (dlData.has("fruit_name") && dlData.has("fruit_amount")) {
-                dlObject.getStringValue("fruit_amount")!!
-            } else {
-                Log.d(AppsflyerBasicApp.LOG_TAG, "deep_link_sub1/fruit amount not found")
-                return
+            val json = Gson()
+            val dlObject = json.fromJson<DeepLink>(
+                intent.getStringExtra(DL_ATTRS),
+                DeepLink::class.java
+            )
+            var fruitAmount: String
+            if (dlObject != null) {
+                val dlData = dlObject.clickEvent
+
+                fruitAmount = if (dlData.has("deep_link_value") && dlData.has("deep_link_sub1")) {
+                    dlObject?.getStringValue("deep_link_sub1")?:""
+                } else if (dlData.has("fruit_name") && dlData.has("fruit_amount")) {
+                    dlObject?.getStringValue("fruit_amount")?:""
+                } else {
+                    Log.d(LOG_TAG, "deep_link_sub1/fruit amount not found")
+                    return
+                }
+
+                if (TextUtils.isDigitsOnly(fruitAmount)) {
+                    fruitAmountStr = fruitAmount
+                    this.fruitAmount?.text = fruitAmount
+
+                } else {
+                    Log.d(LOG_TAG, "Fruit amount is not a valid number")
+                }
             }
-            if (TextUtils.isDigitsOnly(fruitAmount)) {
-                fruitAmountStr = fruitAmount
-                this.fruitAmount!!.text = fruitAmount
-            } else {
-                Log.d(AppsflyerBasicApp.LOG_TAG, "Fruit amount is not a valid number")
-            }
-        }
+
+
     }
     fun showDlData() {
             val intent = intent
             val json = Gson()
-            val dlData = json.fromJson<DeepLink>(
+            val dlData = json.fromJson(
                 intent.getStringExtra("dl_attrs"),
                 DeepLink::class.java
             )
@@ -90,14 +104,16 @@ abstract class FruitActivity: AppCompatActivity() {
                 val jsonObject: JSONObject
                 try {
                     jsonObject = JSONObject(dlData.toString())
-                    dlAttrs!!.movementMethod = ScrollingMovementMethod()
-                    dlAttrs!!.text = jsonObject.toString(4)
+                    dlAttrs?.movementMethod = ScrollingMovementMethod()
+                    dlAttrs?.text = jsonObject.toString(4)
                         .replace("\\\\".toRegex(), "") // 4 is num of spaces for indent
+                    dlTitleText?.text = "Deep Link happened. Parameters:"
+
                 } catch (e: JSONException) {
                     e.printStackTrace()
                 }
             } else {
-                dlTitleText!!.text = "No Deep Linking Happened"
+                dlTitleText?.text = "No Deep Linking Happened"
             }
         }
     protected open fun copyShareInviteLink() {
@@ -110,10 +126,10 @@ abstract class FruitActivity: AppCompatActivity() {
         linkGenerator.addParameter("deep_link_sub2", currentReferrerId)
         linkGenerator.campaign = currentCampaign
         linkGenerator.channel = currentChannel
-        Log.d(AppsflyerBasicApp.LOG_TAG, "Link params:" + linkGenerator.userParams.toString())
+        Log.d(LOG_TAG, "Link params:" + linkGenerator.userParams.toString())
         val listener: LinkGenerator.ResponseListener = object : LinkGenerator.ResponseListener {
             override fun onResponse(s: String) {
-                Log.d(AppsflyerBasicApp.LOG_TAG, "Share invite link: $s")
+                Log.d(LOG_TAG, "Share invite link: $s")
                 //Copy the share invite link to clipboard and indicate it with a toast
                 runOnUiThread {
                     val clipboard =
@@ -135,7 +151,7 @@ abstract class FruitActivity: AppCompatActivity() {
             }
 
             override fun onResponseError(s: String) {
-                Log.d(AppsflyerBasicApp.LOG_TAG, "onResponseError called")
+                Log.d(LOG_TAG, "onResponseError called")
             }
         }
         linkGenerator.generateLink(applicationContext, listener)
