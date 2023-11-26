@@ -57,10 +57,11 @@ abstract class FruitActivity: AppCompatActivity() {
         }catch (e : Exception){
             Log.d(LOG_TAG,"Error getting TextViews for " + fruitName + " Activity")
         }
-        /* goToConversionDataText.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), ConversionDataActivity.class);
-            startActivity(intent);
-        });*/
+//        //Go To Conversion Data button on click listener
+//        /* goToConversionDataText.setOnClickListener(v -> {
+//            Intent intent = new Intent(getApplicationContext(), ConversionDataActivity.class);
+//            startActivity(intent);
+//        });*/
 
     }
     protected open fun showFruitAmount() {
