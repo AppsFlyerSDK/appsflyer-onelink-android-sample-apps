@@ -26,6 +26,7 @@ abstract class FruitActivity: AppCompatActivity() {
     var fruitAmountStr: String? = null
     var fruitAmount: TextView? = null
     protected abstract fun getLayoutResourceId(): Int
+    protected abstract val fruitName: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
