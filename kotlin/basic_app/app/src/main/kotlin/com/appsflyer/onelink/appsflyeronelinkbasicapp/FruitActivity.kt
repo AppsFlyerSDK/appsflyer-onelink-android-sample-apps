@@ -64,7 +64,6 @@ abstract class FruitActivity: AppCompatActivity() {
 
     }
     protected open fun showFruitAmount() {
-      //  Log.d("good","good")
         val json = Gson()
         val dlObject = json.fromJson<DeepLink>(
             intent.getStringExtra(AppsflyerBasicApp.DL_ATTRS),
