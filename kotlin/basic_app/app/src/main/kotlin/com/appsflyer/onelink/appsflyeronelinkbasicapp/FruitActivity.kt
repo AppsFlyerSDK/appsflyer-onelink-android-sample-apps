@@ -7,10 +7,13 @@ import android.text.TextUtils
 import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import android.view.Gravity
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.appsflyer.deeplink.DeepLink
+import com.appsflyer.onelink.appsflyeronelinkbasicapp.AppsflyerBasicApp.Companion.DL_ATTRS
+import com.appsflyer.onelink.appsflyeronelinkbasicapp.AppsflyerBasicApp.Companion.LOG_TAG
 import com.appsflyer.share.LinkGenerator
 import com.appsflyer.share.ShareInviteHelper
 import com.google.gson.Gson
