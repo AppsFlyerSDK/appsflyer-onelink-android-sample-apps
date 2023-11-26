@@ -2,6 +2,7 @@ package com.appsflyer.onelink.appsflyeronelinkbasicapp
 
 import android.content.ClipData
 import android.content.ClipboardManager
+import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.text.method.ScrollingMovementMethod
@@ -57,10 +58,10 @@ abstract class FruitActivity: AppCompatActivity() {
             Log.d(LOG_TAG,"Error getting TextViews for " + fruitName + " Activity")
         }
 //        //Go To Conversion Data button on click listener
-//        /* goToConversionDataText.setOnClickListener(v -> {
-//            Intent intent = new Intent(getApplicationContext(), ConversionDataActivity.class);
-//            startActivity(intent);
-//        });*/
+        goToConversionDataText?.setOnClickListener {
+            val intent =  Intent(applicationContext, ConversionDataActivity::class.java)
+            startActivity(intent)
+        }
 
     }
     protected open fun showFruitAmount() {
@@ -116,7 +117,7 @@ abstract class FruitActivity: AppCompatActivity() {
     protected open fun copyShareInviteLink() {
         val currentCampaign = "user_invite"
         val currentChannel = "mobile_share"
-        val currentReferrerId = "THIS_USER_ID"
+        val currentReferrerId = "This+is+a+shares+link+from+%27"+this.fruitName+"%27+activity"
         val linkGenerator = ShareInviteHelper.generateInviteUrl(applicationContext)
         linkGenerator.addParameter("deep_link_value", fruitName)
         linkGenerator.addParameter("deep_link_sub1", fruitAmountStr)
