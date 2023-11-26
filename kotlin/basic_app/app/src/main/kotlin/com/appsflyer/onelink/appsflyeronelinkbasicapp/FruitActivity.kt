@@ -66,7 +66,7 @@ abstract class FruitActivity: AppCompatActivity() {
     protected open fun showFruitAmount() {
         val json = Gson()
         val dlObject = json.fromJson<DeepLink>(
-            intent.getStringExtra(AppsflyerBasicApp.DL_ATTRS),
+            intent.getStringExtra(DL_ATTRS),
             DeepLink::class.java
         )
         var fruitAmount: String
@@ -78,7 +78,7 @@ abstract class FruitActivity: AppCompatActivity() {
                 dlData.has("fruit_name") && dlData.has("fruit_amount") ->
                     dlObject.getStringValue("fruit_amount")?:""
                 else -> {
-                    Log.d(AppsflyerBasicApp.LOG_TAG, "deep_link_sub1/fruit amount not found")
+                    Log.d(LOG_TAG, "deep_link_sub1/fruit amount not found")
                     return
                 }
             }
@@ -86,7 +86,7 @@ abstract class FruitActivity: AppCompatActivity() {
                 fruitAmountStr = fruitAmount
                 this.fruitAmount?.text = fruitAmount
             } else {
-                Log.d(AppsflyerBasicApp.LOG_TAG, "Fruit amount is not a valid number")
+                Log.d(LOG_TAG, "Fruit amount is not a valid number")
             }
         }
     }
@@ -94,7 +94,7 @@ abstract class FruitActivity: AppCompatActivity() {
             val intent = intent
             val json = Gson()
             val dlData = json.fromJson(
-                intent.getStringExtra("dl_attrs"),
+                intent.getStringExtra(DL_ATTRS),
                 DeepLink::class.java
             )
             if (dlData != null) {
