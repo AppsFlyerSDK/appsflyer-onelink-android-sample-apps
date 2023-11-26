@@ -3,10 +3,8 @@ package com.appsflyer.onelink.appsflyeronelinkbasicapp
 import android.os.Bundle
 
 class ApplesActivity : FruitActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    override val fruitName: String = "apples"
     override protected fun getLayoutResourceId():Int{
-        return R.layout.activity_apples;
+        return R.layout.activity_apples
     }
 }
