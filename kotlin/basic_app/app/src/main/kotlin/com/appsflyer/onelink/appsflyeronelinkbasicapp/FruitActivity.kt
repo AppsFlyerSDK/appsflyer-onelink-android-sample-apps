@@ -67,7 +67,6 @@ abstract class FruitActivity: AppCompatActivity() {
         val json = Gson()
         val dlObject = json.fromJson<DeepLink>(
             intent.getStringExtra(AppsflyerBasicApp.DL_ATTRS),
-            // "dl_attrs" supposed to be AppsflyerBasicApp.DL_ATTRS need change after adding the method
             DeepLink::class.java
         )
         var fruitAmount: String
