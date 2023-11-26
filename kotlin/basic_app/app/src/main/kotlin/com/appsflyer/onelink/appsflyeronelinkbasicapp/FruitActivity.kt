@@ -42,17 +42,16 @@ abstract class FruitActivity: AppCompatActivity() {
         showFruitAmount()
         showDlData()
     }
-    protected open fun setStaticAttributes(fruitName: String?){
+    protected open fun setStaticAttributes(){
         try {
             val dlParamsId: String = fruitName + "_deeplinkparams"
             val dlTitleId: String = fruitName + "_deeplinktitle"
             val conversionDataBtnId: String = fruitName + "_getconversiondata"
             val fruitAmount: String = fruitName + "_fruitAmount"
-            this.dlAttrs = findViewById(resources.getIdentifier(dlParamsId, "id", packageName))
+            this.dlAttrs = findViewById(resources.getIdentifier(dlParamsId,"id",packageName))
             this.dlTitleText = findViewById(resources.getIdentifier(dlTitleId, "id", packageName))
             this.fruitAmountStr = "000"
-            this.fruitAmount = findViewById(resources.getIdentifier(fruitAmount, "id", packageName))
-
+            this.fruitAmount = findViewById(resources.getIdentifier("fruitAmount", "id", packageName))
 
         }catch (e : Exception){
             Log.d(LOG_TAG,"Error getting TextViews for " + fruitName + " Activity")
@@ -65,40 +64,37 @@ abstract class FruitActivity: AppCompatActivity() {
 
     }
     protected open fun showFruitAmount() {
-            val json = Gson()
-            val dlObject = json.fromJson<DeepLink>(
-                intent.getStringExtra(DL_ATTRS),
-                DeepLink::class.java
-            )
-            var fruitAmount: String
-            if (dlObject != null) {
-                val dlData = dlObject.clickEvent
-
-                fruitAmount = if (dlData.has("deep_link_value") && dlData.has("deep_link_sub1")) {
-                    dlObject?.getStringValue("deep_link_sub1")?:""
-                } else if (dlData.has("fruit_name") && dlData.has("fruit_amount")) {
-                    dlObject?.getStringValue("fruit_amount")?:""
-                } else {
+        val json = Gson()
+        val dlObject = json.fromJson<DeepLink>(
+            intent.getStringExtra(DL_ATTRS),
+            DeepLink::class.java
+        )
+        var fruitAmount: String
+        if (dlObject != null) {
+            val dlData = dlObject.clickEvent
+            fruitAmount = when {
+                dlData.has("deep_link_value") && dlData.has("deep_link_sub1") ->
+                    dlObject.getStringValue("deep_link_sub1")?:""
+                dlData.has("fruit_name") && dlData.has("fruit_amount") ->
+                    dlObject.getStringValue("fruit_amount")?:""
+                else -> {
                     Log.d(LOG_TAG, "deep_link_sub1/fruit amount not found")
                     return
                 }
-
-                if (TextUtils.isDigitsOnly(fruitAmount)) {
-                    fruitAmountStr = fruitAmount
-                    this.fruitAmount?.text = fruitAmount
-
-                } else {
-                    Log.d(LOG_TAG, "Fruit amount is not a valid number")
-                }
             }
-
-
+            if (TextUtils.isDigitsOnly(fruitAmount)) {
+                fruitAmountStr = fruitAmount
+                this.fruitAmount?.text = fruitAmount
+            } else {
+                Log.d(LOG_TAG, "Fruit amount is not a valid number")
+            }
+        }
     }
     fun showDlData() {
             val intent = intent
             val json = Gson()
             val dlData = json.fromJson(
-                intent.getStringExtra("dl_attrs"),
+                intent.getStringExtra(DL_ATTRS),
                 DeepLink::class.java
             )
             if (dlData != null) {
