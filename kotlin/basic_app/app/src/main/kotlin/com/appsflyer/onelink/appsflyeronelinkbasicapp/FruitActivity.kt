@@ -2,6 +2,8 @@ package com.appsflyer.onelink.appsflyeronelinkbasicapp
 
 import android.content.ClipData
 import android.content.ClipboardManager
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.text.method.ScrollingMovementMethod
@@ -19,6 +21,7 @@ import com.appsflyer.share.ShareInviteHelper
 import com.google.gson.Gson
 import org.json.JSONException
 import org.json.JSONObject
+import kotlin.math.log
 
 abstract class FruitActivity: AppCompatActivity() {
 
@@ -34,9 +37,9 @@ abstract class FruitActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(getLayoutResourceId())
         val copyShareLinkBtn: Button = findViewById(R.id.shareinvitesbtn) as Button
-        copyShareLinkBtn.setOnClickListener({
+        copyShareLinkBtn.setOnClickListener {
             copyShareInviteLink()
-        })
+        }
 
         setStaticAttributes()
         showFruitAmount()
@@ -51,21 +54,21 @@ abstract class FruitActivity: AppCompatActivity() {
             this.dlAttrs = findViewById(resources.getIdentifier(dlParamsId,"id",packageName))
             this.dlTitleText = findViewById(resources.getIdentifier(dlTitleId, "id", packageName))
             this.fruitAmountStr = "000"
-            this.fruitAmount = findViewById(resources.getIdentifier("fruitAmount", "id", packageName))
-
+            this.fruitAmount = findViewById(resources.getIdentifier(fruitAmount, "id", packageName))
+            this.goToConversionDataText=findViewById(resources.getIdentifier(conversionDataBtnId,"id",packageName))
         }catch (e : Exception){
             Log.d(LOG_TAG,"Error getting TextViews for " + fruitName + " Activity")
         }
-//        //Go To Conversion Data button on click listener
-//        /* goToConversionDataText.setOnClickListener(v -> {
-//            Intent intent = new Intent(getApplicationContext(), ConversionDataActivity.class);
-//            startActivity(intent);
-//        });*/
+        //Go To Conversion Data button on click listener
+        goToConversionDataText?.setOnClickListener {
+            val intent = Intent(applicationContext, ConversionDataActivity::class.java)
+            startActivity(intent)
+        }
 
     }
     protected open fun showFruitAmount() {
         val json = Gson()
-        val dlObject = json.fromJson<DeepLink>(
+        val dlObject = json.fromJson(
             intent.getStringExtra(DL_ATTRS),
             DeepLink::class.java
         )
@@ -113,10 +116,11 @@ abstract class FruitActivity: AppCompatActivity() {
                 dlTitleText?.text = "No Deep Linking Happened"
             }
         }
-    protected open fun copyShareInviteLink() {
+    private fun copyShareInviteLink() {
         val currentCampaign = "user_invite"
         val currentChannel = "mobile_share"
         val currentReferrerId = "THIS_USER_ID"
+
         val linkGenerator = ShareInviteHelper.generateInviteUrl(applicationContext)
         linkGenerator.addParameter("deep_link_value", fruitName)
         linkGenerator.addParameter("deep_link_sub1", fruitAmountStr)
@@ -129,21 +133,19 @@ abstract class FruitActivity: AppCompatActivity() {
                 Log.d(LOG_TAG, "Share invite link: $s")
                 //Copy the share invite link to clipboard and indicate it with a toast
                 runOnUiThread {
-                    val clipboard =
-                        getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+                    val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                     val clip = ClipData.newPlainText("Share invite link", s)
                     clipboard.setPrimaryClip(clip)
-                    val toast = Toast.makeText(
-                        applicationContext,
-                        "Link copied to clipboard",
-                        Toast.LENGTH_SHORT
-                    )
+
+                    val toast = Toast.makeText(applicationContext, "Link copied to clipboard", Toast.LENGTH_SHORT)
                     toast.setGravity(Gravity.TOP or Gravity.CENTER_HORIZONTAL, 0, 20)
                     toast.show()
                 }
-                val logInviteMap = HashMap<String, String>()
-                logInviteMap["referrerId"] = currentReferrerId
-                logInviteMap["campaign"] = currentCampaign
+
+                val logInviteMap = hashMapOf(
+                    "referrerId" to currentReferrerId,
+                    "campaign" to currentCampaign
+                )
                 ShareInviteHelper.logInvite(applicationContext, currentChannel, logInviteMap)
             }
 
