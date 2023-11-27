@@ -28,24 +28,29 @@ class AppsflyerBasicApp: Application() {
         //Getting the SDK instance, which helps you access the methods in the af library.
         val appsFlyer: AppsFlyerLib = AppsFlyerLib.getInstance()
 
-        //Initializing AppsFlyer SDK
+
         val conversionListener:AppsFlyerConversionListener=object : AppsFlyerConversionListener{
             override fun onConversionDataSuccess(data: MutableMap<String, Any>?) {
-                if (data != null) {
+                    data?.let {
+                        val status: Any? = data["af_status"]
+                        Log.d(LOG_TAG, "::$status");
+                        if(status.toString() == "Non-organic"){
+                            if(data["is_first_launch"] ==true){
+                                Log.d(LOG_TAG,"First time launching")
+                            }
+                            if(data.containsKey("fruit_name")){
+                                data.put("deep_link_value", data["fruit_name"] as String)
+                            }
+                    }
 
-                    val status: Any? =data.get("af_status")
-                    Log.d(LOG_TAG,"::"+status);
-                    if(status.toString().equals("Non-organic")){
-                        if(data.get("is_first_launch")==true){
-                            Log.d(LOG_TAG,"First time launching")
-                        }
 
                     }
-                }
-                else{
+                        ?:run{
+
                     Log.d(LOG_TAG, "Conversion Failed: " );
 
                 }
+                conversionData=data;
             }
 
             override fun onConversionDataFail(errorMessage: String?) {
@@ -65,6 +70,7 @@ class AppsflyerBasicApp: Application() {
             }
 
         }
+        //Initializing AppsFlyer SDK
         appsFlyer.init(AppsFlyerConstants.afDevKey,conversionListener,this)
 
 

@@ -16,10 +16,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:targetApi="31">
-
         <activity
             android:name="com.appsflyer.onelink.appsflyeronelinkbasicapp.BananasActivity"
             android:exported="false" />
+        <activity
+        android:name="com.appsflyer.onelink.appsflyeronelinkbasicapp.ConversionDataActivity"
+        android:exported="false" />
+
         <activity
             android:name="com.appsflyer.onelink.appsflyeronelinkbasicapp.ApplesActivity"
             android:exported="false" />

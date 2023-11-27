@@ -20,6 +20,7 @@ import com.appsflyer.share.ShareInviteHelper
 import com.google.gson.Gson
 import org.json.JSONException
 import org.json.JSONObject
+import kotlin.math.log
 
 abstract class FruitActivity: AppCompatActivity() {
 
@@ -53,13 +54,13 @@ abstract class FruitActivity: AppCompatActivity() {
             this.dlTitleText = findViewById(resources.getIdentifier(dlTitleId, "id", packageName))
             this.fruitAmountStr = "000"
             this.fruitAmount = findViewById(resources.getIdentifier(fruitAmount, "id", packageName))
-
+            this.goToConversionDataText=findViewById(resources.getIdentifier(conversionDataBtnId,"id",packageName))
         }catch (e : Exception){
             Log.d(LOG_TAG,"Error getting TextViews for " + fruitName + " Activity")
         }
 //        //Go To Conversion Data button on click listener
         goToConversionDataText?.setOnClickListener {
-            val intent =  Intent(applicationContext, ConversionDataActivity::class.java)
+            val intent = Intent(applicationContext, ConversionDataActivity::class.java)
             startActivity(intent)
         }
 
