@@ -3,6 +3,8 @@ package com.appsflyer.onelink.appsflyeronelinkbasicapp
 import android.app.Application
 import android.content.Intent
 import android.util.Log
+import androidx.compose.ui.text.toUpperCase
+import com.appsflyer.AppsFlyerConversionListener
 import com.appsflyer.AppsFlyerLib
 import com.appsflyer.attribution.AppsFlyerRequestListener
 import com.appsflyer.deeplink.DeepLink
@@ -26,8 +28,51 @@ class AppsflyerBasicApp: Application() {
         //Getting the SDK instance, which helps you access the methods in the af library.
         val appsFlyer: AppsFlyerLib = AppsFlyerLib.getInstance()
 
+
+        val conversionListener:AppsFlyerConversionListener=object : AppsFlyerConversionListener{
+            override fun onConversionDataSuccess(data: MutableMap<String, Any>?) {
+                    data?.let {
+                        val status: Any? = data["af_status"]
+                        Log.d(LOG_TAG, "::$status");
+                        if(status.toString() == "Non-organic"){
+                            if(data["is_first_launch"] ==true){
+                                Log.d(LOG_TAG,"First time launching")
+                            }
+                            if(data.containsKey("fruit_name")){
+                                data.put("deep_link_value", data["fruit_name"] as String)
+                            }
+                    }
+
+
+                    }
+                        ?:run{
+
+                    Log.d(LOG_TAG, "Conversion Failed: " );
+
+                }
+                conversionData=data;
+            }
+
+            override fun onConversionDataFail(errorMessage: String?) {
+                // Your implementation for onConversionDataFail
+                if (errorMessage != null) {
+                    Log.d(LOG_TAG,errorMessage)
+                };
+
+            }
+
+            override fun onAppOpenAttribution(p0: MutableMap<String, String>?) {
+                Log.d(LOG_TAG, "onAppOpenAttribution: This is fake call.");
+            }
+
+            override fun onAttributionFailure(errorMessage: String?) {
+                Log.d(LOG_TAG, "error onAttributionFailure : " + errorMessage);
+            }
+
+        }
         //Initializing AppsFlyer SDK
-        appsFlyer.init(AppsFlyerConstants.afDevKey,null,this)
+        appsFlyer.init(AppsFlyerConstants.afDevKey,conversionListener,this)
+
 
         //Starts the SDK and logs a message if the SDK started or not
         appsFlyer.start(this, AppsFlyerConstants.afDevKey, object :
@@ -98,6 +143,10 @@ class AppsflyerBasicApp: Application() {
                 }
             }
         })
+
+
+
+
 
     }
 

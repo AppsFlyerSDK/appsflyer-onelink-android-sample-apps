@@ -7,8 +7,8 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
+        android:name=".AppsflyerBasicApp"
         android:allowBackup="true"
-        android:name="com.appsflyer.onelink.appsflyeronelinkbasicapp.AppsflyerBasicApp"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -16,10 +16,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:targetApi="31">
-
         <activity
             android:name="com.appsflyer.onelink.appsflyeronelinkbasicapp.BananasActivity"
             android:exported="false" />
+        <activity
+        android:name="com.appsflyer.onelink.appsflyeronelinkbasicapp.ConversionDataActivity"
+        android:exported="false" />
+
         <activity
             android:name="com.appsflyer.onelink.appsflyeronelinkbasicapp.ApplesActivity"
             android:exported="false" />
