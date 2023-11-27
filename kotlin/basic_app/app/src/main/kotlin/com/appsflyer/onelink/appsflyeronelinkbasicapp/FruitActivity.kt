@@ -59,7 +59,7 @@ abstract class FruitActivity: AppCompatActivity() {
         }catch (e : Exception){
             Log.d(LOG_TAG,"Error getting TextViews for " + fruitName + " Activity")
         }
-//        //Go To Conversion Data button on click listener
+        //Go To Conversion Data button on click listener
         goToConversionDataText?.setOnClickListener {
             val intent = Intent(applicationContext, ConversionDataActivity::class.java)
             startActivity(intent)

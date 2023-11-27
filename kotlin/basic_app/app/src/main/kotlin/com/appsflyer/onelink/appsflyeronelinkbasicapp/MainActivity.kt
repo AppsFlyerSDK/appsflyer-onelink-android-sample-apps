@@ -46,17 +46,7 @@ class MainActivity : ComponentActivity() {
 
     }
 
-    public fun goToConversion(view: View?) {
-
-        try {
-            val intent =Intent(this, ConversionDataActivity::class.java)
-            startActivity(intent)
-        }
-        catch (e:Exception){
-            Toast.makeText(applicationContext,"Entered Catch",Toast.LENGTH_SHORT).show()
-        }
-
-    }
+    
 
 }
 
