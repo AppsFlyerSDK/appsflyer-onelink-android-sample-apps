@@ -114,10 +114,11 @@ abstract class FruitActivity: AppCompatActivity() {
                 dlTitleText?.text = "No Deep Linking Happened"
             }
         }
-    protected open fun copyShareInviteLink() {
+    private fun copyShareInviteLink() {
         val currentCampaign = "user_invite"
         val currentChannel = "mobile_share"
-        val currentReferrerId = "This+is+a+shares+link+from+%27"+this.fruitName+"%27+activity"
+        val currentReferrerId = "THIS_USER_ID"
+
         val linkGenerator = ShareInviteHelper.generateInviteUrl(applicationContext)
         linkGenerator.addParameter("deep_link_value", fruitName)
         linkGenerator.addParameter("deep_link_sub1", fruitAmountStr)
@@ -130,21 +131,19 @@ abstract class FruitActivity: AppCompatActivity() {
                 Log.d(LOG_TAG, "Share invite link: $s")
                 //Copy the share invite link to clipboard and indicate it with a toast
                 runOnUiThread {
-                    val clipboard =
-                        getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+                    val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                     val clip = ClipData.newPlainText("Share invite link", s)
                     clipboard.setPrimaryClip(clip)
-                    val toast = Toast.makeText(
-                        applicationContext,
-                        "Link copied to clipboard",
-                        Toast.LENGTH_SHORT
-                    )
+
+                    val toast = Toast.makeText(applicationContext, "Link copied to clipboard", Toast.LENGTH_SHORT)
                     toast.setGravity(Gravity.TOP or Gravity.CENTER_HORIZONTAL, 0, 20)
                     toast.show()
                 }
-                val logInviteMap = HashMap<String, String>()
-                logInviteMap["referrerId"] = currentReferrerId
-                logInviteMap["campaign"] = currentCampaign
+
+                val logInviteMap = hashMapOf(
+                    "referrerId" to currentReferrerId,
+                    "campaign" to currentCampaign
+                )
                 ShareInviteHelper.logInvite(applicationContext, currentChannel, logInviteMap)
             }
 
