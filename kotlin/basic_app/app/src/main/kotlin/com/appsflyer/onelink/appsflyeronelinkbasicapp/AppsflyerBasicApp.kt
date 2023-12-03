@@ -34,6 +34,9 @@ class AppsflyerBasicApp: Application(){
         //Getting the SDK instance, which helps you access the methods in the af library.
         val appsFlyer: AppsFlyerLib = AppsFlyerLib.getInstance()
 
+        appsFlyer.setDebugLog(true)
+        appsFlyer.setMinTimeBetweenSessions(0)
+
         //Setting OneLink template ID
         appsFlyer.setAppInviteOneLink("H5hv")
 
@@ -120,8 +123,68 @@ class AppsflyerBasicApp: Application(){
             }
         })
 
+
+        //Conversion Data Handling
+        val conversionListener: AppsFlyerConversionListener = object : AppsFlyerConversionListener {
+            override fun onConversionDataSuccess(data: MutableMap<String, Any>?) {
+                data?.let {
+                    val status: Any? = data["af_status"]
+                    Log.d(LOG_TAG, "::$status");
+                    Log.d(LOG_TAG, "Conversion Data: " + data.toString())
+                    if (status.toString() == "Non-organic") {
+                        if (data["is_first_launch"] == true) {
+                            Log.d(LOG_TAG, "First time launching")
+                            //Deferred deep link in case of a legacy link
+                            if (deferred_deep_link_processed_flag == true) {
+                                Log.d(LOG_TAG, "Deferred deep link was already processed by UDL. The DDL processing in GCD can be skipped.")
+                                deferred_deep_link_processed_flag = false
+                            } else {
+                                deferred_deep_link_processed_flag = true
+
+                                if (data.containsKey("fruit_name")) {
+                                    data.put("deep_link_value", data["fruit_name"] as String)
+                                }
+                                val string: String = data.get("deep_link_value").toString()
+                                Log.d(LOG_TAG, "Fruit: " + string)
+                            }
+                        } else {
+                            Log.d(LOG_TAG, "Conversion: Not First Launch")
+                        }
+                    } else {
+                        Log.d(LOG_TAG, "Conversion: This is an organic install.")
+                    }
+                        ?: run {
+
+                            Log.d(LOG_TAG, "Conversion Failed: ");
+
+                        }
+                    conversionData = data;
+                }
+            }
+
+
+
+
+
+            override fun onConversionDataFail(errorMessage: String?) {
+                // Your implementation for onConversionDataFail
+                if (errorMessage != null) {
+                    Log.d(LOG_TAG,errorMessage)
+                };
+
+            }
+
+            override fun onAppOpenAttribution(p0: MutableMap<String, String>?) {
+                Log.d(LOG_TAG, "onAppOpenAttribution: This is fake call.");
+            }
+
+            override fun onAttributionFailure(errorMessage: String?) {
+                Log.d(LOG_TAG, "error onAttributionFailure : " + errorMessage);
+            }
+
+        }
         //Initializing AppsFlyer SDK
-        appsFlyer.init(AppsFlyerConstants.afDevKey,null,this)
+        appsFlyer.init(AppsFlyerConstants.afDevKey,conversionListener,this)
 
 
         //Starts the SDK and logs a message if the SDK started or not
