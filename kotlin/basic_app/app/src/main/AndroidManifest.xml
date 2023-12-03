@@ -3,28 +3,39 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.appsflyer.onelink.appsflyeronelinkbasicapp">
 
-
     <application
-        android:allowBackup="true"
         android:name=".AppsflyerBasicApp"
+        android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.OnelinkBasicApp"
-        tools:targetApi="31" >
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+        tools:targetApi="31">
+        <activity
+            android:name=".PeachesActivity"
+            android:exported="false" />
+        <activity
+        android:name=".ApplesActivity"
+        android:exported="false" />
+        <activity
+            android:name=".BananasActivity"
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.OnelinkBasicApp">
-            <intent-filter>
+            <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <action android:name="android.intent.action.VIEW" />
+
                 <data
                     android:host="onelink-basic-app.onelink.me"
                     android:scheme="https" />

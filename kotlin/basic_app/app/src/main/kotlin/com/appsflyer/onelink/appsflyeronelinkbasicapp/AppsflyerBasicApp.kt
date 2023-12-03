@@ -113,9 +113,9 @@ class AppsflyerBasicApp: Application(){
                     // This marks to GCD that UDL already processed this deep link.
                     // It is marked to both DL and DDL, but GCD is relevant only for DDL
                     deferred_deep_link_processed_flag = true
-                    Log.d(LOG_TAG, "Fruit: " + fruitName)
+                    goToFruit(fruitName, deepLinkObj)
 
-//                    goToFruit(fruitName, deepLinkObj)
+
                 } catch (e: Exception) {
                     Log.d(LOG_TAG, "There's been an error: $e")
                     return
@@ -145,7 +145,8 @@ class AppsflyerBasicApp: Application(){
                                     data.put("deep_link_value", data["fruit_name"] as String)
                                 }
                                 val string: String = data.get("deep_link_value").toString()
-                                Log.d(LOG_TAG, "Fruit: " + string)
+                                val deepLink: DeepLink? = mapToDeepLinkObject(data)
+                                goToFruit(string, deepLink)
                             }
                         } else {
                             Log.d(LOG_TAG, "Conversion: Not First Launch")
@@ -203,5 +204,56 @@ class AppsflyerBasicApp: Application(){
                         + "Error description: " + errorDesc)
             }
         })
+    }
+    private fun goToFruit(fruitName: String?, dlData: DeepLink?){
+        //Checking if the fruit name is not null
+        if(fruitName == null){
+            Log.d(LOG_TAG,"Fruit name is null!")
+            return
+        }
+
+        //Creating a string that represents the desired activity class name
+        val fruitClassName = fruitName.substring(0,1).uppercase().plus(fruitName.substring(1)).plus("Activity")
+
+        try {
+            //Creating an object that represents the class we want to switch to
+            val fruitClass:Class<*> = Class.forName(packageName.plus(".").plus(fruitClassName))
+
+            //Creating an intent from the current activity to the desired one
+            val intent = Intent(applicationContext, fruitClass)
+
+            if(dlData != null){
+                //Converting the deep link data from object to string using json
+                val objToStr: String = Gson().toJson(dlData)
+                //Putting the json string inside the intent in order to pass it
+                intent.putExtra(DL_ATTRS, objToStr)
+            }
+            //Adding a flag that allows us to open an activity from a class that is not an activity
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+
+            startActivity(intent)
+        }catch (e: Exception){
+            Log.d(LOG_TAG, "There's been an error: $e")
+
+        }
+
+    }
+    fun mapToDeepLinkObject(conversionDataMap: Map<String, Any>?): DeepLink? {
+        try {
+            // Convert the map to a JSON string using Gson library
+            val objToStr = Gson().toJson(conversionDataMap)
+
+            // Create a DeepLink object by wrapping the JSON string in an AFKeystoreWrapper
+            val deepLink = DeepLink.AFKeystoreWrapper(JSONObject(objToStr))
+
+            // Return the created DeepLink object
+            return deepLink
+        } catch (e: org.json.JSONException) {
+            // Handle JSONException if it occurs, and log an error message
+            Log.d(LOG_TAG, "Error when converting map to DeepLink object: ${e.toString()}")
+        }
+
+        // Return null if there was an error or if the conversionDataMap is null
+        return null
     }
 }
