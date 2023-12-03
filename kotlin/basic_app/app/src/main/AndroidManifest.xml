@@ -6,6 +6,7 @@
 
     <application
         android:allowBackup="true"
+        android:name=".AppsflyerBasicApp"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -20,8 +21,16 @@
             android:theme="@style/Theme.OnelinkBasicApp">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <action android:name="android.intent.action.VIEW" />
+                <data
+                    android:host="onelink-basic-app.onelink.me"
+                    android:scheme="https" />
+                <data
+                    android:host="mainactivity"
+                    android:scheme="afbasicapp" />
             </intent-filter>
         </activity>
     </application>
