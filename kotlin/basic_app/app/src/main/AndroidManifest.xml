@@ -23,6 +23,9 @@
             android:name=".BananasActivity"
             android:exported="false" />
         <activity
+            android:name=".ConversionDataActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
