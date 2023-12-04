@@ -1,11 +1,8 @@
 package com.appsflyer.onelink.appsflyeronelinkbasicapp
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 
-class ApplesActivity: AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_apples)
-    }
+class ApplesActivity : FruitActivity() {
+    override val fruitName: String = "apples"
+    override protected fun getLayoutResourceId(): Int = R.layout.activity_apples
+
 }
