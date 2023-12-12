@@ -19,9 +19,9 @@ class ConversionDataActivity : AppCompatActivity() {
         val conversionDataTextView = findViewById<TextView>(R.id.conversionDataTextView)
         conversionDataTextView.movementMethod = ScrollingMovementMethod()
         conversionDataTextView.setText(conversionDataString)
-
     }
-// A function that accepts a Map variable and converts it to a String variable
+
+    // A function that accepts a Map variable and converts it to a String variable
     private fun mapToSortedString(map: Map<String, Any>?): String {
         var result = ""
 
@@ -34,5 +34,4 @@ class ConversionDataActivity : AppCompatActivity() {
         }
         return result
     }
-
 }

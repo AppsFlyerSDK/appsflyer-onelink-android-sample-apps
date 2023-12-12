@@ -10,10 +10,9 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
     }
-    public fun goToApples(view: View?) {
 
+    public fun goToApples(view: View?) {
         try {
             val intent =Intent(this, ApplesActivity::class.java)
             startActivity(intent)
@@ -21,10 +20,9 @@ class MainActivity : ComponentActivity() {
         catch (e:Exception){
             Toast.makeText(applicationContext,"Entered Catch",Toast.LENGTH_SHORT).show()
         }
-
     }
-    public fun goToBananas(view: View?) {
 
+    public fun goToBananas(view: View?) {
         try {
             val intent =Intent(this, BananasActivity::class.java)
             startActivity(intent)
@@ -32,10 +30,9 @@ class MainActivity : ComponentActivity() {
         catch (e:Exception){
             Toast.makeText(applicationContext,"Entered Catch",Toast.LENGTH_SHORT).show()
         }
-
     }
-    public fun goToPeaches(view: View?) {
 
+    public fun goToPeaches(view: View?) {
         try {
             val intent =Intent(this, PeachesActivity::class.java)
             startActivity(intent)
@@ -43,9 +40,5 @@ class MainActivity : ComponentActivity() {
         catch (e:Exception){
             Toast.makeText(applicationContext,"Entered Catch",Toast.LENGTH_SHORT).show()
         }
-
     }
-
-
-
 }

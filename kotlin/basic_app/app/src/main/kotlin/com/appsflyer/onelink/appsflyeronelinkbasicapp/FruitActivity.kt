@@ -22,7 +22,6 @@ import com.google.gson.Gson
 import org.json.JSONException
 import org.json.JSONObject
 abstract class FruitActivity : AppCompatActivity() {
-
     var dlAttrs: TextView? = null
     var dlTitleText: TextView? = null
     var goToConversionDataText: TextView? = null
@@ -42,8 +41,8 @@ abstract class FruitActivity : AppCompatActivity() {
         setStaticAttributes()
         showFruitAmount()
         showDlData()
-
     }
+
     protected open fun setStaticAttributes() {
         try {
             val dlParamsId: String = fruitName + "_deeplinkparams"
@@ -64,8 +63,8 @@ abstract class FruitActivity : AppCompatActivity() {
             val intent = Intent(applicationContext, ConversionDataActivity::class.java)
             startActivity(intent)
         }
-
     }
+
     protected open fun showFruitAmount() {
         val json = Gson()
         val dlObject = json.fromJson(
@@ -95,6 +94,7 @@ abstract class FruitActivity : AppCompatActivity() {
             }
         }
     }
+
     fun showDlData() {
         val intent = intent
         val json = Gson()
@@ -110,7 +110,6 @@ abstract class FruitActivity : AppCompatActivity() {
                 dlAttrs?.text = jsonObject.toString(4)
                     .replace("\\\\".toRegex(), "") // 4 is num of spaces for indent
                 dlTitleText?.text = "Deep Link happened. Parameters:"
-
             } catch (e: JSONException) {
                 e.printStackTrace()
             }
@@ -130,6 +129,7 @@ abstract class FruitActivity : AppCompatActivity() {
         linkGenerator.addParameter("deep_link_sub2", currentReferrerId)
         linkGenerator.campaign = currentCampaign
         linkGenerator.channel = currentChannel
+
         Log.d(LOG_TAG, "Link params:" + linkGenerator.userParams.toString())
         val listener: LinkGenerator.ResponseListener = object : LinkGenerator.ResponseListener {
             override fun onResponse(s: String) {
@@ -162,6 +162,4 @@ abstract class FruitActivity : AppCompatActivity() {
         }
         linkGenerator.generateLink(applicationContext, listener)
     }
-
-
 }
