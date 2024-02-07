@@ -156,7 +156,7 @@ public class AppsflyerBasicApp extends Application {
             }
         };
         appsflyer.init(afDevKey, conversionListener, this);
-        appsflyer.start(this);
+//        appsflyer.start(this);
     }
 
     private void goToFruit(String fruitName, DeepLink dlData) {

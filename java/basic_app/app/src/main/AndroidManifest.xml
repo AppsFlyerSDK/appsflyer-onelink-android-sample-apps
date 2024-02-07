@@ -49,6 +49,15 @@
                     android:scheme="https" />
             </intent-filter>
         </activity>
+
+
+        <!-- AdMob app in account of Taras Lozovyi. Configured to treat everyone as GDPR compliant and with possibility
+             to choose "Do Not Consent" option. Feel free to replace with any other AdMob app id if needed -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-8861574457123684~7114860617"/>
+
+
     </application>
 
 </manifest>
