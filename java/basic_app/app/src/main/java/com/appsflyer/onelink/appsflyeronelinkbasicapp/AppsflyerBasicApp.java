@@ -1,5 +1,6 @@
 package com.appsflyer.onelink.appsflyeronelinkbasicapp;
 
+import com.appsflyer.AppsFlyerConsent;
 import com.appsflyer.AppsFlyerLib;
 import com.appsflyer.deeplink.DeepLink;
 import com.appsflyer.deeplink.DeepLinkListener;
@@ -15,6 +16,7 @@ import androidx.annotation.NonNull;
 
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class AppsflyerBasicApp extends Application {
     public static final String LOG_TAG = "AppsFlyerOneLinkSimApp";
@@ -156,7 +158,8 @@ public class AppsflyerBasicApp extends Application {
             }
         };
         appsflyer.init(afDevKey, conversionListener, this);
-//        appsflyer.start(this);
+        appsflyer.enableTCFDataCollection(true);
+
     }
 
     private void goToFruit(String fruitName, DeepLink dlData) {
@@ -180,11 +183,17 @@ public class AppsflyerBasicApp extends Application {
 
     public DeepLink mapToDeepLinkObject(Map <String, Object> conversionDataMap){
         try {
-            String objToStr = new Gson().toJson(conversionDataMap);
-            DeepLink deepLink = DeepLink.AFKeystoreWrapper(new JSONObject(objToStr));
+            // Convert to Map with String keys and String values
+            Map<String, String> stringMap = conversionDataMap.entrySet()
+                    .stream()
+                    .collect(Collectors.toMap(
+                            Map.Entry::getKey,              // keeps the same key
+                            e -> String.valueOf(e.getValue()) // converts the value to a String
+                    ));
+            DeepLink deepLink = DeepLink.AFKeystoreWrapper(stringMap);
             return deepLink;
         }
-        catch (org.json.JSONException e ){
+        catch (Exception e) {
             Log.d(LOG_TAG, "Error when converting map to DeepLink object: " + e.toString());
         }
         return null;

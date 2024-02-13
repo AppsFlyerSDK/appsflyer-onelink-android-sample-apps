@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ConsentForm consentForm;
 
-    private boolean consentRequired = false;
+    private boolean consentRequired = true;
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -35,10 +35,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (consentRequired)
+        if (consentRequired) {
+            Log.d(LOG_TAG, "Consent information required.");
             initConsentCollection();
-        else
+        }
+        else {
+            Log.d(LOG_TAG, "Consent information NOT required.");
             AppsFlyerLib.getInstance().start(this);
+        }
     }
 
     public void goToApples(View view) {
@@ -76,13 +80,16 @@ public class MainActivity extends AppCompatActivity {
 
         ConsentInformation consentInformation = UserMessagingPlatform.getConsentInformation(this);
         if (consentInformation != null) {
+            Log.d(LOG_TAG, "Consent information is NOT null");
             consentInformation.requestConsentInfoUpdate(
                     this,
                     params,
                     new ConsentInformation.OnConsentInfoUpdateSuccessListener() {
                         @Override
                         public void onConsentInfoUpdateSuccess() {
+                            Log.d(LOG_TAG, "Consent info update success");
                             if (consentInformation.isConsentFormAvailable()) {
+                                Log.d(LOG_TAG, "Consent form available");
                                 UserMessagingPlatform.loadConsentForm(
                                         MainActivity.this,
                                         new UserMessagingPlatform.OnConsentFormLoadSuccessListener() {
@@ -99,8 +106,8 @@ public class MainActivity extends AppCompatActivity {
                                                             } else {
                                                                 Log.i(LOG_TAG, "Consent form was dismissed.");
                                                                 // Continue with next steps after consent has been handled.
-                                                                onConsentCollectionFinished();
                                                             }
+                                                            onConsentCollectionFinished();
                                                         }
                                                     });
                                                 }
@@ -111,10 +118,13 @@ public class MainActivity extends AppCompatActivity {
                                             public void onConsentFormLoadFailure(FormError formError) {
                                                 // Handle the consent form loading error here.
                                                 Log.e(LOG_TAG, "Consent form load failure: " + formError.getMessage());
+                                                onConsentCollectionFinished();
                                             }
                                         }
                                 );
                             } else {
+                                Log.d(LOG_TAG, "Consent form NOT available");
+                                onConsentCollectionFinished();
                                 // Consent form not available, continue with the rest of your logic.
                             }
                         }
@@ -125,16 +135,19 @@ public class MainActivity extends AppCompatActivity {
                         public void onConsentInfoUpdateFailure(FormError formError) {
                             // Handle the consent information update failure.
                             Log.e(LOG_TAG, "Consent information update failed: " + formError.getMessage());
+                            onConsentCollectionFinished();
                         }
                     }
             );
         }
         else {
             Log.d(LOG_TAG, "consent info NULL");
+            onConsentCollectionFinished();
         }
     }
 
     private void onConsentCollectionFinished() {
+        Log.d(LOG_TAG, "consent connection flow finished");
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         Log.d(
                 LOG_TAG,
