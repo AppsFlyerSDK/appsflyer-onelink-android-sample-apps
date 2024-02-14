@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
                                             public void onConsentFormLoadSuccess(ConsentForm form) {
                                                 MainActivity.this.consentForm = form;
                                                 if(consentInformation.getConsentStatus() == ConsentInformation.ConsentStatus.REQUIRED) {
+                                                    Log.d(LOG_TAG, "Consent status is required");
                                                     consentForm.show(MainActivity.this, new ConsentForm.OnConsentFormDismissedListener() {
                                                         @Override
                                                         public void onConsentFormDismissed(FormError formError) {
@@ -110,6 +111,9 @@ public class MainActivity extends AppCompatActivity {
                                                             onConsentCollectionFinished();
                                                         }
                                                     });
+                                                } else {
+                                                    Log.d(LOG_TAG, "Consent status is NOT required");
+                                                    onConsentCollectionFinished();
                                                 }
                                             }
                                         },
