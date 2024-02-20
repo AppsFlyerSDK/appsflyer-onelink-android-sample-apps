@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         if (consentRequired) {
             Log.d(LOG_TAG, "Consent information required.");
             initConsentCollection();
+            AppsFlyerLib.getInstance().performOnDeepLinking(getIntent(), this);
         }
         else {
             Log.d(LOG_TAG, "Consent information NOT required.");
