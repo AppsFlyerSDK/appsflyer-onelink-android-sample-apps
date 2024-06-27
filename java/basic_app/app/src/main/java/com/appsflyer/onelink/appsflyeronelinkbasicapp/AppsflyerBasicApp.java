@@ -2,6 +2,9 @@ package com.appsflyer.onelink.appsflyeronelinkbasicapp;
 
 import com.appsflyer.AppsFlyerLib;
 import com.appsflyer.AppsFlyerConversionListener;
+import com.appsflyer.deeplink.DeepLink;
+import com.appsflyer.deeplink.DeepLinkListener;
+import com.appsflyer.deeplink.DeepLinkResult;
 
 import android.app.Application;
 import android.content.Intent;
@@ -30,6 +33,61 @@ public class AppsflyerBasicApp extends Application {
         AppsFlyerLib appsflyer = AppsFlyerLib.getInstance();
         // For debug - remove in production
         appsflyer.setDebugLog(true);
+
+        appsflyer.subscribeForDeepLink(new DeepLinkListener(){
+            @Override
+            public void onDeepLinking(@NonNull DeepLinkResult deepLinkResult) {
+                DeepLinkResult.Status dlStatus = deepLinkResult.getStatus();
+                if (dlStatus == DeepLinkResult.Status.FOUND) {
+                    Log.d(LOG_TAG, "Deep link found");
+                } else if (dlStatus == DeepLinkResult.Status.NOT_FOUND) {
+                    Log.d(LOG_TAG, "Deep link not found");
+                    return;
+                } else {
+                    // dlStatus == DeepLinkResult.Status.ERROR
+                    DeepLinkResult.Error dlError = deepLinkResult.getError();
+                    Log.d(LOG_TAG, "There was an error getting Deep Link data: " + dlError.toString());
+                    return;
+                }
+                DeepLink deepLinkObj = deepLinkResult.getDeepLink();
+                try {
+                    Log.d(LOG_TAG, "The DeepLink data is: " + deepLinkObj.toString());
+                } catch (Exception e) {
+                    Log.d(LOG_TAG, "DeepLink data came back null");
+                    return;
+                }
+                // An example for using is_deferred
+                if (deepLinkObj.isDeferred()) {
+                    Log.d(LOG_TAG, "This is a deferred deep link");
+                } else {
+                    Log.d(LOG_TAG, "This is a direct deep link");
+                }
+                // An example for using a generic getter
+                String fruitName = "";
+                try {
+                    fruitName = deepLinkObj.getDeepLinkValue();
+
+                    JSONObject dlData = deepLinkObj.getClickEvent();
+                    Log.d(LOG_TAG, "The DeepLink will route to: " + fruitName);
+                } catch (Exception e) {
+                    Log.d(LOG_TAG, "Custom param fruit_name was not found in DeepLink data");
+                    return;
+                }
+                JSONObject dlData = deepLinkObj.getClickEvent();
+                // ** Next if statement is optional **
+                // Our sample app's user-invite carries the referrerID in deep_link_sub2
+                // See the user-invite section in FruitActivity.java
+                if (dlData.has("deep_link_sub2")){
+                    String referrerId = "";
+                    referrerId = deepLinkObj.getStringValue("deep_link_sub2");
+                    Log.d(LOG_TAG, "The referrerID is: " + referrerId);
+                } else {
+                    Log.d(LOG_TAG, "deep_link_sub2/Referrer ID not found");
+                }
+                goToFruit(fruitName, deepLinkObj);
+            }
+        });
+
 
         AppsFlyerConversionListener conversionListener =  new AppsFlyerConversionListener() {
             @Override
@@ -67,6 +125,25 @@ public class AppsflyerBasicApp extends Application {
 
         appsflyer.init("sQ84wpdxRTR4RMCaE9YqS4", conversionListener, this);
         appsflyer.start(this);
+    }
+
+    private void goToFruit(String fruitName, DeepLink dlData) {
+        String fruitClassName = (fruitName.substring(0, 1).toUpperCase() + fruitName.substring(1)).concat("Activity");
+        try {
+            Class fruitClass = Class.forName(this.getPackageName().concat(".").concat(fruitClassName));
+            Log.d(LOG_TAG, "Looking for class " + fruitClass);
+            Intent intent = new Intent(getApplicationContext(), fruitClass);
+            if (dlData != null) {
+                // TODO - make DeepLink Parcelable
+                String objToStr = new Gson().toJson(dlData);
+                intent.putExtra(DL_ATTRS, objToStr);
+            }
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        } catch (ClassNotFoundException e) {
+            Log.d(LOG_TAG, "Deep linking failed looking for " + fruitName);
+            e.printStackTrace();
+        }
     }
 
 }
