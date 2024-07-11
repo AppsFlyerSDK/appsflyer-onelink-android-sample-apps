@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 import org.json.JSONObject;
 import androidx.annotation.NonNull;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -180,8 +181,11 @@ public class AppsflyerBasicApp extends Application {
 
     public DeepLink mapToDeepLinkObject(Map <String, Object> conversionDataMap){
         try {
-            String objToStr = new Gson().toJson(conversionDataMap);
-            DeepLink deepLink = DeepLink.values((Map<String, String>) new JSONObject(objToStr));
+            Map<String, String> stringMap = new HashMap<>();
+            for (Map.Entry<String, Object> entry : conversionDataMap.entrySet()) {
+                stringMap.put(entry.getKey(), String.valueOf(entry.getValue()));
+            }
+            DeepLink deepLink = DeepLink.values(stringMap);
             return deepLink;
         }
         catch (org.json.JSONException e ){
