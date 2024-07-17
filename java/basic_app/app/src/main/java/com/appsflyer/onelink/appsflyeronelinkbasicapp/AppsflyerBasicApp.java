@@ -17,6 +17,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import com.appsflyer.adrevenue.AppsFlyerAdRevenue;
+
 public class AppsflyerBasicApp extends Application {
     public static final String LOG_TAG = "AppsFlyerOneLinkSimApp";
     public static final String DL_ATTRS = "dl_attrs";
@@ -37,6 +39,9 @@ public class AppsflyerBasicApp extends Application {
         appsflyer.setMinTimeBetweenSessions(0);
         //set the OneLink template id for share invite links
         AppsFlyerLib.getInstance().setAppInviteOneLink("H5hv");
+
+        AppsFlyerAdRevenue.Builder afRevenueBuilder = new AppsFlyerAdRevenue.Builder(this);
+        AppsFlyerAdRevenue.initialize(afRevenueBuilder.build());
 
         appsflyer.subscribeForDeepLink(new DeepLinkListener(){
             @Override
