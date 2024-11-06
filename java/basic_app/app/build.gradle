@@ -19,6 +19,7 @@ android {
             jniLibs.srcDirs = ['libs']
         }
     }
+    namespace 'com.appsflyer.onelink.appsflyeronelinkbasicapp'
 }
 
 dependencies {
