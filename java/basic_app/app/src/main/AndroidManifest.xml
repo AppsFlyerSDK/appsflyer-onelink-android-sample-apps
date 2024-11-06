@@ -8,18 +8,18 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
-        android:name=".AppsflyerBasicApp"
+        android:name="com.kuku.muku.kukumukubasicapp.AppsflyerBasicApp"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ConversionDataActivity" />
-        <activity android:name=".PeachesActivity" />
-        <activity android:name=".BananasActivity" />
-        <activity android:name=".ApplesActivity" />
+        <activity android:name="com.kuku.muku.kukumukubasicapp.ConversionDataActivity" />
+        <activity android:name="com.kuku.muku.kukumukubasicapp.PeachesActivity" />
+        <activity android:name="com.kuku.muku.kukumukubasicapp.BananasActivity" />
+        <activity android:name="com.kuku.muku.kukumukubasicapp.ApplesActivity" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.kuku.muku.kukumukubasicapp.MainActivity"
             android:exported="true"
             android:launchMode="singleTask">
             <intent-filter>

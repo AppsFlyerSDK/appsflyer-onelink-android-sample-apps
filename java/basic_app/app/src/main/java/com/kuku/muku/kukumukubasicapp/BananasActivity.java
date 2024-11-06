@@ -1,11 +1,11 @@
-package com.appsflyer.onelink.appsflyeronelinkbasicapp;
+package com.kuku.muku.kukumukubasicapp;
 
 import android.os.Bundle;
 
 import com.appsflyer.adrevenue.AppsFlyerAdRevenue;
-import com.appsflyer.adrevenue.adnetworks.AppsFlyerAdNetworkEventType;
 import com.appsflyer.adrevenue.adnetworks.generic.MediationNetwork;
 import com.appsflyer.adrevenue.adnetworks.generic.Scheme;
+import com.kuku.muku.kukumukubasicapp.R;
 
 import java.util.Currency;
 import java.util.HashMap;

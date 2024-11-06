@@ -1,4 +1,4 @@
-package com.appsflyer.onelink.appsflyeronelinkbasicapp;
+package com.kuku.muku.kukumukubasicapp;
 
 
 public class AppsFlyerConstants {

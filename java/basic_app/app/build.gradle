@@ -4,7 +4,7 @@ android {
     compileSdkVersion 33
 
     defaultConfig {
-        applicationId "com.appsflyer.onelink.appsflyeronelinkbasicapp"
+        applicationId "com.kuku.muku.kukumukubasicapp"
         minSdkVersion 21
         targetSdkVersion 33
         versionCode 1
@@ -19,7 +19,7 @@ android {
             jniLibs.srcDirs = ['libs']
         }
     }
-    namespace 'com.appsflyer.onelink.appsflyeronelinkbasicapp'
+    namespace 'com.kuku.muku.kukumukubasicapp'
 }
 
 dependencies {

@@ -1,4 +1,4 @@
-package com.appsflyer.onelink.appsflyeronelinkbasicapp;
+package com.kuku.muku.kukumukubasicapp;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -14,18 +14,17 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.appsflyer.CreateOneLinkHttpTask;
 import com.appsflyer.deeplink.DeepLink;
+import com.kuku.muku.kukumukubasicapp.R;
 import com.appsflyer.share.LinkGenerator;
 import com.appsflyer.share.ShareInviteHelper;
 import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import static com.appsflyer.onelink.appsflyeronelinkbasicapp.AppsflyerBasicApp.LOG_TAG;
+import static com.kuku.muku.kukumukubasicapp.AppsflyerBasicApp.LOG_TAG;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public abstract class FruitActivity extends AppCompatActivity {
     TextView dlAttrs;

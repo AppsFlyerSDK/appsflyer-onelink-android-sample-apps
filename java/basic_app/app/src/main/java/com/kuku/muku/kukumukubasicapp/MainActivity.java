@@ -1,4 +1,4 @@
-package com.appsflyer.onelink.appsflyeronelinkbasicapp;
+package com.kuku.muku.kukumukubasicapp;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,7 +6,9 @@ import android.util.Log;
 import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 
-import static com.appsflyer.onelink.appsflyeronelinkbasicapp.AppsflyerBasicApp.LOG_TAG;
+import static com.kuku.muku.kukumukubasicapp.AppsflyerBasicApp.LOG_TAG;
+
+import com.kuku.muku.kukumukubasicapp.R;
 
 public class MainActivity extends AppCompatActivity {
     @Override

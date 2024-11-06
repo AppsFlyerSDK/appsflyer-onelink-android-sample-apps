@@ -1,9 +1,11 @@
-package com.appsflyer.onelink.appsflyeronelinkbasicapp;
+package com.kuku.muku.kukumukubasicapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.widget.TextView;
+
+import com.kuku.muku.kukumukubasicapp.R;
 
 import java.util.Map;
 import java.util.SortedSet;
