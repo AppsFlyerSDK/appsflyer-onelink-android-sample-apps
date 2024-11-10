@@ -26,6 +26,9 @@ dependencies {
     // Required for all Android apps:
     implementation 'io.branch.sdk.android:library:5.13.0' // Check for latest version before hard-coding
 
+
+    implementation 'com.appsflyer:af-android-sdk:6.14.0'
+
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'com.android.installreferrer:installreferrer:2.2'
