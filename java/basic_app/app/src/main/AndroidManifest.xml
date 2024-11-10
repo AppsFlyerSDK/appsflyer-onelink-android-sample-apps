@@ -22,21 +22,22 @@
             android:name="com.kuku.muku.kukumukubasicapp.MainActivity"
             android:exported="true"
             android:launchMode="singleTask">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
                     android:host="mainactivity"
-                    android:scheme="afbasicapp" />
+                    android:scheme="kukubasicapp" />
             </intent-filter>
+
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
 
@@ -44,10 +45,16 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="onelink-basic-app.onelink.me"
+                    android:host="kesf6.app.link"
                     android:scheme="https" />
             </intent-filter>
         </activity>
+
+
+        <!-- Branch init -->
+        <!-- REPLACE `BranchKey` with the value from your Branch Dashboard -->
+        <meta-data android:name="io.branch.sdk.BranchKey" android:value="key_live_ltlYg7cxA6n2D4WVAWxUXcjcztp3FlmY" />
+
     </application>
 
 </manifest>

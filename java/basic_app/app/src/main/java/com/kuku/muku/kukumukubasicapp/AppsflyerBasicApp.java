@@ -11,6 +11,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import io.branch.referral.Branch;
+
+
 public class AppsflyerBasicApp extends Application {
     public static final String LOG_TAG = "AppsFlyerOneLinkSimApp";
     public static final String DL_ATTRS = "dl_attrs";
@@ -24,6 +27,12 @@ public class AppsflyerBasicApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        // Branch logging for debugging
+        Branch.enableLogging();
+
+        // Branch object initialization
+        Branch.getAutoInstance(this);
 
     }
 
