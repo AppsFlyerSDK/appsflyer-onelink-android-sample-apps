@@ -63,6 +63,8 @@ public class MainActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
                         }
+                    } else {
+                        Log.i("BranchSDK_Tester", "@@@@ branchUniversalObject came back null");
                     }
 
                     if (linkProperties != null) {
