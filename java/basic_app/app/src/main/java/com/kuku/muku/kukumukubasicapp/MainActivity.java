@@ -28,8 +28,10 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onInitFinished(JSONObject referringParams, BranchError error) {
                     if (error != null) {
+                        Log.i("BranchSDK_Tester", "onNewIntent onInitFinished: error found!");
                         Log.e("BranchSDK_Tester", error.getMessage());
                     } else if (referringParams != null) {
+                        Log.i("BranchSDK_Tester", "@@@@ onNewIntent onInitFinished: referringParams not null");
                         Log.i("BranchSDK_Tester", referringParams.toString());
                     }
                 }
@@ -70,10 +72,13 @@ public class MainActivity extends AppCompatActivity {
                     if (linkProperties != null) {
                         Log.i("BranchSDK_Tester", "Channel " + linkProperties.getChannel());
                         Log.i("BranchSDK_Tester", "control params " + linkProperties.getControlParams());
+                    } else {
+                        Log.i("BranchSDK_Tester", "@@@@ linkProperties came back null");
                     }
                 }
             }
         }).withData(this.getIntent().getData()).init();
+        getFirstReferringBranchUniversalObject();
     }
 
     public void goToApples(View view) {
@@ -86,6 +91,28 @@ public class MainActivity extends AppCompatActivity {
 
     public void goToPeaches(View view) {
         goToFruit("Peaches");
+    }
+
+    public static void getFirstReferringBranchUniversalObject() {
+        BranchUniversalObject branchUniversalObject = null;
+        Branch branchInstance = Branch.getInstance();
+
+        if (branchInstance != null && branchInstance.getFirstReferringParams() != null) {
+            JSONObject firstParam = branchInstance.getFirstReferringParams();
+            try {
+                if (firstParam.has("+clicked_branch_link") && firstParam.getBoolean("+clicked_branch_link")) {
+                    branchUniversalObject = BranchUniversalObject.createInstance(firstParam);
+                    Log.i("BranchSDK_Tester", "getFirstReferringBranchUniversalObject First Params are: " + branchUniversalObject.getContentMetadata().convertToJson().toString());
+                } else {
+                    Log.i("BranchSDK_Tester", "getFirstReferringBranchUniversalObject First Params missing first click");
+                }
+            } catch (Exception ignore) {
+            }
+        } else {
+            Log.i("BranchSDK_Tester", "getFirstReferringBranchUniversalObject First Params is null");
+        }
+
+        return;
     }
 
     private void goToFruit(String fruitName) {
