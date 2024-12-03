@@ -16,6 +16,7 @@ import org.json.JSONObject;
 import io.branch.indexing.BranchUniversalObject;
 import io.branch.referral.Branch;
 import io.branch.referral.BranchError;
+import io.branch.referral.ServerRequestGetLATD;
 import io.branch.referral.util.LinkProperties;
 
 public class MainActivity extends AppCompatActivity {
@@ -78,6 +79,15 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }).withData(this.getIntent().getData()).init();
+        // init the LATD call from inside the session initialization callback
+        Branch.getInstance().getLastAttributedTouchData(
+                new ServerRequestGetLATD.BranchLastAttributedTouchDataListener() {
+                    @Override
+                    public void onDataFetched(JSONObject jsonObject, BranchError error) {
+                        // read the data from the jsonObject
+                        Log.i("BranchSDK_Tester", "@@@@ 1234 @@@@" + jsonObject.toString());
+                    }
+                }, 7);
         getFirstReferringBranchUniversalObject();
     }
 
