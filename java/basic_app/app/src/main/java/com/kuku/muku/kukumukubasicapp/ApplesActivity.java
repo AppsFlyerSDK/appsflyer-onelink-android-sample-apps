@@ -1,11 +1,15 @@
 package com.kuku.muku.kukumukubasicapp;
 
 import android.os.Bundle;
+import android.util.Log;
 
-import com.appsflyer.AppsFlyerConsent;
+import androidx.annotation.Nullable;
+
+import org.json.JSONObject;
 
 import io.branch.indexing.BranchUniversalObject;
 import io.branch.referral.Branch;
+import io.branch.referral.BranchError;
 import io.branch.referral.util.BRANCH_STANDARD_EVENT;
 import io.branch.referral.util.BranchContentSchema;
 import io.branch.referral.util.BranchEvent;
@@ -44,6 +48,14 @@ public class ApplesActivity extends FruitActivity {
 
         // Example for an EEA resident who has denied both ad personalization and data usage consent
         Branch.getInstance().setDMAParamsForEEA(true,true,true);
+
+        String MY_CUID = "replai";
+        Branch.getInstance().setIdentity(MY_CUID, new Branch.BranchReferralInitListener() {
+            @Override
+            public void onInitFinished(@Nullable JSONObject referringParams, @Nullable BranchError error) {
+                Log.i("Test", "install params = " + referringParams.toString());
+            }
+        });
     }
 
     @Override
