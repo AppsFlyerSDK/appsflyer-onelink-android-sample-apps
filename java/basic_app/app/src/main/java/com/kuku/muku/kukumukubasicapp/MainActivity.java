@@ -20,25 +20,6 @@ import io.branch.referral.ServerRequestGetLATD;
 import io.branch.referral.util.LinkProperties;
 
 public class MainActivity extends AppCompatActivity {
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        setIntent(intent);
-        if (intent != null && intent.hasExtra("branch_force_new_session") && intent.getBooleanExtra("branch_force_new_session",false)) {
-            Branch.sessionBuilder(this).withCallback(new Branch.BranchReferralInitListener() {
-                @Override
-                public void onInitFinished(JSONObject referringParams, BranchError error) {
-                    if (error != null) {
-                        Log.i("BranchSDK_Tester", "onNewIntent onInitFinished: error found!");
-                        Log.e("BranchSDK_Tester", error.getMessage());
-                    } else if (referringParams != null) {
-                        Log.i("BranchSDK_Tester", "@@@@ onNewIntent onInitFinished: referringParams not null");
-                        Log.i("BranchSDK_Tester", referringParams.toString());
-                    }
-                }
-            }).reInit();
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
                         Log.i("BranchSDK_Tester", "@@@@ 1234 @@@@" + jsonObject.toString());
                     }
                 }, 7);
-        getFirstReferringBranchUniversalObject();
     }
 
     public void goToApples(View view) {
@@ -103,27 +83,6 @@ public class MainActivity extends AppCompatActivity {
         goToFruit("Peaches");
     }
 
-    public static void getFirstReferringBranchUniversalObject() {
-        BranchUniversalObject branchUniversalObject = null;
-        Branch branchInstance = Branch.getInstance();
-
-        if (branchInstance != null && branchInstance.getFirstReferringParams() != null) {
-            JSONObject firstParam = branchInstance.getFirstReferringParams();
-            try {
-                if (firstParam.has("+clicked_branch_link") && firstParam.getBoolean("+clicked_branch_link")) {
-                    branchUniversalObject = BranchUniversalObject.createInstance(firstParam);
-                    Log.i("BranchSDK_Tester", "getFirstReferringBranchUniversalObject First Params are: " + branchUniversalObject.getContentMetadata().convertToJson().toString());
-                } else {
-                    Log.i("BranchSDK_Tester", "getFirstReferringBranchUniversalObject First Params missing first click");
-                }
-            } catch (Exception ignore) {
-            }
-        } else {
-            Log.i("BranchSDK_Tester", "getFirstReferringBranchUniversalObject First Params is null");
-        }
-
-        return;
-    }
 
     private void goToFruit(String fruitName) {
         String fruitClassName = fruitName.concat("Activity");
