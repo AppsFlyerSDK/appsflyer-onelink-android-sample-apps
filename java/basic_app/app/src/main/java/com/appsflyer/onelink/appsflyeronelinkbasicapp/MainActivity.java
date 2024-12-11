@@ -90,15 +90,10 @@ public class MainActivity extends AppCompatActivity {
         // Create a BranchUniversalObject with your content data
         BranchUniversalObject buo = new BranchUniversalObject()
                 .setCanonicalIdentifier("myprod/1234")
-                .setCanonicalUrl("https://test_canonical_url")
                 .setContentMetadata(
                         new ContentMetadata()
-                                .setAddress("Street_Name", "test city", "test_state", "test_country", "test_postal_code")
-                                .setLocation(-151.67, -124.0)
                                 .setPrice(10.0, CurrencyType.USD)
-                                .setQuantity(1.5)
-                                .setSku("test_sku")
-                                .setContentSchema(BranchContentSchema.COMMERCE_PRODUCT));
+                                .setQuantity(6.0));
 
 //  Create an event
         new BranchEvent(BRANCH_STANDARD_EVENT.ADD_TO_CART)
