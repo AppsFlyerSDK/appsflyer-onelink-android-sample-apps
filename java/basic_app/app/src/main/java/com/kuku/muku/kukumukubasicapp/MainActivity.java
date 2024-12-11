@@ -8,8 +8,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import static com.kuku.muku.kukumukubasicapp.AppsflyerBasicApp.LOG_TAG;
 
-import com.kuku.muku.kukumukubasicapp.R;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 

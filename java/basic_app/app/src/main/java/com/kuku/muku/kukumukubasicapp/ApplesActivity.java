@@ -2,15 +2,12 @@ package com.kuku.muku.kukumukubasicapp;
 
 import android.os.Bundle;
 
-import com.kuku.muku.kukumukubasicapp.R;
-
 import io.branch.indexing.BranchUniversalObject;
 import io.branch.referral.util.BRANCH_STANDARD_EVENT;
 import io.branch.referral.util.BranchContentSchema;
 import io.branch.referral.util.BranchEvent;
 import io.branch.referral.util.ContentMetadata;
 import io.branch.referral.util.CurrencyType;
-import io.branch.referral.util.ProductCategory;
 
 public class ApplesActivity extends FruitActivity {
     @Override

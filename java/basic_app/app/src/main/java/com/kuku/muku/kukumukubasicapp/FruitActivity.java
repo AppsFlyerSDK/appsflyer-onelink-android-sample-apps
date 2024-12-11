@@ -1,27 +1,14 @@
 package com.kuku.muku.kukumukubasicapp;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
-import android.view.Gravity;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.kuku.muku.kukumukubasicapp.R;
-import com.google.gson.Gson;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import static com.kuku.muku.kukumukubasicapp.AppsflyerBasicApp.LOG_TAG;
-
-import java.util.HashMap;
 
 public abstract class FruitActivity extends AppCompatActivity {
     TextView dlAttrs;

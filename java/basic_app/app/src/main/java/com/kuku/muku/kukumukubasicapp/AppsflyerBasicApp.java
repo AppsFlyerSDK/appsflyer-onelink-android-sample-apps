@@ -3,13 +3,8 @@ package com.kuku.muku.kukumukubasicapp;
 import android.app.Application;
 import android.content.Intent;
 import android.util.Log;
-import com.google.gson.Gson;
-import org.json.JSONObject;
-import androidx.annotation.NonNull;
 
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 import io.branch.referral.Branch;
 

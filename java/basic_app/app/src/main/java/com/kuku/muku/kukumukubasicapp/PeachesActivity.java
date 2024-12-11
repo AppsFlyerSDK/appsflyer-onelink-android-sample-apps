@@ -2,8 +2,6 @@ package com.kuku.muku.kukumukubasicapp;
 
 import android.os.Bundle;
 
-import com.kuku.muku.kukumukubasicapp.R;
-
 public class PeachesActivity extends FruitActivity {
 
     @Override

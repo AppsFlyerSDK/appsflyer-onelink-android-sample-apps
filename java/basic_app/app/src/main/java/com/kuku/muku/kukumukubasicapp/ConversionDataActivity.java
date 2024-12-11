@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.widget.TextView;
 
-import com.kuku.muku.kukumukubasicapp.R;
-
 import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
