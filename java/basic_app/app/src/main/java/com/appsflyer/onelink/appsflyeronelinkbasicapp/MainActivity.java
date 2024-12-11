@@ -104,13 +104,11 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(int responseCode) {
                         Log.d("BranchSDK_Tester", "sent the inapp");
-                        Toast.makeText(getApplicationContext(), "Sent Branch Commerce Event: " + responseCode, Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onFailure(Exception e) {
                         Log.d("BranchSDK_Tester", e.toString());
-                        Toast.makeText(getApplicationContext(), "Error sending Branch Commerce Event: " + e.toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
 
