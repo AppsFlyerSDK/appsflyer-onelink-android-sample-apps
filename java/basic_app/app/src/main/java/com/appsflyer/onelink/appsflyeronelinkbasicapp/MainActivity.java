@@ -37,6 +37,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
+        // Branch logging for debugging
+        Branch.enableLogging();
+
+        // Branch object initialization
+        Branch.getAutoInstance(this);
+
         Branch.sessionBuilder(this).withCallback(new Branch.BranchUniversalReferralInitListener() {
             @Override
             public void onInitFinished(BranchUniversalObject branchUniversalObject, LinkProperties linkProperties, BranchError error) {
