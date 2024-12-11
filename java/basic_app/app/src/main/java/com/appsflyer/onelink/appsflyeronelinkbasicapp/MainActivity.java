@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import static com.appsflyer.onelink.appsflyeronelinkbasicapp.AppsflyerBasicApp.LOG_TAG;
 
+import com.appsflyer.onelink.appsflyeronelinkbasicapp.R;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
