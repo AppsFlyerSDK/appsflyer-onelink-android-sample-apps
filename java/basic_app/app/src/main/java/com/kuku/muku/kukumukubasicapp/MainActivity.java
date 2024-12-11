@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
+
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import static com.kuku.muku.kukumukubasicapp.AppsflyerBasicApp.LOG_TAG;
@@ -15,6 +18,11 @@ import io.branch.indexing.BranchUniversalObject;
 import io.branch.referral.Branch;
 import io.branch.referral.BranchError;
 import io.branch.referral.ServerRequestGetLATD;
+import io.branch.referral.util.BRANCH_STANDARD_EVENT;
+import io.branch.referral.util.BranchContentSchema;
+import io.branch.referral.util.BranchEvent;
+import io.branch.referral.util.ContentMetadata;
+import io.branch.referral.util.CurrencyType;
 import io.branch.referral.util.LinkProperties;
 
 public class MainActivity extends AppCompatActivity {
@@ -67,6 +75,55 @@ public class MainActivity extends AppCompatActivity {
                         Log.i("BranchSDK_Tester", "@@@@ 1234 @@@@" + jsonObject.toString());
                     }
                 }, 7);
+
+
+        //send inapp event
+
+        // Create a BranchUniversalObject with your content data
+        BranchUniversalObject buo = new BranchUniversalObject()
+                .setCanonicalIdentifier("myprod/1234")
+                .setCanonicalUrl("https://test_canonical_url")
+                .setContentMetadata(
+                        new ContentMetadata()
+                                .setAddress("Street_Name", "test city", "test_state", "test_country", "test_postal_code")
+                                .setLocation(-151.67, -124.0)
+                                .setPrice(10.0, CurrencyType.USD)
+                                .setQuantity(1.5)
+                                .setSku("test_sku")
+                                .setContentSchema(BranchContentSchema.COMMERCE_PRODUCT));
+
+//  Create an event
+        new BranchEvent(BRANCH_STANDARD_EVENT.ADD_TO_CART)
+                .setCoupon("Coupon Code")
+                .setCurrency(CurrencyType.USD)
+                .setDescription("Customer added item to cart")
+                .setRevenue(1.5)
+                .setSearchQuery("Test Search query")
+                .addContentItems(buo) // Add a BranchUniversalObject to the event (cannot be empty)
+                .logEvent(MainActivity.this, new BranchEvent.BranchLogEventCallback() {
+                    @Override
+                    public void onSuccess(int responseCode) {
+                        Log.d("BranchSDK_Tester", "sent the inapp");
+                        Toast.makeText(getApplicationContext(), "Sent Branch Commerce Event: " + responseCode, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailure(Exception e) {
+                        Log.d("BranchSDK_Tester", e.toString());
+                        Toast.makeText(getApplicationContext(), "Error sending Branch Commerce Event: " + e.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        // Example for an EEA resident who has denied both ad personalization and data usage consent
+        Branch.getInstance().setDMAParamsForEEA(true,true,true);
+
+        String MY_CUID = "replai";
+        Branch.getInstance().setIdentity(MY_CUID, new Branch.BranchReferralInitListener() {
+            @Override
+            public void onInitFinished(@Nullable JSONObject referringParams, @Nullable BranchError error) {
+                Log.i("BranchSDK_Tester", "install params = " + referringParams.toString());
+            }
+        });
     }
 
     public void goToApples(View view) {
