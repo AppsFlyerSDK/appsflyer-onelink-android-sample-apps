@@ -1,8 +1,6 @@
-package com.kuku.muku.kukumukubasicapp;
+package com.appsflyer.onelink.appsflyeronelinkbasicapp;
 
 import android.app.Application;
-import android.content.Intent;
-import android.util.Log;
 
 import java.util.Map;
 

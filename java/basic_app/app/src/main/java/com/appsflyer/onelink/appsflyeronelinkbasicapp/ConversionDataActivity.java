@@ -1,4 +1,4 @@
-package com.kuku.muku.kukumukubasicapp;
+package com.appsflyer.onelink.appsflyeronelinkbasicapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;

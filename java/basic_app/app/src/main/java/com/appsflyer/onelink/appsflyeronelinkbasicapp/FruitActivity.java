@@ -1,4 +1,4 @@
-package com.kuku.muku.kukumukubasicapp;
+package com.appsflyer.onelink.appsflyeronelinkbasicapp;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import static com.kuku.muku.kukumukubasicapp.AppsflyerBasicApp.LOG_TAG;
+import static com.appsflyer.onelink.appsflyeronelinkbasicapp.AppsflyerBasicApp.LOG_TAG;
 
 public abstract class FruitActivity extends AppCompatActivity {
     TextView dlAttrs;
@@ -44,7 +44,7 @@ public abstract class FruitActivity extends AppCompatActivity {
             Log.d(LOG_TAG, "Error getting TextViews for " + fruitName + " Activity");
         }
         goToConversionDataText.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), ConversionDataActivity.class);
+            Intent intent = new Intent(getApplicationContext(), com.appsflyer.onelink.appsflyeronelinkbasicapp.ConversionDataActivity.class);
             startActivity(intent);
         });
     }

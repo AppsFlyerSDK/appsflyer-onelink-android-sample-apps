@@ -8,34 +8,36 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
-        android:name="com.kuku.muku.kukumukubasicapp.AppsflyerBasicApp"
+        android:name=".AppsflyerBasicApp"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.kuku.muku.kukumukubasicapp.ConversionDataActivity" />
-        <activity android:name="com.kuku.muku.kukumukubasicapp.PeachesActivity" />
-        <activity android:name="com.kuku.muku.kukumukubasicapp.BananasActivity" />
-        <activity android:name="com.kuku.muku.kukumukubasicapp.ApplesActivity" />
+        <activity android:name=".ConversionDataActivity" />
+        <activity android:name=".PeachesActivity" />
+        <activity android:name=".BananasActivity" />
+        <activity android:name=".ApplesActivity" />
         <activity
-            android:name="com.kuku.muku.kukumukubasicapp.MainActivity"
+            android:name=".MainActivity"
             android:exported="true"
             android:launchMode="singleTask">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
                     android:host="mainactivity"
-                    android:scheme="kukubasicapp" />
+                    android:scheme="afbasicapp" />
             </intent-filter>
 
             <intent-filter android:autoVerify="true">

@@ -1,16 +1,17 @@
-package com.kuku.muku.kukumukubasicapp;
+package com.appsflyer.onelink.appsflyeronelinkbasicapp;
 
 import android.os.Bundle;
 
-public class ApplesActivity extends FruitActivity {
+public class PeachesActivity extends FruitActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setStaticAttributes("apples");
+        setStaticAttributes("peaches");
     }
 
     @Override
     protected int getLayoutResourceId() {
-        return R.layout.activity_apples;
+        return R.layout.activity_peaches;
     }
 }

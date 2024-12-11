@@ -4,7 +4,7 @@ android {
     compileSdkVersion 33
 
     defaultConfig {
-        applicationId "com.kuku.muku.kukumukubasicapp"
+        applicationId "com.appsflyer.onelink.appsflyeronelinkbasicapp"
         minSdkVersion 21
         targetSdkVersion 33
         versionCode 1
@@ -19,13 +19,15 @@ android {
             jniLibs.srcDirs = ['libs']
         }
     }
-    namespace 'com.kuku.muku.kukumukubasicapp'
+    namespace 'com.appsflyer.onelink.appsflyeronelinkbasicapp'
 }
 
 dependencies {
     // Required for all Android apps:
     implementation 'io.branch.sdk.android:library:5.13.0' // Check for latest version before hard-coding
 
+    implementation 'com.appsflyer:af-android-sdk:6.14.0'
+    implementation 'com.appsflyer:adrevenue:6.9.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'com.android.installreferrer:installreferrer:2.2'
