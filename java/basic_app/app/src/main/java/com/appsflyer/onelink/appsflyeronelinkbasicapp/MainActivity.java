@@ -6,24 +6,26 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.appsflyer.AFInAppEventParameterName;
-import com.appsflyer.AFInAppEventType;
-import com.appsflyer.AppsFlyerConversionListener;
-import com.appsflyer.AppsFlyerLib;
-import com.appsflyer.attribution.AppsFlyerRequestListener;
-import com.appsflyer.AppsFlyerConsent;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
 
 import static com.appsflyer.onelink.appsflyeronelinkbasicapp.AppsflyerBasicApp.LOG_TAG;
 
-public class MainActivity extends AppCompatActivity {
+import org.json.JSONException;
+import org.json.JSONObject;
 
-    private static final String afDevKey = AppsFlyerConstants.afDevKey;
+import io.branch.indexing.BranchUniversalObject;
+import io.branch.referral.Branch;
+import io.branch.referral.BranchError;
+import io.branch.referral.ServerRequestGetLATD;
+import io.branch.referral.util.BRANCH_STANDARD_EVENT;
+import io.branch.referral.util.BranchContentSchema;
+import io.branch.referral.util.BranchEvent;
+import io.branch.referral.util.ContentMetadata;
+import io.branch.referral.util.CurrencyType;
+import io.branch.referral.util.LinkProperties;
+
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,83 +36,94 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
-        AppsFlyerConversionListener conversionListener = new AppsFlyerConversionListener() {
+        Branch.sessionBuilder(this).withCallback(new Branch.BranchUniversalReferralInitListener() {
             @Override
-            public void onConversionDataSuccess(Map<String, Object> conversionDataMap) {
-                for (String attrName : conversionDataMap.keySet())
-                    Log.d(LOG_TAG, "Conversion attribute: " + attrName + " = " + conversionDataMap.get(attrName));
-                String status = Objects.requireNonNull(conversionDataMap.get("af_status")).toString();
-                if (status.equals("Non-organic")) {
-                    if (Objects.requireNonNull(conversionDataMap.get("is_first_launch")).toString().equals("true")) {
-                        Log.d(LOG_TAG, "Conversion: First Launch");
-                    }
+            public void onInitFinished(BranchUniversalObject branchUniversalObject, LinkProperties linkProperties, BranchError error) {
+                if (error != null) {
+                    Log.e("BranchSDK_Tester", "branch init failed. Caused by -" + error.getMessage());
                 } else {
-                    Log.d(LOG_TAG, "Conversion: Not First Launch");
+                    Log.i("BranchSDK_Tester", "branch init complete!");
+                    if (branchUniversalObject != null) {
+                        Log.i("BranchSDK_Tester", "title " + branchUniversalObject.getTitle());
+                        Log.i("BranchSDK_Tester", "CanonicalIdentifier " + branchUniversalObject.getCanonicalIdentifier());
+                        Log.i("BranchSDK_Tester", "metadata " + branchUniversalObject.getContentMetadata().convertToJson());
+                        JSONObject sessionParams = branchUniversalObject.getContentMetadata().convertToJson();
+                        try {
+                            goToFruit(sessionParams.getString("fruit_name"));
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+                    } else {
+                        Log.i("BranchSDK_Tester", "@@@@ branchUniversalObject came back null");
+                    }
+
+                    if (linkProperties != null) {
+                        Log.i("BranchSDK_Tester", "Channel " + linkProperties.getChannel());
+                        Log.i("BranchSDK_Tester", "control params " + linkProperties.getControlParams());
+                    } else {
+                        Log.i("BranchSDK_Tester", "@@@@ linkProperties came back null");
+                    }
                 }
             }
-
-            @Override
-            public void onConversionDataFail(String errorMessage) {
-                Log.d(LOG_TAG, "error getting conversion data: " + errorMessage);
-            }
-
-            @Override
-            public void onAppOpenAttribution(Map<String, String> attributionData) {
-                Log.d(LOG_TAG, "onAppOpenAttribution: This is fake call.");
-            }
-
-            @Override
-            public void onAttributionFailure(String errorMessage) {
-                Log.d(LOG_TAG, "error onAttributionFailure : " + errorMessage);
-            }
-        };
-
-        AppsFlyerLib.getInstance().init(afDevKey, conversionListener, this);
-        AppsFlyerLib.getInstance().start(this);
-
-        // Send in-app event
-        Map<String, Object> eventValues = new HashMap<>();
-        eventValues.put(AFInAppEventParameterName.CONTENT_ID, "myprod/1234");
-        eventValues.put(AFInAppEventParameterName.CONTENT, "https://test_canonical_url");
-        eventValues.put(AFInAppEventParameterName.CITY, "test city");
-        eventValues.put(AFInAppEventParameterName.REGION, "test_state");
-        eventValues.put(AFInAppEventParameterName.COUNTRY, "test_country");
-        eventValues.put(AFInAppEventParameterName.LATITUDE, -151.67);
-        eventValues.put(AFInAppEventParameterName.LONGITUDE, -124.0);
-        eventValues.put(AFInAppEventParameterName.PRICE, 10.0);
-        eventValues.put(AFInAppEventParameterName.CURRENCY, "USD");
-        eventValues.put(AFInAppEventParameterName.QUANTITY, 1.5);
-        eventValues.put(AFInAppEventParameterName.ORDER_ID, "test_sku");
-        eventValues.put(AFInAppEventParameterName.COUPON_CODE, "Coupon Code");
-        eventValues.put(AFInAppEventParameterName.DESCRIPTION, "Customer added item to cart");
-        eventValues.put(AFInAppEventParameterName.REVENUE, 1.5);
-        eventValues.put(AFInAppEventParameterName.SEARCH_STRING, "Test Search query");
-
-        AppsFlyerLib.getInstance().logEvent(
-                getApplicationContext(),
-                AFInAppEventType.ADD_TO_CART,
-                eventValues,
-                new AppsFlyerRequestListener() {
+        }).withData(this.getIntent().getData()).init();
+        // init the LATD call from inside the session initialization callback
+        Branch.getInstance().getLastAttributedTouchData(
+                new ServerRequestGetLATD.BranchLastAttributedTouchDataListener() {
                     @Override
-                    public void onSuccess() {
-                        Log.d("AppsFlyer", "***** Successfully logged the inapp event *****");
+                    public void onDataFetched(JSONObject jsonObject, BranchError error) {
+                        // read the data from the jsonObject
+                        Log.i("BranchSDK_Tester", "@@@@ 1234 @@@@" + jsonObject.toString());
+                    }
+                }, 7);
+
+
+        //send inapp event
+
+        // Create a BranchUniversalObject with your content data
+        BranchUniversalObject buo = new BranchUniversalObject()
+                .setCanonicalIdentifier("myprod/1234")
+                .setCanonicalUrl("https://test_canonical_url")
+                .setContentMetadata(
+                        new ContentMetadata()
+                                .setAddress("Street_Name", "test city", "test_state", "test_country", "test_postal_code")
+                                .setLocation(-151.67, -124.0)
+                                .setPrice(10.0, CurrencyType.USD)
+                                .setQuantity(1.5)
+                                .setSku("test_sku")
+                                .setContentSchema(BranchContentSchema.COMMERCE_PRODUCT));
+
+//  Create an event
+        new BranchEvent(BRANCH_STANDARD_EVENT.ADD_TO_CART)
+                .setCoupon("Coupon Code")
+                .setCurrency(CurrencyType.USD)
+                .setDescription("Customer added item to cart")
+                .setRevenue(1.5)
+                .setSearchQuery("Test Search query")
+                .addContentItems(buo) // Add a BranchUniversalObject to the event (cannot be empty)
+                .logEvent(MainActivity.this, new BranchEvent.BranchLogEventCallback() {
+                    @Override
+                    public void onSuccess(int responseCode) {
+                        Log.d("BranchSDK_Tester", "sent the inapp");
+                        Toast.makeText(getApplicationContext(), "Sent Branch Commerce Event: " + responseCode, Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
-                    public void onError(int errorCode, String errorDesc) {
-                        Log.e("AppsFlyer", "Event failed to be sent:\n" +
-                                "Error code: " + errorCode + "\n" +
-                                "Error description: " + errorDesc);
+                    public void onFailure(Exception e) {
+                        Log.d("BranchSDK_Tester", e.toString());
+                        Toast.makeText(getApplicationContext(), "Error sending Branch Commerce Event: " + e.toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
 
         // Example for an EEA resident who has denied both ad personalization and data usage consent
-        AppsFlyerConsent gdprUserConsent = AppsFlyerConsent.forGDPRUser(true, true);
-        AppsFlyerLib.getInstance().setConsentData(gdprUserConsent);
+        Branch.getInstance().setDMAParamsForEEA(true,true,true);
 
         String MY_CUID = "replai";
-        AppsFlyerLib.getInstance().setCustomerUserId(MY_CUID);
+        Branch.getInstance().setIdentity(MY_CUID, new Branch.BranchReferralInitListener() {
+            @Override
+            public void onInitFinished(@Nullable JSONObject referringParams, @Nullable BranchError error) {
+                Log.i("BranchSDK_Tester", "install params = " + referringParams.toString());
+            }
+        });
     }
 
     public void goToApples(View view) {
@@ -124,6 +137,7 @@ public class MainActivity extends AppCompatActivity {
     public void goToPeaches(View view) {
         goToFruit("Peaches");
     }
+
 
     private void goToFruit(String fruitName) {
         String fruitClassName = fruitName.concat("Activity");
