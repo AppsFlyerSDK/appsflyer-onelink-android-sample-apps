@@ -29,19 +29,4 @@ public class AppsflyerBasicApp extends Application {
         Branch.getAutoInstance(this);
 
     }
-
-    private void goToFruit(String fruitName) {
-        String fruitClassName = (fruitName.substring(0, 1).toUpperCase() + fruitName.substring(1)).concat("Activity");
-        try {
-            Class fruitClass = Class.forName(this.getPackageName().concat(".").concat(fruitClassName));
-            Log.d(LOG_TAG, "Looking for class " + fruitClass);
-            Intent intent = new Intent(getApplicationContext(), fruitClass);
-
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-        } catch (ClassNotFoundException e) {
-            Log.d(LOG_TAG, "Deep linking failed looking for " + fruitName);
-            e.printStackTrace();
-        }
-    }
 }
