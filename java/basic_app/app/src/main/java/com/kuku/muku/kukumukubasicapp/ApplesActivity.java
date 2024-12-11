@@ -2,7 +2,10 @@ package com.kuku.muku.kukumukubasicapp;
 
 import android.os.Bundle;
 
+import com.appsflyer.AppsFlyerConsent;
+
 import io.branch.indexing.BranchUniversalObject;
+import io.branch.referral.Branch;
 import io.branch.referral.util.BRANCH_STANDARD_EVENT;
 import io.branch.referral.util.BranchContentSchema;
 import io.branch.referral.util.BranchEvent;
@@ -37,6 +40,10 @@ public class ApplesActivity extends FruitActivity {
                 .setSearchQuery("Test Search query")
                 .addContentItems(buo) // Add a BranchUniversalObject to the event (cannot be empty)
                 .logEvent(this); // Log the event
+
+
+        // Example for an EEA resident who has denied both ad personalization and data usage consent
+        Branch.getInstance().setDMAParamsForEEA(true,true,true);
     }
 
     @Override
