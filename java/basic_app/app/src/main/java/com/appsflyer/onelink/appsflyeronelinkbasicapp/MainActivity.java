@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
         // Example for an EEA resident who has denied both ad personalization and data usage consent
         Branch.getInstance().setDMAParamsForEEA(true,true,true);
 
-        String MY_CUID = "replai";
+        String MY_CUID = "ripley";
         Branch.getInstance().setIdentity(MY_CUID, new Branch.BranchReferralInitListener() {
             @Override
             public void onInitFinished(@Nullable JSONObject referringParams, @Nullable BranchError error) {
