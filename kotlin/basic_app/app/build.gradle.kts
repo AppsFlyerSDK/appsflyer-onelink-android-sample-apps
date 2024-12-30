@@ -52,7 +52,7 @@ dependencies {
 
     implementation ("com.google.code.gson:gson:2.10.1")
     implementation ("com.android.installreferrer:installreferrer:2.2")
-    implementation ("com.appsflyer:af-android-sdk:6.12.4")
+    implementation ("com.appsflyer:af-android-sdk:6.14.0")
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
     implementation("androidx.activity:activity-compose:1.8.0")

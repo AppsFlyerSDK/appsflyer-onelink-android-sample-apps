@@ -2,7 +2,6 @@ package com.appsflyer.onelink.appsflyeronelinkbasicapp
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 
@@ -12,7 +11,7 @@ class MainActivity : ComponentActivity() {
         setContentView(R.layout.activity_main)
     }
 
-    public fun goToApples(view: View?) {
+    public fun goToApples() {
         try {
             val intent =Intent(this, ApplesActivity::class.java)
             startActivity(intent)
@@ -22,7 +21,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    public fun goToBananas(view: View?) {
+    public fun goToBananas() {
         try {
             val intent =Intent(this, BananasActivity::class.java)
             startActivity(intent)
@@ -32,7 +31,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    public fun goToPeaches(view: View?) {
+    public fun goToPeaches() {
         try {
             val intent =Intent(this, PeachesActivity::class.java)
             startActivity(intent)

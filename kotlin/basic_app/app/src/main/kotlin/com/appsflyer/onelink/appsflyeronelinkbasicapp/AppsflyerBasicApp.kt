@@ -29,14 +29,13 @@ class AppsflyerBasicApp: Application(){
     override fun onCreate() {
         super.onCreate()
         //Getting the SDK instance, which helps you access the methods in the af library.
-        val appsFlyer: AppsFlyerLib = AppsFlyerLib.getInstance()
-        appsFlyer.setDebugLog(true)
-        appsFlyer.setMinTimeBetweenSessions(0)
+        AppsFlyerLib.getInstance().setDebugLog(true)
+        AppsFlyerLib.getInstance().setMinTimeBetweenSessions(0)
         //Setting OneLink template ID
-        appsFlyer.setAppInviteOneLink("H5hv")
+        AppsFlyerLib.getInstance().setAppInviteOneLink("H5hv")
 
         //Deep Linking Handling
-        appsFlyer.subscribeForDeepLink(object : DeepLinkListener {
+        AppsFlyerLib.getInstance().subscribeForDeepLink(object : DeepLinkListener {
             override fun onDeepLinking(deepLinkResult: DeepLinkResult) {
                 when (deepLinkResult.status) {
                     DeepLinkResult.Status.FOUND -> {
@@ -164,10 +163,10 @@ class AppsflyerBasicApp: Application(){
             }
         }
         //Initializing AppsFlyer SDK
-        appsFlyer.init(AppsFlyerConstants.afDevKey,conversionListener,this)
+        AppsFlyerLib.getInstance().init(AppsFlyerConstants.afDevKey,conversionListener,this)
 
         //Starts the SDK and logs a message if the SDK started or not
-        appsFlyer.start(this, AppsFlyerConstants.afDevKey, object :
+        AppsFlyerLib.getInstance().start(this, AppsFlyerConstants.afDevKey, object :
             AppsFlyerRequestListener {
                 //Success Message
                 override fun onSuccess() {
@@ -216,11 +215,13 @@ class AppsflyerBasicApp: Application(){
 
     fun mapToDeepLinkObject(conversionDataMap: Map<String, Any>?): DeepLink? {
         try {
-            // Convert the map to a JSON string using Gson library
-            val objToStr = Gson().toJson(conversionDataMap)
+            val stringMap: Map<String, String> = conversionDataMap
+                ?.mapNotNull { (key, value) ->
+                    if (value is String) key to value else null
+                }?.toMap() ?: emptyMap()
 
             // Create a DeepLink object by wrapping the JSON string in an AFKeystoreWrapper
-            val deepLink = DeepLink.AFKeystoreWrapper(JSONObject(objToStr))
+            val deepLink = DeepLink.values(stringMap)
 
             // Return the created DeepLink object
             return deepLink
