@@ -33,17 +33,16 @@ public class AppsflyerBasicApp extends Application {
     public void onCreate() {
         super.onCreate();
         String afDevKey = AppsFlyerConstants.afDevKey;
-        AppsFlyerLib appsflyer = AppsFlyerLib.getInstance();
         // Make sure you remove the following line when building to production
-        appsflyer.setDebugLog(true);
-        appsflyer.setMinTimeBetweenSessions(0);
+        AppsFlyerLib.getInstance().setDebugLog(true);
+        AppsFlyerLib.getInstance().setMinTimeBetweenSessions(0);
         //set the OneLink template id for share invite links
         AppsFlyerLib.getInstance().setAppInviteOneLink("H5hv");
 
         AppsFlyerAdRevenue.Builder afRevenueBuilder = new AppsFlyerAdRevenue.Builder(this);
         AppsFlyerAdRevenue.initialize(afRevenueBuilder.build());
 
-        appsflyer.subscribeForDeepLink(new DeepLinkListener(){
+        AppsFlyerLib.getInstance().subscribeForDeepLink(new DeepLinkListener(){
             @Override
             public void onDeepLinking(@NonNull DeepLinkResult deepLinkResult) {
                 DeepLinkResult.Status dlStatus = deepLinkResult.getStatus();
@@ -161,8 +160,8 @@ public class AppsflyerBasicApp extends Application {
                 Log.d(LOG_TAG, "error onAttributionFailure : " + errorMessage);
             }
         };
-        appsflyer.init(afDevKey, conversionListener, this);
-        appsflyer.start(this);
+        AppsFlyerLib.getInstance().init(afDevKey, conversionListener, this);
+        AppsFlyerLib.getInstance().start(this);
     }
 
     private void goToFruit(String fruitName, DeepLink dlData) {
