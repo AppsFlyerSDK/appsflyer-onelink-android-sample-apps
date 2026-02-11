@@ -3,6 +3,7 @@ package com.appsflyer.onelink.appsflyeronelinkbasicapp;
 import android.app.Application;
 import android.content.Intent;
 import android.util.Log;
+import com.appsflyer.AppsFlyerLib;
 import com.google.gson.Gson;
 import org.json.JSONObject;
 import androidx.annotation.NonNull;
@@ -17,5 +18,8 @@ public class AppsflyerBasicApp extends Application {
 
     public void onCreate() {
         super.onCreate();
+        AppsFlyerLib.getInstance().setDebugLog(true);
+        AppsFlyerLib.getInstance().init("sQ84wpdxRTR4RMCaE9YqS4", null, this);
+        AppsFlyerLib.getInstance().start(this);
     }
 }
