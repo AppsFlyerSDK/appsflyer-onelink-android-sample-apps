@@ -6,6 +6,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import org.json.JSONObject;
 import androidx.annotation.NonNull;
+import com.appsflyer.AppsFlyerLib;
 
 import java.util.Map;
 import java.util.Objects;
@@ -17,5 +18,11 @@ public class AppsflyerBasicApp extends Application {
 
     public void onCreate() {
         super.onCreate();
+        AppsFlyerLib.getInstance().init("dev_key", null, this);
+
+        AppsFlyerLib.getInstance().setDebugLog(true);
+
+        AppsFlyerLib.getInstance().registerSessionReadyListener(() -> {AppsFlyerLib.getInstance().start();
+        });
     }
 }
