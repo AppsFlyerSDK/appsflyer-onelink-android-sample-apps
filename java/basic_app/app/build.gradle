@@ -5,7 +5,7 @@ android {
     namespace "com.appsflyer.onelink.appsflyeronelinkbasicapp"
 
     defaultConfig {
-        applicationId "app_id"
+        applicationId "com.appsflyer.onelinksimulator"
         minSdkVersion 21
         targetSdkVersion 33
         versionCode 1

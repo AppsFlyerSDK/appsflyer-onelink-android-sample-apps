@@ -65,13 +65,35 @@ public abstract class FruitActivity extends AppCompatActivity {
         });
     }
 
-    protected void showFruitAmount(){
-        return;
+    protected void showFruitAmount() {
+        String dlString = getIntent().getStringExtra(AppsflyerBasicApp.DL_ATTRS);
+        if (dlString == null) return;
+        try {
+            String amount = new JSONObject(dlString).optString("deep_link_sub1", "");
+            if (!amount.isEmpty() && TextUtils.isDigitsOnly(amount)) {
+                this.fruitAmountStr = amount;
+                this.fruitAmount.setText(amount);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     protected void showDlData() {
-      return;
+        String dlString = getIntent().getStringExtra(AppsflyerBasicApp.DL_ATTRS);
+        if (dlString == null) {
+            dlTitleText.setText("No Deep Linking Happened");
+            return;
+        }
+        try {
+            JSONObject dlData = new JSONObject(dlString);
+            dlAttrs.setMovementMethod(new ScrollingMovementMethod());
+            dlAttrs.setText(dlData.toString(4).replaceAll("\\\\", ""));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
+
 
     protected void copyShareInviteLink(){
        return;
